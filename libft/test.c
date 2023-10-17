@@ -8,6 +8,7 @@
 #include "ft_isprint.h"
 #include "ft_strlen.h"
 #include "ft_memset.h"
+#include "ft_bzero.h"
 
 void	test_isalpha()
 {
@@ -18,7 +19,7 @@ void	test_isalpha()
 	else
 	{
 		printf("isalpha: KO");
-		printf("\texpected: %d but result: %d", isalpha(c), ft_isalpha(c));
+		printf("\n\texpected: %d but result: %d", isalpha(c), ft_isalpha(c));
 	}
 	printf("\n");
 }
@@ -32,7 +33,7 @@ void	test_isdigit()
 	else
 	{
 		printf("isdigit: KO");
-		printf("\texpected: %d but result: %d", isdigit(c), ft_isdigit(c));
+		printf("\n\texpected: %d but result: %d", isdigit(c), ft_isdigit(c));
 	}
 	printf("\n");
 }
@@ -46,7 +47,7 @@ void	test_isalnum()
 	else
 	{
 		printf("isalnum: KO");
-		printf("\texpected: %d but result: %d", isalnum(c), ft_isalnum(c));
+		printf("\n\texpected: %d but result: %d", isalnum(c), ft_isalnum(c));
 	}
 	printf("\n");
 }
@@ -60,7 +61,7 @@ void	test_isascii()
 	else
 	{
 		printf("isascii: KO\n");
-		printf("\texpected: %d but result: %d", isascii(c), ft_isascii(c));
+		printf("\n\texpected: %d but result: %d", isascii(c), ft_isascii(c));
 	}
 	printf("\n");
 }
@@ -74,7 +75,7 @@ void	test_isprint()
 	else
 	{
 		printf("isprint: KO\n");
-		printf("\texpected: %d but result: %d", isprint(c), ft_isprint(c));
+		printf("\n\texpected: %d but result: %d", isprint(c), ft_isprint(c));
 	}
 	printf("\n");
 }
@@ -88,7 +89,7 @@ void	test_strlen()
 	else
 	{
 		printf("strlen: KO");
-		printf("\texpected: %lu but result: %lu", strlen(s), ft_strlen(s));
+		printf("\n\texpected: %lu but result: %lu", strlen(s), ft_strlen(s));
 	}
 	printf("\n");
 }
@@ -97,7 +98,7 @@ void	test_memset()
 {
 	size_t	n = 2;
 	char	s[n];
-	int		c = '0';
+	int		c = 'a';
 	int		i = 0;
 	char	*res;
 	char	*ft_res;
@@ -106,15 +107,38 @@ void	test_memset()
 	ft_res = (char*)ft_memset(s, c, n);
 	while (i < n)
 	{
-		if (ft_res[i] != res[i])
+		if (res[i] != ft_res[i])
 		{
 			printf("memset: KO");
-			printf("\texpected: %s but result: %s", res, ft_res);
+			printf("\n\texpected: %s but result: %s\n", res, ft_res);
 			return;
 		}
 		i++;
 	}
 	printf("memset: OK");
+	printf("\n");
+}
+
+void	test_bzero()
+{
+	size_t	n = 2;
+	char	s[n];
+	char	ft_s[n];
+	int		i = 0;
+
+	bzero(s, n);
+	ft_bzero(ft_s, n);
+	while (i < n)
+	{
+		if (s[i] != ft_s[i])
+		{
+			printf("bzero: KO");
+			printf("\n\texpected: %s but result: %s\n", s, ft_s);
+			return;
+		}
+		i++;
+	}
+	printf("bzero: OK");
 	printf("\n");
 }
 
@@ -127,4 +151,5 @@ int	main(void)
 	test_isprint();
 	test_strlen();
 	test_memset();
+	test_bzero();
 }

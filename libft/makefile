@@ -13,7 +13,7 @@ ft_isascii.o \
 ft_isprint.o \
 ft_strlen.o \
 ft_memset.o \
-# ft_bzero.o \
+ft_bzero.o \
 # ft_memcpy.o \
 # ft_memmove.o \
 # ft_strlcpy.o \ 

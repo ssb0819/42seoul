@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 19:50:37 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:06:04 by subson           ###   ########.fr       */
+/*   Created: 2023/10/18 15:44:33 by subson            #+#    #+#             */
+/*   Updated: 2023/10/20 12:36:54 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char	*tmp;
-	size_t			i;
+	unsigned char	*u_dst;
+	unsigned char	*u_src;
 
-	tmp = b;
-	i = 0;
-	while (i < len)
+	if (src == dst)
+		return (dst);
+	else if (src > dst)
+		return (ft_memcpy(dst, src, len));
+	else
 	{
-		tmp[i] = c;
-		i++;
+		u_dst = dst;
+		u_src = (unsigned char *)src;
+		while (len)
+		{
+			len--;
+			u_dst[len] = u_src[len];
+		}
+		return (dst);
 	}
-	return (b);
 }

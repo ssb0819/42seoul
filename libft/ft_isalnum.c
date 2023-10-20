@@ -6,12 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:41:19 by subson            #+#    #+#             */
-/*   Updated: 2023/10/17 16:29:24 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/19 20:29:31 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_isalpha.h"
-#include "ft_isdigit.h"
+#include "libft.h"
 
 int	ft_isalnum(int c)
 {

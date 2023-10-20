@@ -14,14 +14,14 @@ ft_isprint.o \
 ft_strlen.o \
 ft_memset.o \
 ft_bzero.o \
-# ft_memcpy.o \
-# ft_memmove.o \
-# ft_strlcpy.o \ 
-# ft_strlcat.o \
-# ft_toupper.o \
-# ft_tolower.o \
-# ft_strchr.o \
-# ft_strrchr.o \
+ft_memcpy.o \
+ft_memmove.o \
+ft_strlcpy.o \
+ft_strlcat.o \
+ft_toupper.o \
+ft_tolower.o \
+ft_strchr.o \
+ft_strrchr.o
 # ft_strncmp.o \
 # ft_memchr.o \
 # ft_memcmp.o \
@@ -30,13 +30,24 @@ ft_bzero.o \
 # ft_calloc.o \
 # ft_strdup.o
 
-.PHONY: all clean 
+.PHONY: all clean fclean re
 all: $(NAME)
 
-clean: 
+clean:
+	$(RM) $(OBJS)
+
+fclean: 
 	$(RM) $(OBJS) $(NAME)
+
+re: 
+	$(MAKE) fclean
+	$(MAKE) all
+
+test: test_libft.c $(NAME)
+	cc -o test test_libft.c -L. -l ft
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-%.o: %.c %.h
+
+%.o: %.c
 	$(CC) $(CFLAGS) -c $<

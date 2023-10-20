@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 19:50:37 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:06:04 by subson           ###   ########.fr       */
+/*   Created: 2023/10/18 19:54:18 by subson            #+#    #+#             */
+/*   Updated: 2023/10/19 20:30:47 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	unsigned char	*tmp;
-	size_t			i;
+	size_t	dst_len;
+	size_t	src_len;
+	size_t	idx;
+	size_t	result;
 
-	tmp = b;
-	i = 0;
-	while (i < len)
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (dstsize < dst_len)
+		return (src_len + dstsize);
+	else
+		result = src_len + dst_len;
+	idx = dst_len;
+	while (idx + 1 < dstsize && *src)
 	{
-		tmp[i] = c;
-		i++;
+		dst[idx] = *src;
+		idx++;
+		src++;
 	}
-	return (b);
+	dst[idx] = '\0';
+	return (result);
 }

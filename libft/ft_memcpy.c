@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 19:50:37 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:06:04 by subson           ###   ########.fr       */
+/*   Created: 2023/10/18 12:50:34 by subson            #+#    #+#             */
+/*   Updated: 2023/10/19 18:24:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned char	*tmp;
+	unsigned char	*u_dst;
+	unsigned char	*u_src;
 	size_t			i;
 
-	tmp = b;
+	u_dst = dst;
+	u_src = (unsigned char *)src;
 	i = 0;
-	while (i < len)
+	while (i < n)
 	{
-		tmp[i] = c;
+		u_dst[i] = u_src[i];
 		i++;
 	}
-	return (b);
+	return (dst);
 }

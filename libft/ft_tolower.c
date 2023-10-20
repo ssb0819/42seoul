@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 19:50:37 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:06:04 by subson           ###   ########.fr       */
+/*   Created: 2023/10/20 12:51:34 by subson            #+#    #+#             */
+/*   Updated: 2023/10/20 13:03:22 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-void	*ft_memset(void *b, int c, size_t len)
+int	ft_tolower(int c)
 {
-	unsigned char	*tmp;
-	size_t			i;
-
-	tmp = b;
-	i = 0;
-	while (i < len)
-	{
-		tmp[i] = c;
-		i++;
-	}
-	return (b);
+	if (c >= 'A' && c <= 'Z')
+		return (c += 32);
+	return (c);
 }

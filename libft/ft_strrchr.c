@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 19:50:37 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:06:04 by subson           ###   ########.fr       */
+/*   Created: 2023/10/20 13:20:26 by subson            #+#    #+#             */
+/*   Updated: 2023/10/20 13:23:52 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_strrchr(const char *s, int c)
 {
-	unsigned char	*tmp;
-	size_t			i;
+	char	*last;
 
-	tmp = b;
-	i = 0;
-	while (i < len)
+	last = 0;
+	while (*s)
 	{
-		tmp[i] = c;
-		i++;
+		if (*s == c)
+			last = (char *)s;
+		s++;
 	}
-	return (b);
+	return (last);
 }

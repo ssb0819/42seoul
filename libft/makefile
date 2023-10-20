@@ -21,8 +21,8 @@ ft_strlcat.o \
 ft_toupper.o \
 ft_tolower.o \
 ft_strchr.o \
-ft_strrchr.o
-# ft_strncmp.o \
+ft_strrchr.o \
+ft_strncmp.o
 # ft_memchr.o \
 # ft_memcmp.o \
 # ft_strnstr.o \

@@ -19,6 +19,7 @@ int	main(void)
 	test_tolower();
 	test_strchr();
 	test_strrchr();
+	test_strncmp();
 }
 
 void	test_isalpha()
@@ -320,7 +321,50 @@ void	test_strrchr()
 	else
 	{
 		printf("strrchr: KO\n");
-		printf("\t expected: %p but result: %p\n", res, ft_res);
+		printf("\t expected: %s but result: %s\n", res, ft_res);
+	}
+}
+
+void	test_strncmp()
+{
+	//case 1
+	char str1[10] = "\200";
+	char str2[10] = "\0";
+	int	res = strncmp(str1, str2, 5);
+	int ft_res = ft_strncmp(str1, str2, 5);
+
+	if (res == ft_res)
+		printf("strncmp case 1: OK\n");
+	else
+	{
+		printf("strncmp case 1: OK\n");
+		printf("\t expected: %d but result: %d", res, ft_res);
+	}
+
+	//case 2
+	strcpy(str1, "asdf\0asdf");
+	strcpy(str2, "asdf");
+	res = strncmp(str1, str2, 5);
+	ft_res = ft_strncmp(str1, str2, 5);
+	if (res == ft_res)
+		printf("strncmp case 2: OK\n");
+	else
+	{
+		printf("strncmp case 2: OK\n");
+		printf("\t expected: %d but result: %d", res, ft_res);
+	}
+
+	//case 3
+	strcpy(str1, "asdf\0asdf");
+	strcpy(str2, "asdfff");
+	res = strncmp(str1, str2, 5);
+	ft_res = ft_strncmp(str1, str2, 5);
+	if (res == ft_res)
+		printf("strncmp case 3: OK\n");
+	else
+	{
+		printf("strncmp case 3: OK\n");
+		printf("\t expected: %d but result: %d", res, ft_res);
 	}
 }
 

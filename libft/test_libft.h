@@ -21,5 +21,6 @@ void	test_toupper();
 void	test_tolower();
 void	test_strchr();
 void	test_strrchr();
+void	test_strncmp();
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 13:30:04 by subson            #+#    #+#             */
-/*   Updated: 2023/10/20 13:45:07 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:49:36 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

@@ -6,20 +6,22 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 13:20:26 by subson            #+#    #+#             */
-/*   Updated: 2023/10/20 13:23:52 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:19:24 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*last;
+	int	i;
 
-	last = 0;
-	while (*s)
+	i = ft_strlen(s) - 1;
+	while (i >= 0)
 	{
-		if (*s == c)
-			last = (char *)s;
-		s++;
+		if (s[i] == c)
+			return ((char *)(s + i));
+		i--;
 	}
-	return (last);
+	return (0);
 }

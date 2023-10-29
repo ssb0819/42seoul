@@ -6,11 +6,10 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 19:21:53 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 20:29:20 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:48:46 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
@@ -25,7 +24,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		dst[i] = src[i];
 		i++;
 	}
-	if (dstsize > 0)
+	if (dstsize != 0)
 	{
 		dst[i] = '\0';
 	}

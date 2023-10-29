@@ -20,11 +20,15 @@ int	main(void)
 	test_strchr();
 	test_strrchr();
 	test_strncmp();
+	test_memchr();
+	test_memcmp();
+	test_strnstr();
+	test_atoi();
 }
 
 void	test_isalpha()
 {
-	int	c = 'a';
+	int c = 850;
 
 	if (ft_isalpha(c) == isalpha(c))
 		printf("isalpha: OK");
@@ -206,7 +210,7 @@ void	test_strlcpy()
 	char	dst[] = "0123456789";
 	char	ft_dst[] = "0123456789";
 	char	src[] = "abcd";
-	size_t	n = 3;
+	size_t	n = 1;
 	size_t	len = strlcpy(dst, src, n);
 	size_t	ft_len = ft_strlcpy(ft_dst, src, n);
 	size_t	i = 0;
@@ -228,7 +232,7 @@ void	test_strlcpy()
 	else
 	{
 		printf("strlcpy: KO\n");
-		printf("\texpected len: %lu but result len: %lu\n", len, ft_len);
+		printf("\texpected dst: %s but result dst: %s\n", dst, ft_dst);
 	}
 }
 
@@ -310,7 +314,7 @@ void	test_strchr()
 void	test_strrchr()
 {
 	char	s[] = "aaabbzbcccb";
-	int		c = 'a';
+	int		c = 'b';
 	char	*res;
 	char	*ft_res;
 
@@ -327,44 +331,139 @@ void	test_strrchr()
 
 void	test_strncmp()
 {
+	size_t n = -1;
+
 	//case 1
 	char str1[10] = "\200";
-	char str2[10] = "\0";
-	int	res = strncmp(str1, str2, 5);
-	int ft_res = ft_strncmp(str1, str2, 5);
+	char str2[10] = "\188";
+	int	res = strncmp(str1, str2, n);
+	int ft_res = ft_strncmp(str1, str2, n);
 
 	if (res == ft_res)
 		printf("strncmp case 1: OK\n");
 	else
 	{
-		printf("strncmp case 1: OK\n");
-		printf("\t expected: %d but result: %d", res, ft_res);
+		printf("strncmp case 1: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
 	}
 
 	//case 2
 	strcpy(str1, "asdf\0asdf");
 	strcpy(str2, "asdf");
-	res = strncmp(str1, str2, 5);
-	ft_res = ft_strncmp(str1, str2, 5);
+	res = strncmp(str1, str2, n);
+	ft_res = ft_strncmp(str1, str2, n);
 	if (res == ft_res)
 		printf("strncmp case 2: OK\n");
 	else
 	{
-		printf("strncmp case 2: OK\n");
-		printf("\t expected: %d but result: %d", res, ft_res);
+		printf("strncmp case 2: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
 	}
 
 	//case 3
 	strcpy(str1, "asdf\0asdf");
 	strcpy(str2, "asdfff");
-	res = strncmp(str1, str2, 5);
-	ft_res = ft_strncmp(str1, str2, 5);
+	res = strncmp(str1, str2, n);
+	ft_res = ft_strncmp(str1, str2, n);
 	if (res == ft_res)
 		printf("strncmp case 3: OK\n");
 	else
 	{
-		printf("strncmp case 3: OK\n");
-		printf("\t expected: %d but result: %d", res, ft_res);
+		printf("strncmp case 3: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
 	}
 }
 
+void	test_memchr()
+{
+	char	s[] = "aadabbzbcccb";
+	int		c = 'd';
+	char	*res;
+	char	*ft_res;
+	size_t	n = 5;
+
+	res = memchr(s, c, n);
+	ft_res = ft_memchr(s, c, n);
+	if (res == ft_res)
+		printf("memchr: OK\n");
+	else
+	{
+		printf("memchr: KO\n");
+		printf("\t expected: %p but result: %p\n", res, ft_res);
+	}
+}
+
+void	test_memcmp()
+{
+
+	size_t n = 5;
+
+	//case 1
+	char str1[10] = "\200";
+	char str2[10] = "\200";
+	int	res = memcmp(str1, str2, n);
+	int ft_res = ft_memcmp(str1, str2, n);
+
+	if (res == ft_res)
+		printf("memcmp case 1: OK\n");
+	else
+	{
+		printf("memcmp case 1: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+	}
+
+	//case 2
+	strcpy(str1, "asdfg\0asdf");
+	strcpy(str2, "asdfg");
+	res = memcmp(str1, str2, n);
+	ft_res = ft_memcmp(str1, str2, n);
+	if (res == ft_res)
+		printf("memcmp case 2: OK\n");
+	else
+	{
+		printf("memcmp case 2: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+	}
+
+	//case 3
+	strcpy(str1, "a");
+	strcpy(str2, "a");
+	res = memcmp(str1, str2, n);
+	ft_res = ft_memcmp(str1, str2, n);
+	if (res == ft_res)
+		printf("memcmp case 3: OK\n");
+	else
+	{
+		printf("memcmp case 3: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+	}
+}
+
+void	test_strnstr()
+{
+	char str[] = "0123456789";
+	char to_find[] = "234";
+	size_t n = 0;
+	char	*res;
+	char	*ft_res;
+
+	res = strnstr( str,to_find, n);
+	ft_res = ft_strnstr(str, to_find, n);
+	if (res == ft_res)
+		printf("strnstr: OK\n");
+	else
+	{
+		printf("strnstr: KO\n");
+		printf("\t expected: %s but result: %s\n", res, ft_res);
+	}
+}
+
+void	test_atoi()
+{
+	char max[] = "9223372036854775807"; // LONG_MAX
+	char min[] = "-9223372036854775808"; // LONG_MIN
+	char s[] = "    +12345";
+
+	printf("atoi : %d\n", atoi(max));
+	printf("ft_atoi : %d\n", ft_atoi(max));
+}

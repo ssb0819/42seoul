@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 12:50:34 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 18:24:27 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:48:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {

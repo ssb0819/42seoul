@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 16:23:21 by subson            #+#    #+#             */
-/*   Updated: 2023/10/25 18:43:54 by subson           ###   ########.fr       */
+/*   Created: 2023/10/24 17:16:00 by subson            #+#    #+#             */
+/*   Updated: 2023/10/25 18:49:44 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+#include "libft.h"
+
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
+	const unsigned char	*us;
+
+	us = (unsigned char *)s;
+	while (n > 0 && *us)
+	{
+		if (*us == c)
+			return ((void *)us);
+		us++;
+		n--;
+	}
 	return (0);
 }

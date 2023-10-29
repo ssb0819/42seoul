@@ -6,11 +6,10 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:44:33 by subson            #+#    #+#             */
-/*   Updated: 2023/10/20 12:36:54 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:48:36 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 void	*ft_memmove(void *dst, const void *src, size_t len)

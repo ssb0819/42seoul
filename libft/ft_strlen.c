@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:31:22 by subson            #+#    #+#             */
-/*   Updated: 2023/10/17 19:39:59 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:47:50 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {

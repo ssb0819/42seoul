@@ -6,21 +6,22 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:43:54 by subson            #+#    #+#             */
-/*   Updated: 2023/10/17 21:51:57 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 19:13:45 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {	
 	unsigned char	*tmp;
+	size_t			i;
 
 	tmp = (unsigned char *)s;
-	while (n > 0)
+	i = 0;
+	while (i < n)
 	{
-		*tmp = 0;
-		tmp++;
-		n--;
+		tmp[i] = 0;
+		i++;
 	}
 }

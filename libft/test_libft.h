@@ -22,5 +22,9 @@ void	test_tolower();
 void	test_strchr();
 void	test_strrchr();
 void	test_strncmp();
+void	test_memchr();
+void	test_memcmp();
+void	test_strnstr();
+void	test_atoi();
 
 #endif

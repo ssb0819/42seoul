@@ -6,11 +6,10 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 19:54:18 by subson            #+#    #+#             */
-/*   Updated: 2023/10/19 20:30:47 by subson           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:49:01 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)

@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "../libft.h"
 #include "test_libft.h"
 
 int	main(void)
@@ -24,6 +24,8 @@ int	main(void)
 	test_memcmp();
 	test_strnstr();
 	test_atoi();
+	test_calloc();
+	test_strdup();
 }
 
 void	test_isalpha()
@@ -137,8 +139,8 @@ void	test_memset()
 void	test_bzero()
 {
 	size_t	n = 2;
-	char	s[] = "abc";
-	char	ft_s[] = "abc";
+	char	s[] = "abc";	// NULL이면 segmentation fault
+	char	ft_s[] = "abc";	// NULL이면 segmentation fault
 	size_t	i = 0;
 
 	bzero(s, n);
@@ -340,7 +342,7 @@ void	test_strncmp()
 	int ft_res = ft_strncmp(str1, str2, n);
 
 	if (res == ft_res)
-		printf("strncmp case 1: OK\n");
+		printf("strncmp case 1 : OK\n");
 	else
 	{
 		printf("strncmp case 1: KO\n");
@@ -462,8 +464,85 @@ void	test_atoi()
 {
 	char max[] = "9223372036854775807"; // LONG_MAX
 	char min[] = "-9223372036854775808"; // LONG_MIN
-	char s[] = "    +12345";
+	char s[] = "+12345";
+	int flag = 1;
+	int res = atoi(s);
+	int ft_res = ft_atoi(s);
 
-	printf("atoi : %d\n", atoi(max));
-	printf("ft_atoi : %d\n", ft_atoi(max));
+	if (res != ft_res)
+	{
+		printf("atoi case 1: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
+	}
+	res = atoi(max);
+	ft_res = ft_atoi(max);
+	if (res != ft_res)
+	{
+		printf("atoi case 2 - max value test: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
+	}
+	res = atoi(min);
+	ft_res = ft_atoi(min);
+	if (res != ft_res)
+	{
+		printf("atoi case 3 - min value test: KO\n");
+		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
+	}
+	if (flag)
+		printf("atoi: OK\n");
+}
+
+void	test_calloc()
+{
+	size_t	size = sizeof(char);
+	size_t	count = 2;
+	size_t	len = size * count;
+	size_t	i = 0;
+	char	*p;
+	char	*ft_p;
+
+	p = (char *)calloc(count, size);
+	ft_p = (char *)ft_calloc(count, size);
+
+	while (i < count)
+	{
+		if (p[i] != ft_p[i])
+		{
+			printf("calloc: KO\n");
+			printf("\tindex: %d// expected: %d but result: %d\n",(int)i, p[i], ft_p[i]);
+			return ;
+		}
+		i++;
+	}
+	printf("calloc: OK\n");
+}
+
+void	test_strdup()
+{
+	char	*s = "abcde";
+	size_t	len = strlen(s);
+	size_t	i = 0;
+	char	*res;
+	char	*ft_res;
+
+	res = strdup(s);
+	ft_res = ft_strdup(s);
+	while (i < len)
+	{
+		if (res[i] != ft_res[i])
+		{
+			printf("strdup: KO\n");
+			printf("\t expected: %s but result: %s", res, ft_res);
+			free(res);
+			free(ft_res);
+			return ;
+		}
+		i++;
+	}
+	printf("strdup: OK\n");
+	free(res);
+	free(ft_res);
 }

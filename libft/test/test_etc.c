@@ -3,6 +3,8 @@
 
 int	main(void)
 {
-	char s3[4] = {'H', 'i', '!'};
+	char *s3 = "hello";
+	s3 = "hi";
+
 	printf("%s\n", s3);
 }

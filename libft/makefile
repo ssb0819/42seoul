@@ -26,9 +26,9 @@ ft_strncmp.o \
 ft_memchr.o \
 ft_memcmp.o \
 ft_strnstr.o \
-ft_atoi.o
-# ft_calloc.o \
-# ft_strdup.o
+ft_atoi.o \
+ft_calloc.o \
+ft_strdup.o
 
 .PHONY: all clean fclean re
 all: $(NAME)
@@ -43,8 +43,8 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-test: test_libft.c $(NAME)
-	cc -o test test_libft.c -L. -l ft
+test: test/test_libft.c $(NAME)
+	cc -o test/test_libft test/test_libft.c -L. -l ft
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)

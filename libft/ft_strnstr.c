@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:12:57 by subson            #+#    #+#             */
-/*   Updated: 2023/10/25 19:08:27 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/02 20:20:43 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	issame_str(const char *str, const char *needle, size_t len)
+static	int	issame_str(const char *str, const char *needle, size_t len)
 {
 	int	i;
 

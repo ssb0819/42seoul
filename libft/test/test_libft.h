@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <ctype.h>
 # include <string.h>
+# include <stdlib.h>
 
 void	test_isalpha();
 void	test_isdigit();
@@ -26,5 +27,7 @@ void	test_memchr();
 void	test_memcmp();
 void	test_strnstr();
 void	test_atoi();
+void	test_calloc();
+void	test_strdup();
 
 #endif

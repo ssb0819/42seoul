@@ -7,4 +7,5 @@ int	main(void)
 	s3 = "hi";
 
 	printf("%s\n", s3);
+
 }

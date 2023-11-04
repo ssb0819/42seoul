@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 16:07:23 by subson            #+#    #+#             */
-/*   Updated: 2023/11/04 20:33:37 by subson           ###   ########.fr       */
+/*   Created: 2023/11/04 20:08:47 by subson            #+#    #+#             */
+/*   Updated: 2023/11/04 21:48:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	void	*p;
-	size_t	len;
+	size_t	len1;
+	size_t	len2;
+	size_t	total_len;
+	char	*res;
 
-	len = size * count;
-	p = malloc(len);
-	if (p == NULL)
-	{
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	}
-	ft_bzero(p, len);
-	return (p);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	total_len = len1 + len2 + 1;
+	res = (char *)malloc(sizeof(char) * total_len);
+	if (res == NULL)
+		return (NULL);
+	ft_strlcpy(res, s1, len1 + 1);
+	ft_strlcat(res, s2, total_len);
+	return (res);
 }

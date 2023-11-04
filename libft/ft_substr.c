@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 19:21:53 by subson            #+#    #+#             */
-/*   Updated: 2023/11/04 21:21:23 by subson           ###   ########.fr       */
+/*   Created: 2023/11/04 13:34:58 by subson            #+#    #+#             */
+/*   Updated: 2023/11/04 20:12:38 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
+	size_t	slen;
+	size_t	alloc_size;
 	size_t	i;
-	size_t	src_len;
+	char	*subs;
 
+	if (s == NULL)
+		return (NULL);
+	slen = ft_strlen(s);
+	if ((size_t)start > slen)
+		return (NULL);
+	alloc_size = ft_strlen(s + start);
+	if (alloc_size > len)
+		alloc_size = len;
+	subs = (char *)malloc(sizeof(char) * (alloc_size + 1));
+	if (subs == NULL)
+		return (NULL);
 	i = 0;
-	src_len = ft_strlen(src);
-	while (i + 1 < dstsize && src[i])
+	while (i < alloc_size)
 	{
-		dst[i] = src[i];
+		subs[i] = s[start + i];
 		i++;
 	}
-	if (dstsize != 0)
-	{
-		dst[i] = '\0';
-	}
-	return (src_len);
+	subs[i] = 0;
+	return (subs);
 }

@@ -29,5 +29,7 @@ void	test_strnstr();
 void	test_atoi();
 void	test_calloc();
 void	test_strdup();
+void	test_substr();
+void	test_strjoin();
 
 #endif

@@ -3,6 +3,7 @@
 
 int	main(void)
 {
+	// part1
 	test_isalpha();
 	test_isdigit();
 	test_isalnum();
@@ -26,6 +27,9 @@ int	main(void)
 	test_atoi();
 	test_calloc();
 	test_strdup();
+	// part2
+	test_substr();
+	test_strjoin();
 }
 
 void	test_isalpha()
@@ -513,11 +517,15 @@ void	test_calloc()
 		{
 			printf("calloc: KO\n");
 			printf("\tindex: %d// expected: %d but result: %d\n",(int)i, p[i], ft_p[i]);
+			free(p);
+			free(ft_p);
 			return ;
 		}
 		i++;
 	}
 	printf("calloc: OK\n");
+	free(p);
+	free(ft_p);
 }
 
 void	test_strdup()
@@ -545,4 +553,103 @@ void	test_strdup()
 	printf("strdup: OK\n");
 	free(res);
 	free(ft_res);
+}
+
+void	test_substr()
+{
+	const char		*s;
+	char			*res;
+	char			*ans;
+	unsigned int	start;
+	size_t			len;
+	size_t			i;
+	int				flag;
+	
+	flag = 1;
+	// case 1
+	s = "0123456789";
+	start = 1;
+	len = 3;
+	ans = "123";
+	i = 0;
+	res = ft_substr(s, start, len);
+	if (ft_strncmp(res, ans, len) != 0)
+	{
+		printf("substr case 1: KO\n");
+		printf("expected res: %s but result: %s\n", ans, res);
+		flag = 0;
+
+	}
+	free(res);
+	// case 2 [start > string length]
+	start = 20;
+	len = 2;
+	res = ft_substr(s, start, len);
+	if (res != 0)
+	{
+		printf("substr case 2 [start > string length]: KO\n");
+		printf("expected NULL but result IS NOT NULL\n");
+		flag = 0;
+	}
+	free(res);
+	// case 3 [len = 0 OR s = ""] -> malloc(0): UB
+	start = 2;
+	len = 0;
+	res = ft_substr(s, start, len);
+	if (res != 0 && *res != 0)
+	{
+		printf("substr case 3 [len = 0]: KO\n");
+		printf("expected null string but result: %c\n", *res);
+		flag = 0;
+	}
+	free(res);
+	if (flag)
+		printf("substr: OK\n");
+}
+
+void	test_strjoin()
+{
+	const char	*s1;
+	const char	*s2;
+	char		*ans;
+	size_t		n;
+	char		*res;
+	int			flag;
+
+	flag = 1;
+	// case 1
+	s1 = "12345";
+	s2 = "67890";
+	ans = "1234567890";
+	n = 10;
+	res = ft_strjoin(s1, s2);
+	if (ft_strncmp(res, ans, n) != 0)
+	{
+		printf("strjoin case 1: KO\n");
+		printf("expected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	// case 2
+	s1 = "";
+	ans = "67890";
+	n = 5;
+	res = ft_strjoin(s1, s2);
+	if (ft_strncmp(res, ans, n) != 0)
+	{
+		printf("strjoin case 2: KO\n");
+		printf("expected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	// case 3
+	s1 = NULL;
+	s2 = NULL;
+	res = ft_strjoin(s1, s2);
+	if (res != NULL)
+	{
+		printf("strjoin case 3: KO\n");
+		printf("expected NULL but result IS NOT NULL\n");
+		flag = 0;
+	}
+	if (flag)
+		printf("strjoin: OK\n");
 }

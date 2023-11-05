@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 16:07:23 by subson            #+#    #+#             */
-/*   Updated: 2023/11/05 18:58:15 by subson           ###   ########.fr       */
+/*   Created: 2023/11/05 14:44:03 by subson            #+#    #+#             */
+/*   Updated: 2023/11/05 15:26:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	void	*p;
+	char	*res;
+	size_t	start_i;
 	size_t	len;
 
-	if (size != 0 && count > (size_t)-1 / size)
+	if (s1 == NULL || set == NULL)
 		return (NULL);
-	len = size * count;
-	p = malloc(len);
-	if (p == NULL)
+	start_i = 0;
+	len = ft_strlen(s1);
+	while (ft_strchr(set, s1[start_i]) != 0)
+		start_i++;
+	if (start_i == len)
 	{
-		return (NULL);
+		res = ft_calloc(1, sizeof(char));
+		if (res == NULL)
+			return (NULL);
+		return (res);
 	}
-	ft_bzero(p, len);
-	return (p);
+	len--;
+	while (ft_strchr(set, s1[len]) != 0)
+		len--;
+	len = len - start_i + 1;
+	res = ft_substr(s1, (unsigned int)start_i, len);
+	return (res);
 }

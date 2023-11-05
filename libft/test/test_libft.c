@@ -30,6 +30,9 @@ int	main(void)
 	// part2
 	test_substr();
 	test_strjoin();
+	test_strtrim();
+	test_split();
+	test_itoa();
 }
 
 void	test_isalpha()
@@ -543,7 +546,7 @@ void	test_strdup()
 		if (res[i] != ft_res[i])
 		{
 			printf("strdup: KO\n");
-			printf("\t expected: %s but result: %s", res, ft_res);
+			printf("\texpected: %s but result: %s", res, ft_res);
 			free(res);
 			free(ft_res);
 			return ;
@@ -576,7 +579,7 @@ void	test_substr()
 	if (ft_strncmp(res, ans, len) != 0)
 	{
 		printf("substr case 1: KO\n");
-		printf("expected res: %s but result: %s\n", ans, res);
+		printf("\texpected res: %s but result: %s\n", ans, res);
 		flag = 0;
 
 	}
@@ -588,7 +591,7 @@ void	test_substr()
 	if (res != 0)
 	{
 		printf("substr case 2 [start > string length]: KO\n");
-		printf("expected NULL but result IS NOT NULL\n");
+		printf("\texpected NULL but result IS NOT NULL\n");
 		flag = 0;
 	}
 	free(res);
@@ -599,7 +602,7 @@ void	test_substr()
 	if (res != 0 && *res != 0)
 	{
 		printf("substr case 3 [len = 0]: KO\n");
-		printf("expected null string but result: %c\n", *res);
+		printf("\texpected null string but result: %c\n", *res);
 		flag = 0;
 	}
 	free(res);
@@ -626,30 +629,185 @@ void	test_strjoin()
 	if (ft_strncmp(res, ans, n) != 0)
 	{
 		printf("strjoin case 1: KO\n");
-		printf("expected: %s but result: %s\n", ans, res);
+		printf("\texpected: %s but result: %s\n", ans, res);
 		flag = 0;
 	}
-	// case 2
+	free(res);
+	// case 2 [s1 = \"\"]
 	s1 = "";
 	ans = "67890";
 	n = 5;
 	res = ft_strjoin(s1, s2);
 	if (ft_strncmp(res, ans, n) != 0)
 	{
-		printf("strjoin case 2: KO\n");
-		printf("expected: %s but result: %s\n", ans, res);
+		printf("strjoin case 2 [s1 = \"\"]: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
 		flag = 0;
 	}
-	// case 3
+	free(res);
+	// case 3 [s = NULL]
 	s1 = NULL;
 	s2 = NULL;
 	res = ft_strjoin(s1, s2);
 	if (res != NULL)
 	{
-		printf("strjoin case 3: KO\n");
-		printf("expected NULL but result IS NOT NULL\n");
+		printf("strjoin case 3 [s = NULL]: KO\n");
+		printf("\texpected NULL but result IS NOT NULL\n");
 		flag = 0;
 	}
 	if (flag)
 		printf("strjoin: OK\n");
+}
+
+void	test_strtrim()
+{
+	char	*s;
+	char	*set;
+	char	*ans;
+	char	*res;
+	size_t	ans_len;
+	int		flag;
+
+	// case 1
+	s = "aaabbccddcacab";
+	set = "ab";
+	ans = "ccddcac";
+	ans_len = 7;
+	res = ft_strtrim(s, set);
+	if (ft_strncmp(res, ans, ans_len) != 0)
+	{
+		printf("strtrim case 1: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	free(res);
+	// case 2 [set = ""]
+	s = "0123456789";
+	set = "";
+	ans = "0123456789";
+	ans_len = 10;
+	res = ft_strtrim(s, set);
+	if (ft_strncmp(res, ans, ans_len) != 0)
+	{
+		printf("strtrim case 2[set = \"\"]: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	free(res);
+	// case 3 [s = NULL]
+	s = NULL;
+	set = "abc";
+	res = ft_strtrim(s, set);
+	if (res != NULL)
+	{
+		printf("strtrim case 3 [s = NULL]: KO\n");
+		printf("\texpected NULL but result IS NOT NULL\n");
+		flag = 0;
+	}
+	free(res);
+	// case 4 [trim all]
+	s = "aabbbaab";
+	set = "ab";
+	ans = "";
+	res = ft_strtrim(s, set);
+	if (*res != 0)
+	{
+		printf("strtrim case 4 [trim all]: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	if (flag)
+		printf("strtrim: OK\n");
+}
+
+void	test_split()
+{
+	char	*s;
+	char	c;
+	int		cnt;
+	char	**res;
+	int		flag;
+
+	s = ",,abc,,def,,,,ghi";
+	c = ',';
+	cnt = 3;
+	res = ft_split(s, c);
+	///*
+	printf("split: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
+	for (int i = 0; i < cnt; i++)
+	{
+		printf("\tresult[%d]: %s\n", i, res[i]);
+	}
+	//*/
+	/*
+	flag = 1;
+	if (ft_strncmp(res[0], "abc", 3) != 0)
+	{
+		printf("split result[0]: KO\n");
+		printf("\texpected: %s but result: %s\n", "abc", res[0]);
+		flag = 0;
+	}
+	if (ft_strncmp(res[1], "def", 3) != 0)
+	{
+		printf("split result[1]: KO\n");
+		printf("\texpected: %s but result: %s\n", "def", res[1]);
+		flag = 0;
+	}
+	if (ft_strncmp(res[2], "ghi", 3) != 0)
+	{
+		printf("split result[2]: KO\n");
+		printf("\texpected: %s but result: %s\n", "ghi", res[2]);
+		flag = 0;
+	}
+	if (flag)
+		printf("split: OK\n");
+	*/
+}
+
+void	test_itoa()
+{
+	int		n;
+	char	*res;
+	char	*ans;
+	size_t	len;
+	int		flag;
+
+	flag = 1;
+	// case 1
+	n = 0;
+	ans = "0";
+	len = ft_strlen(ans);
+	res = ft_itoa(n);
+	if (ft_strncmp(ans, res, len) != 0)
+	{
+		printf("itoa case 1: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	free(res);
+	// case 2
+	n = -12345;
+	ans = "-12345";
+	len = ft_strlen(ans);
+	res = ft_itoa(n);
+	if (ft_strncmp(ans, res, len) != 0)
+	{
+		printf("itoa case 2: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	free(res);
+	// case 2 [INT_MIN]
+	n = -2147483648;
+	ans = "-2147483648";
+	len = ft_strlen(ans);
+	res = ft_itoa(n);
+	if (ft_strncmp(ans, res, len) != 0)
+	{
+		printf("itoa case 3 [INT_MIN]: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	if (flag)
+		printf("itoa: OK\n");
 }

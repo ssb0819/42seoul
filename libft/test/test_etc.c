@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <limits.h>
 
 int	main(void)
 {
-	char *s3 = "hello";
-	s3 = "hi";
+	int n = -2147483648;
+	unsigned int un;
 
-	printf("%s\n", s3);
-
+	un = n;
+	printf("%d\n", n);
+	printf("%u\n", un);
 }

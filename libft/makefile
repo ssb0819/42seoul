@@ -4,6 +4,7 @@ AR = ar
 
 CFLAGS = -Wall -Wextra -Werror
 ARFLAGS = rsc
+DEBUGFLAGS = -g
 
 NAME = libft.a
 OBJS = ft_isalpha.o \
@@ -30,10 +31,10 @@ ft_atoi.o \
 ft_calloc.o \
 ft_strdup.o \
 ft_substr.o \
-ft_strjoin.o
-# ft_strtrim.o
-# ft_split.o
-# ft_itoa.o
+ft_strjoin.o \
+ft_strtrim.o \
+ft_split.o \
+ft_itoa.o
 # ft_strmapi.o
 # ft_striteri.o
 # ft_putchar_fd.o
@@ -55,10 +56,10 @@ re:
 	$(MAKE) all
 
 test: test/test_libft.c $(NAME)
-	cc -o test/test_libft test/test_libft.c -L. -l ft
+	cc ${DEBUGFLAGS} -o test/test_libft test/test_libft.c -L. -l ft
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) ${DEBUGFLAGS} $(CFLAGS) -c $<

@@ -31,5 +31,8 @@ void	test_calloc();
 void	test_strdup();
 void	test_substr();
 void	test_strjoin();
+void	test_strtrim();
+void	test_split();
+void	test_itoa();
 
 #endif

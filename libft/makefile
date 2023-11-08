@@ -48,8 +48,8 @@ BONUS_OBJS = ft_lstnew.o
 .PHONY: all clean fclean re
 all: $(NAME)
 
-all : make_mandatory
-bonus : make_bonus
+all : libft_mandatory
+bonus : libft_bonus
 clean :
 	$(RM) $(OBJS) $(BONUS_OBJS)
 	$(RM) make_mandatory make_bonus
@@ -61,16 +61,19 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-make_mandatory : $(OBJS)
+libft_mandatory : $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 	touch $@
 
-make_bonus : $(OBJS) $(BONUS_OBJS)
+libft_bonus : $(OBJS) $(BONUS_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $^
 	touch $@
 
 test: test/test_libft.c $(NAME)
 	cc $(DEBUGFLAGS) -o test/test_libft test/test_libft.c -L. -l ft
+
+test_bonus: test/test_libft_bonus.c $(NAME)
+	cc $(DEBUGFLAGS) -o test/test_bonus test/test_libft_bonus.c -L. -l ft
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)

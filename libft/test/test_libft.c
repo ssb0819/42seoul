@@ -33,6 +33,12 @@ int	main(void)
 	test_strtrim();
 	test_split();
 	test_itoa();
+	test_strmapi();
+	test_striteri();
+	test_putchar_fd();
+	test_putstr_fd();
+	test_putendl_fd();
+	test_putnbr_fd();
 }
 
 void	test_isalpha()
@@ -732,14 +738,14 @@ void	test_split()
 	c = ',';
 	cnt = 3;
 	res = ft_split(s, c);
-	///*
+	/*
 	printf("split: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
 	for (int i = 0; i < cnt; i++)
 	{
 		printf("\tresult[%d]: %s\n", i, res[i]);
 	}
-	//*/
-	/*
+	*/
+	///*
 	flag = 1;
 	if (ft_strncmp(res[0], "abc", 3) != 0)
 	{
@@ -761,7 +767,7 @@ void	test_split()
 	}
 	if (flag)
 		printf("split: OK\n");
-	*/
+	//*/
 }
 
 void	test_itoa()
@@ -810,4 +816,101 @@ void	test_itoa()
 	}
 	if (flag)
 		printf("itoa: OK\n");
+}
+
+char	ft_strmapi_test(unsigned int i, char c)
+{
+	if (i == 0 && c >= 'a' && c <= 'z')
+		c -= 32;
+	else if(i != 0 && c >= 'A' && c<= 'Z')
+		c += 32;
+	return (c);
+}
+
+void	test_strmapi()
+{
+	char	(*f)(unsigned int, char);
+	char	*s;
+	size_t	len;
+	char	*res;
+	char	*ans;
+	int		flag;
+
+	f = ft_strmapi_test;
+	flag = 1;
+	// case 1
+	s = "abcde";
+	ans = "Abcde";
+	len = ft_strlen(ans);
+	res = ft_strmapi(s, f);
+	if (ft_strncmp(res, ans, len) != 0)
+	{
+		printf("strmapi: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, res);
+		flag = 0;
+	}
+	if (flag)
+		printf("strmapi: OK\n");
+}
+
+void	ft_striteri_test(unsigned int i, char *c)
+{
+	if (i == 0 && *c >= 'a' && *c <= 'z')
+		*c -= 32;
+	else if(i != 0 && *c >= 'A' && *c<= 'Z')
+		*c += 32;
+}
+
+void	test_striteri()
+{
+	void	(*f)(unsigned int, char*);
+	char	s[] = "abcde";
+	size_t	len;
+	char	*ans;
+	int		flag;
+
+	f = ft_striteri_test;
+	flag = 1;
+	ans = "Abcde";
+	len = ft_strlen(ans);
+	ft_striteri(s, f);
+	if (ft_strncmp(s, ans, len) != 0)
+	{
+		printf("striteri: KO\n");
+		printf("\texpected: %s but result: %s\n", ans, s);
+		flag = 0;
+	}
+	if (flag)
+		printf("striteri: OK\n");
+}
+
+void	test_putchar_fd()
+{
+	write(1, "putchar_fd: ", 12);
+	ft_putchar_fd('O', 1);
+	ft_putchar_fd('K', 1);
+	write(1, "\n", 1);
+}
+
+void	test_putstr_fd()
+{
+	char *s = "OK";
+	write(1, "putstr_fd: ", 11);
+	ft_putstr_fd(s, 1);
+	write(1, "\n", 1);
+}
+
+void	test_putendl_fd()
+{
+	char *s = "OK";
+	write(1, "putendl_fd: ", 12);
+	ft_putendl_fd(s, 1);
+}
+
+void	test_putnbr_fd()
+{
+	int n = 12345;
+	write(1, "putnbr_fd: check for yourself\n", 30);
+	ft_putnbr_fd(n, 1);
+	write(1, "\n", 1);
 }

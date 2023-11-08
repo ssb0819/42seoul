@@ -6,12 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:38:35 by subson            #+#    #+#             */
-/*   Updated: 2023/11/05 19:37:20 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/08 14:49:05 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+char		*ft_itoa(int n);
 int static	get_len(unsigned int n);
 void static	set_num(char *array, int len, unsigned int n);
 
@@ -32,7 +33,7 @@ char	*ft_itoa(int n)
 	}
 	else
 		len = get_len(un);
-	res = (char *)malloc(sizeof(char) * (len + 1));
+	res = (char *)calloc(len + 1, sizeof(char));
 	if (is_negative)
 		res[0] = '-';
 	set_num(res, len, un);

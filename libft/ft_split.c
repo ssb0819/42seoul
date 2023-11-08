@@ -6,15 +6,15 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:38:16 by subson            #+#    #+#             */
-/*   Updated: 2023/11/05 17:31:03 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/08 14:50:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+char		**ft_split(char const *s, char c);
 int	static	get_cnt(char const *s, char c);
 char static	**set_strs(char **strs, char const *s, int cnt, char delimeter);
-char		**ft_split(char const *s, char c);
 
 char	**ft_split(char const *s, char c)
 {
@@ -24,7 +24,7 @@ char	**ft_split(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	cnt = get_cnt(s, c);
-	strs = (char **)malloc(sizeof(char *) * (cnt + 1));
+	strs = (char **)calloc(cnt + 1, sizeof(char *));
 	if (strs == NULL)
 		return (NULL);
 	strs = set_strs(strs, s, cnt, c);

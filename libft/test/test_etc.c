@@ -9,6 +9,7 @@ int	main(void)
 	unsigned int un;
 
 	un = n;
+	un = -un;
 	printf("%d\n", n);
 	printf("%u\n", un);
 }

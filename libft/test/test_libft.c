@@ -594,10 +594,10 @@ void	test_substr()
 	start = 20;
 	len = 2;
 	res = ft_substr(s, start, len);
-	if (res != 0)
+	if (res != 0 && *res != 0)
 	{
 		printf("substr case 2 [start > string length]: KO\n");
-		printf("\texpected NULL but result IS NOT NULL\n");
+		printf("\texpected null string but result: %c\n", *res);
 		flag = 0;
 	}
 	free(res);

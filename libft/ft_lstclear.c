@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 17:30:39 by subson            #+#    #+#             */
-/*   Updated: 2023/11/09 13:31:53 by subson           ###   ########.fr       */
+/*   Created: 2023/11/09 12:23:28 by subson            #+#    #+#             */
+/*   Updated: 2023/11/09 13:39:49 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	if (lst != NULL && new != NULL)
+	t_list	*cur;
+	t_list	*next;
+
+	if (lst != NULL && *lst != NULL)
 	{
-		new->next = *lst;
-		*lst = new;
+		cur = *lst;
+		next = cur->next;
+		while (cur != NULL)
+		{
+			ft_lstdelone(cur, del);
+			cur = next;
+			if (cur != NULL)
+				next = cur->next;
+		}
+		lst = NULL;
 	}
 }

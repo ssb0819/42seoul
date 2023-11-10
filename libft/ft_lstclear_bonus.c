@@ -28,6 +28,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 			if (cur != NULL)
 				next = cur->next;
 		}
-		lst = NULL;
+		*lst = NULL;
 	}
 }

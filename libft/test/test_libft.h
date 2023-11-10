@@ -42,5 +42,19 @@ void	test_putchar_fd();
 void	test_putstr_fd();
 void	test_putendl_fd();
 void	test_putnbr_fd();
+// bonus_part
+void	test_lstnew();
+void	test_lstadd_front();
+void	test_lstsize();
+void	test_lstlast();
+void	test_lstadd_back();
+void	test_lstdelone();
+void	test_lstclear();
+void	test_lstiter();
+void	test_lstmap();
+
+void	print_content(void *content);
+void	delete_content(void *content);
+void	*change_content(void *content);
 
 #endif

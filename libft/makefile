@@ -7,6 +7,7 @@ ARFLAGS = rsc
 DEBUGFLAGS = -g
 
 NAME = libft.a
+
 OBJS = ft_isalpha.o \
 ft_isdigit.o \
 ft_isalnum.o \
@@ -42,14 +43,23 @@ ft_putstr_fd.o \
 ft_putendl_fd.o \
 ft_putnbr_fd.o
 
-BONUS_OBJS = ft_lstnew.o
+BONUS_OBJS = ft_lstnew_bonus.o \
+ft_lstadd_front_bonus.o \
+ft_lstsize_bonus.o \
+ft_lstlast_bonus.o \
+ft_lstadd_back_bonus.o \
+ft_lstdelone_bonus.o \
+ft_lstclear_bonus.o \
+ft_lstiter_bonus.o \
+ft_lstmap_bonus.o
 
 
 .PHONY: all clean fclean re
-all: $(NAME)
 
 all : libft_mandatory
+
 bonus : libft_bonus
+
 clean :
 	$(RM) $(OBJS) $(BONUS_OBJS)
 	$(RM) make_mandatory make_bonus
@@ -69,10 +79,10 @@ libft_bonus : $(OBJS) $(BONUS_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $^
 	touch $@
 
-test: test/test_libft.c $(NAME)
+test: test/test_libft.c libft_mandatory
 	cc $(DEBUGFLAGS) -o test/test_libft test/test_libft.c -L. -l ft
 
-test_bonus: test/test_libft_bonus.c $(NAME)
+test_bonus: test/test_libft_bonus.c libft_bonus
 	cc $(DEBUGFLAGS) -o test/test_bonus test/test_libft_bonus.c -L. -l ft
 
 $(NAME): $(OBJS)

@@ -19,22 +19,25 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*newfirst;
 	t_list	*newlst;
-	void	*content;
 
-	ft_add_new(&newlst, &lst, f);
+	if (ft_add_new(&newlst, &lst, f) != 1)
+		return (NULL);
 	newfirst = newlst;
-	newlst = newlst->next;
 	lst = lst->next;
 	while (lst != NULL)
 	{
-		if (ft_add_new(&newlst, &lst, f))
+		if (ft_add_new(&(newlst->next), &lst, f))
 		{
 			newlst = newlst->next;
 			lst = lst->next;
 		}
 		else
+		{
 			ft_lstclear(&newfirst, del);
+			return (NULL);
+		}
 	}
+	return (newfirst);
 }
 
 int	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *))
@@ -47,4 +50,5 @@ int	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *))
 	*newlst = ft_lstnew(content);
 	if (*newlst == NULL)
 		return (0);
+	return (1);
 }

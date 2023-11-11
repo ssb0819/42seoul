@@ -6,14 +6,14 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:44:25 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 15:56:41 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:03:57 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-int		ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *));
+t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int static	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
@@ -42,7 +42,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	return (newfirst);
 }
 
-int	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *))
+int static	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *))
 {
 	void	*content;
 

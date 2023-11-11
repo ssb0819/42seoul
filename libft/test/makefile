@@ -3,7 +3,8 @@ CC = cc
 AR = ar
 
 CFLAGS = -Wall -Wextra -Werror
-ARFLAGS = rcs
+ARFLAGS = rsc
+DEBUGFLAGS = -g
 
 NAME = libft.a
 
@@ -53,7 +54,7 @@ ft_lstiter_bonus.o \
 ft_lstmap_bonus.o
 
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
 
 all : libft_mandatory
 
@@ -65,7 +66,6 @@ clean :
 
 fclean: 
 	$(RM) $(OBJS) $(BONUS_OBJS) $(NAME)
-	$(RM) libft_mandatory libft_bonus
 
 re: 
 	$(MAKE) fclean
@@ -79,8 +79,14 @@ libft_bonus : $(OBJS) $(BONUS_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $^
 	touch $@
 
+test: test/test_libft.c libft_mandatory
+	cc $(DEBUGFLAGS) -o test/test_libft test/test_libft.c -L. -l ft
+
+test_bonus: test/test_libft_bonus.c libft_bonus
+	cc $(DEBUGFLAGS) -o test/test_bonus test/test_libft_bonus.c -L. -l ft
+
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(DEBUGFLAGS) $(CFLAGS) -c $<

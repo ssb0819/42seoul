@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:38:16 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 15:18:45 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:03:15 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char		**ft_split(char const *s, char c);
 int	static	get_cnt(char const *s, char c);
 char static	**set_strs(char **strs, char *s, int cnt, char delimeter);
-void		free_all(char **strs, int n);
+void static	free_all(char **strs, int n);
 
 char	**ft_split(char const *s, char c)
 {
@@ -75,7 +75,7 @@ char static	**set_strs(char **strs, char *str, int cnt, char delimeter)
 	return (strs);
 }
 
-void	free_all(char **strs, int n)
+void static	free_all(char **strs, int n)
 {
 	int	i;
 

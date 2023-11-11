@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 19:21:53 by subson            #+#    #+#             */
-/*   Updated: 2023/11/04 21:21:23 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 12:06:00 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		i++;
 	}
 	if (dstsize != 0)
-	{
 		dst[i] = '\0';
-	}
 	return (src_len);
 }

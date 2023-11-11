@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 12:50:34 by subson            #+#    #+#             */
-/*   Updated: 2023/11/02 20:24:15 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 12:11:14 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	unsigned char	*u_src;
 	size_t			i;
 
+	if (dst == NULL && src == NULL)
+		return (NULL);
 	u_dst = dst;
 	u_src = (unsigned char *)src;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:16:00 by subson            #+#    #+#             */
-/*   Updated: 2023/10/25 18:49:44 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 11:54:36 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	const unsigned char	*us;
+	unsigned char	*us;
+	unsigned char	uc;
 
+	uc = (unsigned char)c;
 	us = (unsigned char *)s;
-	while (n > 0 && *us)
+	while (n > 0)
 	{
-		if (*us == c)
+		if (*us == uc)
 			return ((void *)us);
 		us++;
 		n--;

@@ -62,10 +62,10 @@ bonus : libft_bonus
 
 clean :
 	$(RM) $(OBJS) $(BONUS_OBJS)
-	$(RM) make_mandatory make_bonus
+	$(RM) libft_mandatory libft_bonus
 
 fclean: 
-	$(RM) $(OBJS) $(NAME)
+	$(RM) $(OBJS) $(BONUS_OBJS) $(NAME)
 
 re: 
 	$(MAKE) fclean

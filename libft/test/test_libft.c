@@ -173,6 +173,8 @@ void	test_bzero()
 
 void	test_memcpy()
 {
+	// case 1
+	int		flag = 1;
 	size_t	n = 3;
 	char	dst[n];
 	char	ft_dst[n];
@@ -181,17 +183,24 @@ void	test_memcpy()
 
 	memcpy(dst, src, sizeof(char) * n);
 	ft_memcpy(ft_dst, src, n);
-	while (i < n)
+
+	if (ft_strncmp(dst, ft_dst, n) != 0)
 	{
-		if(dst[i] != ft_dst[i])
-		{
-			printf("memcpy: KO\n");
-			printf("\texpected: %s but result: %s\n", dst, ft_dst);
-			return;
-		}
-		i++;
+		printf("memcpy case 1: KO\n");
+		printf("\texpected: %s but result: %s\n", dst, ft_dst);
+		flag = 0;
 	}
-	printf("memcpy: OK\n");
+	memcpy(NULL, NULL, 3);
+	ft_memcpy(NULL, NULL, 3);
+	if (ft_strncmp(dst, ft_dst, n) != 0)
+	{
+		printf("memcpy case 2: KO\n");
+		printf("\texpected: %s but result: %s\n", dst, ft_dst);
+		flag = 0;
+	}
+	if (flag)
+		printf("memcpy: OK\n");
+	
 }
 
 void	test_memmove()
@@ -310,43 +319,77 @@ void	test_tolower()
 
 void	test_strchr()
 {
-	char	s[] = "aaabbzbcccb";
-	int		c = 'd';
+	char	*s;
+	int		c;
 	char	*res;
 	char	*ft_res;
+	int		flag;
 
+	flag = 1;
+	// case 1
+	s  = "aaabbzbcccb";
+	c = 'd';
 	res = strchr(s, c);
 	ft_res = ft_strchr(s, c);
-	if (res == ft_res)
-		printf("strchr: OK\n");
-	else
+	if (res != ft_res)
 	{
-		printf("strchr: KO\n");
+		printf("strchr case 1: KO\n");
 		printf("\t expected: %p but result: %p\n", res, ft_res);
+		flag = 0;
 	}
+	// case 2
+	s = "";
+	c = '\0';
+	res = strchr(s, c);
+	ft_res = ft_strchr(s, c);
+	if (res != ft_res)
+	{
+		printf("strchr case 2: KO\n");
+		printf("\t expected: %s but result: %s\n", res, ft_res);
+		flag = 0;
+	}
+	if (flag)
+		printf("strchr: OK\n");
 }
 
 void	test_strrchr()
 {
-	char	s[] = "aaabbzbcccb";
-	int		c = 'b';
+	char	*s;
+	int		c;
 	char	*res;
 	char	*ft_res;
+	int		flag;
 
+	// case 1
+	s = "aaabbzbcccb";
+	c = 'b';
 	res = strrchr(s, c);
 	ft_res = ft_strrchr(s, c);
-	if (res == ft_res)
-		printf("strrchr: OK\n");
-	else
+	if (res != ft_res)
 	{
-		printf("strrchr: KO\n");
+		printf("strrchr case 1: KO\n");
 		printf("\t expected: %s but result: %s\n", res, ft_res);
+		flag = 0;
 	}
+	// case 2
+	s = "";
+	c = '\0';
+	res = strchr(s, c);
+	ft_res = ft_strchr(s, c);
+	if (res != ft_res)
+	{
+		printf("strchrr case 2: KO\n");
+		printf("\t expected: %s but result: %s\n", res, ft_res);
+		flag = 0;
+	}
+	if (flag)
+		printf("strrchr: OK\n");
 }
 
 void	test_strncmp()
 {
-	size_t n = -1;
+	size_t	n = -1;
+	int		flag = 1;
 
 	//case 1
 	char str1[10] = "\200";
@@ -354,104 +397,111 @@ void	test_strncmp()
 	int	res = strncmp(str1, str2, n);
 	int ft_res = ft_strncmp(str1, str2, n);
 
-	if (res == ft_res)
-		printf("strncmp case 1 : OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("strncmp case 1: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
-
 	//case 2
 	strcpy(str1, "asdf\0asdf");
 	strcpy(str2, "asdf");
 	res = strncmp(str1, str2, n);
 	ft_res = ft_strncmp(str1, str2, n);
-	if (res == ft_res)
-		printf("strncmp case 2: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("strncmp case 2: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
-
 	//case 3
 	strcpy(str1, "asdf\0asdf");
 	strcpy(str2, "asdfff");
 	res = strncmp(str1, str2, n);
 	ft_res = ft_strncmp(str1, str2, n);
-	if (res == ft_res)
-		printf("strncmp case 3: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("strncmp case 3: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
+	if (flag)
+		printf("strncmp: OK\n");
 }
 
 void	test_memchr()
 {
+	int		flag = 1;
+	// case 1
 	char	s[] = "aadabbzbcccb";
-	int		c = 'd';
+	int		c = 'e';
 	char	*res;
 	char	*ft_res;
-	size_t	n = 5;
+	size_t	n = 15;
 
 	res = memchr(s, c, n);
 	ft_res = ft_memchr(s, c, n);
-	if (res == ft_res)
-		printf("memchr: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("memchr: KO\n");
 		printf("\t expected: %p but result: %p\n", res, ft_res);
+		flag = 0;
 	}
+	// case 2
+	int tab[7] = {-49, 49, 1, -1, 0, -2, 2};
+	res = (char *)memchr(tab, -1, 7);
+	ft_res = (char *)ft_memchr(tab, -1, 7);
+	if (res != ft_res)
+	{
+		printf("memchr: KO\n");
+		printf("\t expected: %p but result: %p\n", res, ft_res);
+		flag = 0;
+	}
+	if (flag)
+		printf("memchr: OK\n");
 }
 
 void	test_memcmp()
 {
 
 	size_t n = 5;
+	int	flag = 1;
 
 	//case 1
 	char str1[10] = "\200";
 	char str2[10] = "\200";
 	int	res = memcmp(str1, str2, n);
 	int ft_res = ft_memcmp(str1, str2, n);
-
-	if (res == ft_res)
-		printf("memcmp case 1: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("memcmp case 1: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
-
 	//case 2
 	strcpy(str1, "asdfg\0asdf");
 	strcpy(str2, "asdfg");
 	res = memcmp(str1, str2, n);
 	ft_res = ft_memcmp(str1, str2, n);
-	if (res == ft_res)
-		printf("memcmp case 2: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("memcmp case 2: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
-
 	//case 3
 	strcpy(str1, "a");
 	strcpy(str2, "a");
 	res = memcmp(str1, str2, n);
 	ft_res = ft_memcmp(str1, str2, n);
-	if (res == ft_res)
-		printf("memcmp case 3: OK\n");
-	else
+	if (res != ft_res)
 	{
 		printf("memcmp case 3: KO\n");
 		printf("\t expected: %d but result: %d\n", res, ft_res);
+		flag = 0;
 	}
+	if (flag)
+		printf("memcmp: OK\n");
 }
 
 void	test_strnstr()
@@ -539,7 +589,7 @@ void	test_calloc()
 
 void	test_strdup()
 {
-	char	*s = "abcde";
+	char	*s = "lorem ipsum dolor sit amet";
 	size_t	len = strlen(s);
 	size_t	i = 0;
 	char	*res;

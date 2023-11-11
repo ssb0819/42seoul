@@ -179,7 +179,6 @@ void	test_memcpy()
 	char	dst[n];
 	char	ft_dst[n];
 	char	*src = "abc";
-	size_t	i = 0;
 
 	memcpy(dst, src, sizeof(char) * n);
 	ft_memcpy(ft_dst, src, n);
@@ -265,20 +264,16 @@ void	test_strlcat()
 	char	dst[20] = "0123";
 	char 	ft_dst[20] = "0123";
 	char	src[] = "abcdef";
-	size_t	n = 8;
-	size_t	i = 0;
+	size_t	n = 0;
 
-	ft_strlcat(dst, src, n);
-	strlcat(ft_dst, src, n);
-	while (i < n)
+	int ft_res = ft_strlcat(NULL, src, n);
+	int res = strlcat(NULL, src, n);
+	if (ft_strncmp(dst, ft_dst, n) != 0 || res != ft_res)
 	{
-		if (dst[i] != ft_dst[i])
-		{
-			printf("strlcat: KO\n");
-			printf("\texpected dst: %s but result dst: %s\n", dst, ft_dst);
-			return;
-		}
-		i++;
+		printf("strlcat: KO\n");
+		printf("\texpected dst: %s but result dst: %s\n", dst, ft_dst);
+		printf("\treturn - res: %d // ft_res:%d\n", res, ft_res);
+		return;
 	}
 	printf("strlcat: OK\n");
 }
@@ -428,7 +423,7 @@ void	test_strncmp()
 	if (flag)
 		printf("strncmp: OK\n");
 }
-
+ 
 void	test_memchr()
 {
 	int		flag = 1;
@@ -562,11 +557,11 @@ void	test_calloc()
 {
 	size_t	size = sizeof(char);
 	size_t	count = 2;
-	size_t	len = size * count;
-	size_t	i = 0;
 	char	*p;
 	char	*ft_p;
+	size_t	i;
 
+	i = 0;
 	p = (char *)calloc(count, size);
 	ft_p = (char *)ft_calloc(count, size);
 
@@ -591,7 +586,6 @@ void	test_strdup()
 {
 	char	*s = "";
 	size_t	len = strlen(s);
-	size_t	i = 0;
 	char	*res;
 	char	*ft_res;
 
@@ -777,7 +771,6 @@ void	test_split()
 	char	c;
 	int		cnt;
 	char	**res;
-	int		flag;
 
 	// case 1
 	s = "aa,,c";

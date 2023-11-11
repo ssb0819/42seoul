@@ -54,7 +54,7 @@ ft_lstiter_bonus.o \
 ft_lstmap_bonus.o
 
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test test_bonus
 
 all : libft_mandatory
 
@@ -79,10 +79,10 @@ libft_bonus : $(OBJS) $(BONUS_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $^
 	touch $@
 
-test: test/test_libft.c libft_mandatory
+test: test/test_libft libft_mandatory
 	cc $(DEBUGFLAGS) -o test/test_libft test/test_libft.c -L. -l ft
 
-test_bonus: test/test_libft_bonus.c libft_bonus
+test_bonus: test/test_bonus libft_bonus
 	cc $(DEBUGFLAGS) -o test/test_bonus test/test_libft_bonus.c -L. -l ft
 
 $(NAME): $(OBJS)

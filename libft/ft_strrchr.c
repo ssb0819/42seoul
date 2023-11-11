@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 13:20:26 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 12:30:17 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 21:35:40 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int				i;
+	size_t			i;
 	unsigned char	uc;
 
 	i = ft_strlen(s);
 	uc = (unsigned char)c;
-	while (i >= 0)
+	while (i > 0)
 	{
 		if (s[i] == uc)
 			return ((char *)(s + i));
 		i--;
 	}
+	if (s[i] == uc)
+		return ((char *)(s + i));
 	return (0);
 }

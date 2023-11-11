@@ -10,7 +10,7 @@ void	test_unsigned()
 
 	un = n;
 	un = -un;
-	printf("%d\n", n);
+	printf("%d\n", -n);
 	printf("%u\n", un);
 }
 
@@ -26,6 +26,11 @@ void	test_casting()
 
 int	main(void)
 {
-	test_unsigned();
+	char	dst[20] = "0123";
+	char	src[] = "abcdef";
+	size_t	n = 8;
+	size_t	i = 0;
+
+	printf("%d\n", (int)strlcat(dst, src, 0));
 }
 

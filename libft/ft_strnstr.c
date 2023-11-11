@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:12:57 by subson            #+#    #+#             */
-/*   Updated: 2023/11/08 14:25:39 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 13:03:00 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int static	issame_str(const char *str, const char *needle, size_t len);
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	if (needle == 0 || ft_strlen(needle) == 0)
+	if (ft_strlen(needle) == 0)
 		return ((char *)haystack);
 	while (*haystack && len)
 	{

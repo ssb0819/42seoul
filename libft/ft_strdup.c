@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:51:59 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 11:58:51 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 13:18:48 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s1)
 	char	*cpy;
 
 	len = ft_strlen(s1);
-	cpy = (char *)malloc(len * sizeof(char));
+	cpy = (char *)ft_calloc(len + 1, sizeof(char));
 	if (cpy == NULL)
 		return (NULL);
 	ft_strlcpy(cpy, s1, len + 1);

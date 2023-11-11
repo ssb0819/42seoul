@@ -512,7 +512,7 @@ void	test_strnstr()
 	char	*res;
 	char	*ft_res;
 
-	res = strnstr( str,to_find, n);
+	res = strnstr(str, to_find, n);
 	ft_res = ft_strnstr(str, to_find, n);
 	if (res == ft_res)
 		printf("strnstr: OK\n");
@@ -527,7 +527,7 @@ void	test_atoi()
 {
 	char max[] = "9223372036854775807"; // LONG_MAX
 	char min[] = "-9223372036854775808"; // LONG_MIN
-	char s[] = "+12345";
+	char s[] = "+0000000000000000000000000000000000000000000000000000123";
 	int flag = 1;
 	int res = atoi(s);
 	int ft_res = ft_atoi(s);
@@ -589,7 +589,7 @@ void	test_calloc()
 
 void	test_strdup()
 {
-	char	*s = "lorem ipsum dolor sit amet";
+	char	*s = "";
 	size_t	len = strlen(s);
 	size_t	i = 0;
 	char	*res;
@@ -597,19 +597,13 @@ void	test_strdup()
 
 	res = strdup(s);
 	ft_res = ft_strdup(s);
-	while (i < len)
+	if (ft_strncmp(res, ft_res, len))
 	{
-		if (res[i] != ft_res[i])
-		{
-			printf("strdup: KO\n");
-			printf("\texpected: %s but result: %s", res, ft_res);
-			free(res);
-			free(ft_res);
-			return ;
-		}
-		i++;
+		printf("strdup: KO\n");
+		printf("\texpected: %s but result: %s\n", res, ft_res);
 	}
-	printf("strdup: OK\n");
+	else
+		printf("strdup: OK\n");
 	free(res);
 	free(ft_res);
 }
@@ -652,7 +646,8 @@ void	test_substr()
 	}
 	free(res);
 	// case 3 [len = 0 OR s = ""] -> malloc(0): UB
-	start = 2;
+	s = "";
+	start = 0;
 	len = 0;
 	res = ft_substr(s, start, len);
 	if (res != 0 && *res != 0)
@@ -784,40 +779,39 @@ void	test_split()
 	char	**res;
 	int		flag;
 
-	s = ",,abc,,def,,,,ghi";
+	// case 1
+	s = "aa,,c";
 	c = ',';
-	cnt = 3;
+	cnt = 2;
 	res = ft_split(s, c);
-	/*
-	printf("split: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
+
+	printf("split case 1: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
 	for (int i = 0; i < cnt; i++)
 	{
 		printf("\tresult[%d]: %s\n", i, res[i]);
 	}
-	*/
-	///*
-	flag = 1;
-	if (ft_strncmp(res[0], "abc", 3) != 0)
+	// case 2
+	s = "aaaaaa";
+	c = 'a';
+	cnt = 0;
+	res = ft_split(s, c);
+	printf("split case 2: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
+	for (int i = 0; i < cnt; i++)
 	{
-		printf("split result[0]: KO\n");
-		printf("\texpected: %s but result: %s\n", "abc", res[0]);
-		flag = 0;
+		printf("\tresult[%d]: %s\n", i, res[i]);
 	}
-	if (ft_strncmp(res[1], "def", 3) != 0)
+	printf("\tresult: %s\n", res[0]);
+	// case 3
+	s = "\0aa\0bbb";
+	c = '\0';
+	cnt = 0;
+	res = ft_split(s, c);
+	printf("split case 3: Check for yourself\n\ts: %s\n\tc: %c\n", s, c);
+	for (int i = 0; i < cnt; i++)
 	{
-		printf("split result[1]: KO\n");
-		printf("\texpected: %s but result: %s\n", "def", res[1]);
-		flag = 0;
+		printf("\tresult[%d]: %s\n", i, res[i]);
 	}
-	if (ft_strncmp(res[2], "ghi", 3) != 0)
-	{
-		printf("split result[2]: KO\n");
-		printf("\texpected: %s but result: %s\n", "ghi", res[2]);
-		flag = 0;
-	}
-	if (flag)
-		printf("split: OK\n");
-	//*/
+	printf("\tresult: %s\n", res[0]);
 }
 
 void	test_itoa()
@@ -959,8 +953,8 @@ void	test_putendl_fd()
 
 void	test_putnbr_fd()
 {
-	int n = 12345;
-	write(1, "putnbr_fd: check for yourself\n", 30);
+	int n = -2147483648;
+	write(1, "putnbr_fd: check for yourself\n\t", 30);
 	ft_putnbr_fd(n, 1);
 	write(1, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:34:58 by subson            #+#    #+#             */
-/*   Updated: 2023/11/09 13:26:23 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 13:14:35 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		alloc_size = slen - start;
 	if (alloc_size > len)
 		alloc_size = len;
-	subs = (char *)calloc(alloc_size + 1, sizeof(char));
+	subs = (char *)ft_calloc(alloc_size + 1, sizeof(char));
 	if (subs == NULL)
 		return (NULL);
 	i = 0;

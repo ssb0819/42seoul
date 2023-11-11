@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:44:25 by subson            #+#    #+#             */
-/*   Updated: 2023/11/09 14:42:56 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 15:56:41 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*newfirst;
 	t_list	*newlst;
 
-	if (ft_add_new(&newlst, &lst, f) != 1)
+	if (lst == NULL || f == NULL || del == NULL)
+		return (NULL);
+	if (!ft_add_new(&newlst, &lst, f))
 		return (NULL);
 	newfirst = newlst;
 	lst = lst->next;

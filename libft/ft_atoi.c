@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:18:46 by subson            #+#    #+#             */
-/*   Updated: 2023/11/08 14:24:16 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 15:45:10 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	else if (*str == '+')
+		str++;
+	while (*str == '0')
 		str++;
 	ft_strtol(&result, str, minus_sign);
 	return ((int)result);

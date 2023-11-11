@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:08:47 by subson            #+#    #+#             */
-/*   Updated: 2023/11/04 21:48:27 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/11 13:17:09 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	total_len = len1 + len2 + 1;
-	res = (char *)malloc(sizeof(char) * total_len);
+	res = (char *)ft_calloc(total_len, sizeof(char));
 	if (res == NULL)
 		return (NULL);
 	ft_strlcpy(res, s1, len1 + 1);

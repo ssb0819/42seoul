@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:38:16 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 20:07:03 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/12 22:08:19 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char static	**set_strs(char **strs, char *str, int cnt, char delimeter)
 	int		i;
 
 	i = 0;
-	while (*str && (*str == delimeter))
+	while (str && *str && (*str == delimeter))
 		str++;
 	while (i < cnt)
 	{

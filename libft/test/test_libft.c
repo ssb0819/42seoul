@@ -795,7 +795,7 @@ void	test_split()
 	}
 	printf("\tresult: %s\n", res[0]);
 	// case 3
-	s = "\0aa\0bbb";
+	s = NULL;
 	c = '\0';
 	cnt = 0;
 	res = ft_split(s, c);
@@ -804,7 +804,7 @@ void	test_split()
 	{
 		printf("\tresult[%d]: %s\n", i, res[i]);
 	}
-	printf("\tresult: %s\n", res[0]);
+	//printf("\tresult: %s\n", res[0]);
 }
 
 void	test_itoa()

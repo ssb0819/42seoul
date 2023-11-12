@@ -6,14 +6,14 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:44:25 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 16:03:57 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/12 23:35:09 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-int static	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *));
+int static	add(t_list **n, t_list **l, void *(*f)(void *), void (*d)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
@@ -22,13 +22,13 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 
 	if (lst == NULL || f == NULL || del == NULL)
 		return (NULL);
-	if (!ft_add_new(&newlst, &lst, f))
+	if (!add(&newlst, &lst, f, del))
 		return (NULL);
 	newfirst = newlst;
 	lst = lst->next;
 	while (lst != NULL)
 	{
-		if (ft_add_new(&(newlst->next), &lst, f))
+		if (add(&(newlst->next), &lst, f, del))
 		{
 			newlst = newlst->next;
 			lst = lst->next;
@@ -42,15 +42,18 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	return (newfirst);
 }
 
-int static	ft_add_new(t_list **newlst, t_list **lst, void *(*f)(void *))
+int static	add(t_list **n, t_list **l, void *(*f)(void *), void (*d)(void *))
 {
 	void	*content;
 
-	content = f((*lst)->content);
+	content = f((*l)->content);
 	if (content == NULL)
 		return (0);
-	*newlst = ft_lstnew(content);
-	if (*newlst == NULL)
+	*n = ft_lstnew(content);
+	if (*n == NULL)
+	{
+		d(content);
 		return (0);
+	}
 	return (1);
 }

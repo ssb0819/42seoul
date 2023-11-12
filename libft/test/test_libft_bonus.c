@@ -73,6 +73,7 @@ void	test_lstmap()
 	del = delete_content;
 	print = print_content;
 	newlst = ft_lstmap(lst, change, del);
+	printf("%d\n", ft_lstsize(newlst));
 	if (ft_lstsize(lst) == ft_lstsize(newlst))
 	{
 		printf("lstmap: ");

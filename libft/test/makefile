@@ -66,6 +66,7 @@ clean :
 
 fclean: 
 	$(RM) $(OBJS) $(BONUS_OBJS) $(NAME)
+	$(RM) libft_mandatory libft_bonus
 
 re: 
 	$(MAKE) fclean
@@ -79,11 +80,11 @@ libft_bonus : $(OBJS) $(BONUS_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $^
 	touch $@
 
-test: test/test_libft libft_mandatory
-	cc $(DEBUGFLAGS) -o test/test_libft test/test_libft.c -L. -l ft
+test: test_libft libft_mandatory
+	cc $(DEBUGFLAGS) -o test_libft test_libft.c -L. -l ft
 
-test_bonus: test/test_bonus libft_bonus
-	cc $(DEBUGFLAGS) -o test/test_bonus test/test_libft_bonus.c -L. -l ft
+test_bonus: test_bonus libft_bonus
+	cc $(DEBUGFLAGS) -o test_bonus test_libft_bonus.c -L. -l ft
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJS)

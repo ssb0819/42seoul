@@ -6,43 +6,43 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:38:35 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 13:57:34 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/14 00:42:08 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char		*ft_itoa(int n);
-int static	get_len(unsigned int n);
-void static	set_num(char *array, int len, unsigned int n);
+int static	get_len(long n);
+void static	set_num(char *array, int len, long n);
 
 char	*ft_itoa(int n)
 {
-	unsigned int	un;
-	int				is_negative;
-	int				len;
-	char			*res;
+	long	num;
+	int		is_negative;
+	int		len;
+	char	*res;
 
 	is_negative = 0;
-	un = n;
+	num = n;
 	if (n < 0)
 	{
 		is_negative = 1;
-		un *= -1;
-		len = get_len(un) + 1;
+		num *= -1;
+		len = get_len(num) + 1;
 	}
 	else
-		len = get_len(un);
+		len = get_len(num);
 	res = (char *)ft_calloc(len + 1, sizeof(char));
 	if (res == NULL)
 		return (NULL);
 	if (is_negative)
 		res[0] = '-';
-	set_num(res, len, un);
+	set_num(res, len, num);
 	return (res);
 }
 
-int static	get_len(unsigned int n)
+int static	get_len(long n)
 {
 	int	len;
 
@@ -55,7 +55,7 @@ int static	get_len(unsigned int n)
 	return (len);
 }
 
-void static	set_num(char *array, int len, unsigned int n)
+void static	set_num(char *array, int len, long n)
 {
 	array[len] = 0;
 	if (n == 0)

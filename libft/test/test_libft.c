@@ -130,14 +130,14 @@ void	test_memset()
 	unsigned char	s[] = "aaaaa";
 	unsigned char	ft_s[] = "aaaaa";
 	size_t	n = 3;
-	int		c = 'A';
+	int		c = 256;
 	size_t	i = 0;
 
 	memset(s, c, sizeof(char) * n);
 	ft_memset(ft_s, c, sizeof(char) * n);
 	while (i < n)
 	{
-		if (s[i] != ft_s[i])
+		if (1)
 		{
 			printf("memset: KO\n");
 			printf("\texpected: %s but result: %s\n", s, ft_s);

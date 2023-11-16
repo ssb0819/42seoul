@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+#include "../libft.h"
 
 void	test_unsigned()
 {
@@ -13,6 +14,7 @@ void	test_unsigned()
 	printf("%d\n", -n);
 	printf("%u\n", un);
 }
+
 
 void	test_casting()
 {
@@ -31,6 +33,6 @@ int	main(void)
 	size_t	n = 8;
 	size_t	i = 0;
 
-	printf("%d\n", (int)strlcat(dst, src, 0));
+	printf("%d\n", (int)ft_strlcat(NULL, NULL, 0));
 }
 

@@ -6,30 +6,30 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:42:42 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 15:31:27 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/14 01:00:36 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 void		ft_putnbr_fd(int n, int fd);
-int static	get_len(unsigned int n);
-void		print_num(int len, unsigned int n, int fd);
+int static	get_len(long n);
+void static	print_num(int len, long n, int fd);
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	un;
+	long	num;
 
-	un = n;
+	num = n;
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		un *= -1;
+		num *= -1;
 	}
-	print_num(get_len(un) - 1, un, fd);
+	print_num(get_len(num) - 1, num, fd);
 }
 
-int static	get_len(unsigned int n)
+int static	get_len(long n)
 {
 	int	len;
 
@@ -42,10 +42,10 @@ int static	get_len(unsigned int n)
 	return (len);
 }
 
-void	print_num(int cnt, unsigned int n, int fd)
+void static	print_num(int cnt, long n, int fd)
 {
-	unsigned int	tmp;
-	unsigned int	num;
+	long	tmp;
+	long	num;
 
 	while (cnt)
 	{

@@ -6,53 +6,52 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:03:42 by subson            #+#    #+#             */
-/*   Updated: 2023/11/16 16:12:41 by subson           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:14:44 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#define BUF_SIZE 1024
 
 int	ft_printf(const char *format, ...)
 {
-	char	buf[BUF_SIZE];
-	size_t	buf_idx;
+	int		total_len;
 	va_list	argptr;
 
-	buf_idx = 0;
+	total_len = 0;
 	va_start(argptr, format);
 	while (*format)
 	{
-		if (format == '%')
+		if (format != '%')
 		{
+			write(1, format, 1);
+			total_len++;
 			format++;
-			set_to_buf(&buf, &buf_idx, get_param(argptr, format));
 		}
 		else
 		{
-			set_to_buf(&buf, &buf_idx, format);
 			format++;
+			print_param(argptr, format);
 		}
 	}
 	
 }
 
-char	*get_param(va_list argptr, const char *const format)
+char	*print_param(va_list argptr, const char *format)
 {
 	const char	*percent = "%";
 
 	if (*format == '%')
 		return (percent);
 	if (*format == 'c')
-		return (get_char(va_arg(argptr, char)));
+		return (print_char(va_arg(argptr, char)));
 	if (*format == 's')
-		return (get_str(va_arg(argptr, char *)));
+		return (print_str(va_arg(argptr, char *)));
 	if (*format == 'd' || *format == 'i')
-		return (get_int(va_arg(argptr, int)));
+		return (print_int(va_arg(argptr, int)));
 	if (*format == 'u')
-		return (get_unsigned_int(va_arg(argptr, unsigned int)));
+		return (print_unsigned_int(va_arg(argptr, unsigned int)));
 	if (*format == 'x' || *format == 'X')
-		return (get_hexadecimal(va_arg(argptr, int), *format));
+		return (print_hexadecimal(va_arg(argptr, int), *format));
 	return ((char *)format);
 }
 

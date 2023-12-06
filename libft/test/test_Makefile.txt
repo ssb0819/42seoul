@@ -1,0 +1,7 @@
+
+test_libft: libft_mandatory test/test_libft.c
+	cc -g -o test_libft test/test_libft.c -L. -l ft
+
+test_bonus: libft_bonus test/test_libft_bonus.c
+	cc -g -o test_bonus test/test_libft_bonus.c -L. -l ft
+

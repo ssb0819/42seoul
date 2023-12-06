@@ -2,6 +2,7 @@
 #include <float.h>
 #include <math.h>
 #include <limits.h>
+#include <stdint.h>
 
 void	get_bufsize()
 {
@@ -26,5 +27,14 @@ void	get_min_max()
 
 int	main(void)
 {
-	
+	char	c;
+	long	ptr;
+
+	c = 'a';
+	ptr = (long)(&c);
+	printf("print test:%p\n", &c);
+	printf("print test:%lx\n", ptr);
+
+	printf("%lu\n", LONG_MIN);
+
 }

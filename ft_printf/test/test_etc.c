@@ -25,7 +25,7 @@ void	get_min_max()
 	printf("long double max: %Le\n", LDBL_MAX);
 }
 
-int	main(void)
+void	ptr_address_to_long()
 {
 	char	c;
 	long	ptr;
@@ -36,5 +36,10 @@ int	main(void)
 	printf("print test:%lx\n", ptr);
 
 	printf("%lu\n", LONG_MIN);
+}
+
+int	main(void)
+{
+	get_bufsize();
 
 }

@@ -6,4 +6,6 @@
 int main(void)
 {
 	printf("%d\n", BUFFER_SIZE);
+	printf("%d\n", BUFSIZ);
+
 }

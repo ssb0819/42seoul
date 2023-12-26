@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2023/12/06 18:44:32 by subson           ###   ########.fr       */
+/*   Updated: 2023/12/26 20:22:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct s_buffer
-{
-	char			*buffer;
-	size_t			buf_idx;
-	struct s_buffer	*next;
-}	t_buffer;
-
-char		*get_next_line(int fd);
-void		add_char(t_buffer *list, char c);
-t_buffer	*get_last(t_buffer *list);
-void		free_all(t_buffer *list);
-char		*make_str(t_buffer *list);
-size_t		get_total_len(t_buffer *list);
+char	*get_next_line(int fd);
+int		check_prev(char **result, char **prev);
+void	read_line(char **result, char **prev, int fd);
+size_t	ft_strlen(const char *s);
+void	*ft_memset(void *b, int c, size_t len);
+int		ft_strchr(char *s, char c);
+char	*ft_strdup(const char *s1);
+char	*ft_substr(char const *s, unsigned int start, int end);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif

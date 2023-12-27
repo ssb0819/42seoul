@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2023/12/27 16:08:19 by subson           ###   ########.fr       */
+/*   Updated: 2023/12/26 22:18:59 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,79 @@
 char	*get_next_line(int fd)
 {
 	static char	*prev;
-	char		*cur;
-	ssize_t		r_byte;
-	char		buffer[BUFFER_SIZE + 1];
+	char		*result;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return ((void *)0);
-	cur = ft_strdup(prev);
+	result = (void *)0;
 	if (prev)
-		free(prev);
-	ft_memset(buffer, '\0', BUFFER_SIZE + 1);
-	while (ft_strchr(cur, '\n') < 0)
+	{
+		if (check_prev(&result, &prev))
+			return (result);
+	}
+	if (read_line(&result, &prev, fd))
+		return (result);
+	else
+		return ((void *)0);
+}
+
+int	check_prev(char **result, char **prev)
+{
+	int		i;
+	char	*tmp_prev;
+
+	tmp_prev = *prev;
+	i = ft_strchr(tmp_prev, '\n');
+	if (i >= 0)
+	{
+		*result = ft_substr(tmp_prev, 0, i + 1);
+		*prev = ft_substr(tmp_prev, i + 1, -1);
+		free(tmp_prev);
+		return (1);
+	}
+	else
+	{
+		*result = *prev;
+		*prev = (void *)0;
+		return (0);
+	}
+}
+
+int	read_line(char **result, char **prev, int fd)
+{
+	char	buffer[BUFFER_SIZE + 1];
+	int		i;
+	ssize_t	r_byte;
+	char	*tmp;
+
+	ft_memset(buffer, 0, BUFFER_SIZE + 1);
+	while (1)
 	{
 		r_byte = read(fd, buffer, BUFFER_SIZE);
 		if (r_byte == -1)
-			return ((void *)0);
-		if (r_byte == 0)
-			return (cur);
+			return (0);
+		if (!r_byte)
+		{
+			if (prev)
+				free(*prev);
+			break ;
+		}
+		i = ft_strchr(buffer, '\n');
+		if (i >= 0)
+		{
+			tmp = ft_substr(buffer, 0, i + 1);
+			*result = ft_strjoin(*result, tmp);
+			free(tmp);
+			tmp = *prev;
+			*prev = ft_substr(buffer, i + 1, -1);
+			if (tmp)
+				free(tmp);
+			break ;
+		}
 		else
-			cur = ft_strjoin(cur, buffer);
+			*result = ft_strjoin(*result, buffer);
 	}
-	return (parse_str(cur, &prev));
-}
-
-char	*parse_str(char *str, char **prev)
-{
-	int		i;
-	char	*result;
-
-	i = ft_strchr(str, '\n');
-	if (*prev)
-		free(*prev);
-	*prev = ft_substr(str, i + 1, -1);
-	result = ft_substr(str, 0, i + 1);
-	free(str);
-	return (result);
+	return (1);
 }
 
 char	*ft_strjoin(char *s1, char *s2)

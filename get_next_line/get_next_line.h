@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2023/12/26 20:22:26 by subson           ###   ########.fr       */
+/*   Updated: 2023/12/27 15:42:05 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-int		check_prev(char **result, char **prev);
-void	read_line(char **result, char **prev, int fd);
+char	*parse_str(char *str, char **prev);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);
 int		ft_strchr(char *s, char c);

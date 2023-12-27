@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2023/12/26 20:19:35 by subson           ###   ########.fr       */
+/*   Updated: 2023/12/27 15:51:47 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_strchr(char *s, char c)
 	int	i;
 
 	i = 0;
-	if (s == (void *)0)
+	if (!s)
 		return (-1);
 	while (s[i])
 	{

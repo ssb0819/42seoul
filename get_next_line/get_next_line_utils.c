@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2023/12/27 15:51:47 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/07 17:41:31 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ char	*ft_strdup(const char *s1)
 	while (s1[len])
 		len++;
 	cpy = (char *)malloc(sizeof(char) * (len + 1));
-	if (cpy == NULL)
-		return (NULL);
+	if (!cpy)
+		return ((void *)0);
 	i = 0;
 	while (i < len)
 	{
@@ -93,7 +93,7 @@ char	*ft_substr(char const *s, unsigned int start, int end)
 	if (end == -1)
 	end = ft_strlen(s);
 	len = end - start;
-	if (len < 0)
+	if (len <= 0)
 		return ((void *)0);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (res == NULL)

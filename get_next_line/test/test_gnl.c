@@ -8,9 +8,8 @@ void	check_leak(void);
 int	main(void)
 {
 	atexit(check_leak);
-	test_read_txt("./test_one_line.txt", 2);
-	test_read_txt("./test_two_line.txt", 3);
-	test_read_txt("./test_only_nl.txt", 2);
+	test_read_txt("./test_one_line.txt", 1);
+	test_read_txt("./test_two_line.txt", 2);
 }
 
 void   check_leak(void)

@@ -7,9 +7,10 @@ void	check_leak(void);
 
 int	main(void)
 {
-	atexit(check_leak);
+	//atexit(check_leak);
 	test_read_txt("./test_one_line.txt", 1);
 	test_read_txt("./test_two_line.txt", 2);
+	test_read_txt("./test_three_line.txt", 2);
 }
 
 void   check_leak(void)
@@ -29,7 +30,7 @@ void	test_read_txt(char *file_name, int repeat_num)
 		printf("open error\n");
 	else
 	{
-		printf("==== file name : %s ====\n", file_name);
+		printf("\n==== file name : %s ====\n", file_name);
 		while (i < repeat_num)
 		{
 			str = get_next_line(fd);
@@ -37,6 +38,6 @@ void	test_read_txt(char *file_name, int repeat_num)
 			free(str);
 			i++;
 		}
-		printf("\n======== end =======");
+		printf("\n==== end =====================\n");
 	}
 }

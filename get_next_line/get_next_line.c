@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/07 18:50:43 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/09 16:59:01 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return ((void *)0);
-	cur = ft_strdup(prev);
+	cur = (void *)0;
 	if (prev)
 	{
+		cur = ft_strdup(prev);
 		free(prev);
 		prev = (void *)0;
+		if (!cur)
+			return ((void *)0);
 	}
 	while (ft_strchr(cur, '\n') < 0)
 	{
@@ -43,19 +46,24 @@ char	*get_next_line(int fd)
 		if (r_byte == 0)
 			return (cur);
 		else
+		{
 			cur = ft_strjoin(cur, buffer);
+			if (!cur)
+				return ((void *)0);
+		}
 	}
-	return (parse_str(cur, &prev));
+	return (parse_str_by_nl(cur, &prev));
 }
 
-char	*parse_str(char *str, char **prev)
+char	*parse_str_by_nl(char *str, char **prev)
 {
 	int		i;
 	char	*result;
 
 	i = ft_strchr(str, '\n');
 	result = ft_substr(str, 0, i + 1);
-	*prev = ft_substr(str, i + 1, -1);
+	if (result)
+		*prev = ft_substr(str, i + 1, -1);
 	free(str);
 	return (result);
 }

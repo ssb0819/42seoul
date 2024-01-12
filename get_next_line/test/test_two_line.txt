@@ -1,2 +1,2 @@
-abcd
-efgh
+First line in 'test_two_line.txt'.
+Second line in 'test_two_line.txt'.

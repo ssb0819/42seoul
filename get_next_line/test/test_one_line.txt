@@ -1,1 +1,1 @@
-one line.
+First line in 'test_one_line.txt'.

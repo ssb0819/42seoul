@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/09 16:59:01 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:12:29 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,85 +17,92 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*prev;
-	char		*cur;
-	ssize_t		r_byte;
-	char		buffer[BUFFER_SIZE + 1];
+	static char	*buffer;
+	ssize_t		r_bytes;
+	size_t		len;
+	size_t		buf_size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return ((void *)0);
-	cur = (void *)0;
-	if (prev)
+	len = ft_strlen(buffer);
+	buf_size = BUFFER_SIZE;
+	while (buf_size < 1024)
+		buf_size *= 2;
+	while (1)
 	{
-		cur = ft_strdup(prev);
-		free(prev);
-		prev = (void *)0;
-		if (!cur)
-			return ((void *)0);
-	}
-	while (ft_strchr(cur, '\n') < 0)
-	{
-		ft_memset(buffer, '\0', BUFFER_SIZE + 1);
-		r_byte = read(fd, buffer, BUFFER_SIZE);
-		if (r_byte == -1)
+		r_bytes = read_next(fd, &buffer, &len, buf_size);
+		if (r_bytes == -1)
 		{
-			if (cur)
-				free(cur);
+			free(buffer);
+			buffer = (void *)0;
 			return ((void *)0);
 		}
-		if (r_byte == 0)
-			return (cur);
+		else if (r_bytes == 0 || ft_strchr(buffer, '\n', len) > 0)
+			break ;
+	}
+	return (parse_by_nl(&buffer, ft_strchr(buffer, '\n', len), len));
+}
+
+ssize_t	read_next(int fd, char **buffer, size_t *len, size_t buf_size)
+{
+	char	*new_buf;
+	size_t	i;
+
+	new_buf = (char *)malloc(*len + buf_size + 1);
+	if (!new_buf)
+		return (-1);
+	i = 0;
+	while (i < *len)
+	{
+		*new_buf = (*buffer)[i++];
+		new_buf++;
+	}
+	free(*buffer);
+	*buffer = (void *)0;
+	*buffer = new_buf - i;
+	return (call_read(fd, new_buf, len, buf_size));
+}
+
+ssize_t	call_read(int fd, char *buffer, size_t *len, size_t buf_size)
+{
+	size_t	i;
+	ssize_t	r_bytes;
+
+	i = 0;
+	while (i * BUFFER_SIZE < buf_size)
+	{
+		r_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (r_bytes <= 0)
+			return (r_bytes);
 		else
 		{
-			cur = ft_strjoin(cur, buffer);
-			if (!cur)
-				return ((void *)0);
+			*len += r_bytes;
+			buffer += BUFFER_SIZE;
+			i++;
 		}
 	}
-	return (parse_str_by_nl(cur, &prev));
+	return (1);
 }
 
-char	*parse_str_by_nl(char *str, char **prev)
+char	*parse_by_nl(char **buffer, ssize_t index_nl, size_t len)
 {
-	int		i;
 	char	*result;
+	char	*backup;
 
-	i = ft_strchr(str, '\n');
-	result = ft_substr(str, 0, i + 1);
-	if (result)
-		*prev = ft_substr(str, i + 1, -1);
-	free(str);
-	return (result);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*res;
-	size_t	len;
-	size_t	i;
-	size_t	j;
-
-	if (!s1 && !s2)
-		return ((void *)0);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (s1);
-	len = ft_strlen(s1) + ft_strlen(s2);
-	res = (char *)malloc(sizeof(char) * (len + 1));
-	if (!res)
+	if (index_nl == -1)
+		result = ft_substr(*buffer, 0, len);
+	else
 	{
-		free(s1);
-		return ((void *)0);
+		result = ft_substr(*buffer, 0, index_nl + 1);
+		if (result)
+			backup = ft_substr(*buffer, index_nl + 1, len);
+		else
+			backup = (void *)0;
 	}
-	i = 0;
-	j = 0;
-	while (s1[j])
-		res[i++] = s1[j++];
-	j = 0;
-	while (s2[j])
-		res[i++] = s2[j++];
-	res[i] = '\0';
-	free(s1);
-	return (res);
+	free(*buffer);
+	if (index_nl == -1)
+		*buffer = (void *)0;
+	else
+		*buffer = backup;
+	return (result);
 }

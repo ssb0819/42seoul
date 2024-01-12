@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2024/01/07 18:54:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:56:31 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,16 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-void	*ft_memset(void *b, int c, size_t len)
+ssize_t	ft_strchr(char *s, char c, size_t len)
 {
-	unsigned char	*tmp;
-	size_t			i;
-
-	tmp = b;
-	i = 0;
-	while (i < len)
-	{
-		tmp[i] = c;
-		i++;
-	}
-	return (b);
-}
-
-int	ft_strchr(char *s, char c)
-{
-	int	i;
+	ssize_t	i;
+	ssize_t	size;
 
 	i = 0;
+	size = len;
 	if (!s)
 		return (-1);
-	while (s[i])
+	while (i < size)
 	{
 		if (s[i] == c)
 			return (i);
@@ -58,41 +45,15 @@ int	ft_strchr(char *s, char c)
 	return (-1);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*cpy;
-	size_t	len;
-	size_t	i;
-
-	len = 0;
-	if (!s1)
-		return ((void *)0);
-	while (s1[len])
-		len++;
-	cpy = (char *)malloc(sizeof(char) * (len + 1));
-	if (!cpy)
-		return ((void *)0);
-	i = 0;
-	while (i < len)
-	{
-		cpy[i] = s1[i];
-		i++;
-	}
-	cpy[i] = '\0';
-	return (cpy);
-}
-
-char	*ft_substr(char const *s, unsigned int start, int end)
+char	*ft_substr(char const *s, ssize_t start, size_t end)
 {
 	char	*res;
-	size_t	len;
-	size_t	i;
+	ssize_t	len;
+	ssize_t	i;
 
 	if (!s)
 		return ((void *)0);
-	if (end == -1)
-	end = ft_strlen(s);
-	len = end - start;
+	len = (ssize_t)end - start;
 	if (len <= 0)
 		return ((void *)0);
 	res = (char *)malloc(sizeof(char) * (len + 1));

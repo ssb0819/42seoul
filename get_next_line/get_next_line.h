@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2024/01/09 16:48:04 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:42:34 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-char	*parse_str_by_nl(char *str, char **prev);
+ssize_t	read_next(int fd, char **buffer, size_t *len, size_t buf_size);
+ssize_t	call_read(int fd, char *buffer, size_t *len, size_t buf_size);
+char	*parse_by_nl(char **buffer, ssize_t index_nl, size_t len);
 size_t	ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t len);
-int		ft_strchr(char *s, char c);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, int end);
-char	*ft_strjoin(char *s1, char *s2);
+ssize_t	ft_strchr(char *s, char c, size_t len);
+char	*ft_substr(char const *s, ssize_t start, size_t end);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/15 20:22:14 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/15 20:38:39 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char	*parse_by_nl(t_files **files, t_files *file)
 		}
 		free(file->str);
 		file->str = backup;
+		return (result);
 	}
 	remove_file(files, file->fd);
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/15 19:46:59 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/15 20:31:24 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,13 @@ char	*parse_by_nl(char **str, size_t len)
 	else
 	{
 		result = ft_substr(*str, 0, nl_index + 1);
-		if (result)
+		backup = ft_substr(*str, nl_index + 1, len);
+		if (!result || (len - nl_index > 1 && !backup))
 		{
-			backup = ft_substr(*str, nl_index + 1, len);
-			if (len - nl_index > 1 && !backup)
-			{
-				free(result);
-				result = (void *)0;
-			}
+			free(result);
+			free(backup);
+			result = (void *)0;
+			backup = (void *)0;
 		}
 	}
 	free(*str);

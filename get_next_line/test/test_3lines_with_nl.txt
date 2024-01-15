@@ -1,3 +1,0 @@
-First line in 'test_3lines_with_nl.txt'.
-Second line in 'test_3lines_with_nl.txt'.
-Third line in 'test_3lines_with_nl.txt'.

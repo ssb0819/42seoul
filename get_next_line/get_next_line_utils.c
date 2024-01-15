@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2024/01/12 14:56:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:35:53 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ ssize_t	ft_strchr(char *s, char c, size_t len)
 	return (-1);
 }
 
-char	*ft_substr(char const *s, ssize_t start, size_t end)
+char	*ft_substr(char const *s, ssize_t start, ssize_t end)
 {
 	char	*res;
 	ssize_t	len;
@@ -53,7 +53,7 @@ char	*ft_substr(char const *s, ssize_t start, size_t end)
 
 	if (!s)
 		return ((void *)0);
-	len = (ssize_t)end - start;
+	len = end - start;
 	if (len <= 0)
 		return ((void *)0);
 	res = (char *)malloc(sizeof(char) * (len + 1));

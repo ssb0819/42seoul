@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2024/01/12 19:00:44 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:59:24 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,17 @@ char	*ft_substr(char const *s, ssize_t start, size_t end)
 	return (res);
 }
 
-t_files	*find_cur_file(t_files **files, int fd)
+t_files	*find_cur_file(t_files **file_p, int fd)
 {
-	t_files	**file;
 	t_files	*new_file;
 
-	if (*files)
+	if (*file_p)
 	{
-		file = files;
-		while (*file)
+		while (*file_p)
 		{
-			if ((*file)->fd == fd)
-				return (*file);
-			file = &((*file)->next);
+			if ((*file_p)->fd == fd)
+				return (*file_p);
+			file_p = &((*file_p)->next);
 		}
 	}
 	new_file = malloc(sizeof(t_files));
@@ -89,40 +87,30 @@ t_files	*find_cur_file(t_files **files, int fd)
 		return ((void *)0);
 	new_file->fd = fd;
 	new_file->len = 0;
-	new_file->content = (void *)0;
+	new_file->str = (void *)0;
 	new_file->next = (void *)0;
-	if (*files)
-		*file = new_file;
-	else
-		*files = new_file;
+	*file_p = new_file;
 	return (new_file);
 }
 
-void	remove_file(t_files **files, int fd)
+int	remove_file(t_files **next_p, int fd)
 {
-	t_files	*file;
-	t_files	*tmp;
+	t_files	*cur;
 
-	file = *files;
-	if (file->fd == fd)
+	if (!next_p)
+		return (0);
+	cur = *next_p;
+	while (cur)
 	{
-		*files = file->next;
-		free(file->content);
-		free(file);
-	}
-	else
-	{
-		while (file)
+		if (cur->fd == fd)
 		{
-			if (file->next->fd == fd)
-			{
-				tmp = file->next;
-				file->next = file->next->next;
-				free(tmp->content);
-				free(tmp);
-				return ;
-			}
-			file = file->next;
+			*next_p = cur->next;
+			free(cur->str);
+			free(cur);
+			return (fd);
 		}
+		next_p = &(cur->next);
+		cur = cur->next;
 	}
+	return (0);
 }

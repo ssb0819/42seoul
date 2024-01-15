@@ -6,104 +6,109 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/12 17:24:11 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/15 19:46:59 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1024
-#endif
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
-	ssize_t		r_bytes;
+	static char	*str;
 	size_t		len;
-	size_t		buf_size;
+	ssize_t		nl_index;
+	size_t		repeat_num;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return ((void *)0);
-	len = ft_strlen(buffer);
-	buf_size = BUFFER_SIZE;
-	while (buf_size < 1024)
-		buf_size *= 2;
-	while (1)
+	len = ft_strlen(str);
+	repeat_num = 1;
+	while (make_new_str(&str, len, repeat_num))
 	{
-		r_bytes = read_next(fd, &buffer, &len, buf_size);
-		if (r_bytes == -1)
-		{
-			free(buffer);
-			buffer = (void *)0;
-			return ((void *)0);
-		}
-		else if (r_bytes == 0 || ft_strchr(buffer, '\n', len) > 0)
+		nl_index = read_next(fd, str, &len, repeat_num);
+		if (nl_index == FILE_END || nl_index > NO_NL)
+			return (parse_by_nl(&str, len));
+		if (nl_index == FILE_ERROR)
 			break ;
+		repeat_num++;
 	}
-	return (parse_by_nl(&buffer, len));
+	free(str);
+	str = (void *)0;
+	return ((void *)0);
 }
 
-ssize_t	read_next(int fd, char **buffer, size_t *len, size_t buf_size)
+ssize_t	make_new_str(char **str, size_t len, size_t repeat_num)
 {
-	char	*new_buf;
+	char	*new_str;
 	size_t	i;
 
-	new_buf = (char *)malloc(*len + buf_size + 1);
-	if (!new_buf)
-		return (-1);
+	new_str = malloc(BUFFER_SIZE * repeat_num + len);
+	if (!new_str)
+		return (0);
 	i = 0;
-	while (i < *len)
+	while (i < len)
 	{
-		*new_buf = (*buffer)[i++];
-		new_buf++;
+		new_str[i] = (*str)[i];
+		i++;
 	}
-	free(*buffer);
-	*buffer = new_buf - i;
-	return (call_read(fd, new_buf, len, buf_size));
-}
-
-ssize_t	call_read(int fd, char *buffer, size_t *len, size_t buf_size)
-{
-	size_t	i;
-	ssize_t	r_bytes;
-
-	i = 0;
-	while (i * BUFFER_SIZE < buf_size)
-	{
-		r_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (r_bytes <= 0)
-			return (r_bytes);
-		else
-		{
-			*len += r_bytes;
-			buffer += BUFFER_SIZE;
-			i++;
-		}
-	}
+	free(*str);
+	*str = new_str;
 	return (1);
 }
 
-char	*parse_by_nl(char **buffer, size_t len)
+ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num)
+{
+	char	buffer[BUFFER_SIZE];
+	size_t	i;
+	ssize_t	j;
+	ssize_t	r_bytes;
+
+	i = 0;
+	while (i < repeat_num)
+	{
+		r_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (r_bytes == -1)
+			return (FILE_ERROR);
+		else if (r_bytes == 0)
+			return (FILE_END);
+		else
+		{
+			j = 0;
+			while (j < r_bytes)
+				str[(*len)++] = buffer[j++];
+			r_bytes = ft_strchr(str, '\n', *len);
+			if (r_bytes != NO_NL)
+				break ;
+			i++;
+		}
+	}
+	return (r_bytes);
+}
+
+char	*parse_by_nl(char **str, size_t len)
 {
 	char	*result;
 	char	*backup;
-	ssize_t	index_nl;
+	ssize_t	nl_index;
 
-	index_nl = ft_strchr(*buffer, '\n', len);
-	if (index_nl == -1)
-		result = ft_substr(*buffer, 0, len);
+	backup = (void *)0;
+	nl_index = ft_strchr(*str, '\n', len);
+	if (nl_index == NO_NL)
+		result = ft_substr(*str, 0, len);
 	else
 	{
-		result = ft_substr(*buffer, 0, index_nl + 1);
+		result = ft_substr(*str, 0, nl_index + 1);
 		if (result)
-			backup = ft_substr(*buffer, index_nl + 1, len);
-		else
-			backup = (void *)0;
+		{
+			backup = ft_substr(*str, nl_index + 1, len);
+			if (len - nl_index > 1 && !backup)
+			{
+				free(result);
+				result = (void *)0;
+			}
+		}
 	}
-	free(*buffer);
-	if (index_nl == -1)
-		*buffer = (void *)0;
-	else
-		*buffer = backup;
+	free(*str);
+	*str = backup;
 	return (result);
 }

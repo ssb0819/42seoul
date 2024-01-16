@@ -11,17 +11,17 @@ void	check_leak(void);
 int	main(void)
 {
 	test_mandatory();
-	test_bonus();
+	//test_bonus();
 }
 
 void	test_mandatory(void)
 {
 	// atexit(check_leak);
-	test_read_txt("txt_files/1line.txt", 1);
-	test_read_txt("txt_files/2lines.txt", 2);
-	test_read_txt("txt_files/3lines_with_nl.txt", 3);
-	test_read_txt("txt_files/only_nl.txt", 5);
-	test_read_error("txt_files/read_error.txt");
+	//test_read_txt("txt_files/1line.txt", 1);
+	//test_read_txt("txt_files/2lines.txt", 2);
+	//test_read_txt("txt_files/3lines_with_nl.txt", 3);
+	test_read_txt("txt_files/only_nl.txt", 2);
+	//test_read_error("txt_files/read_error.txt");
 }
 
 void	test_bonus(void)

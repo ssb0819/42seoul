@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2024/01/15 20:03:36 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/16 15:35:03 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@
 # define FILE_END -2
 # define NO_NL -1
 
-typedef struct s_files
+typedef struct s_file
 {
 	int				fd;
 	void			*str;
 	size_t			len;
-	struct s_files	*next;
-}	t_files;
+	struct s_file	*next;
+}	t_file;
 
 char	*get_next_line(int fd);
-ssize_t	make_new_str(t_files *file, size_t repeat_num);
+ssize_t	make_new_str(t_file *file, size_t repeat_num);
 ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num);
-char	*parse_by_nl(t_files **files, t_files *file);
+char	*parse_by_nl(t_file **files, t_file *file);
 size_t	ft_strlen(const char *s);
 ssize_t	ft_strchr(char *s, char c, size_t len);
 char	*ft_substr(char const *s, ssize_t start, size_t end);
-t_files	*find_cur_file(t_files **file, int fd);
-int		remove_file(t_files **file_p, int fd);
+t_file	*find_cur_file(t_file **file, int fd);
+int		remove_file(t_file **file_p, int fd);
 
 #endif

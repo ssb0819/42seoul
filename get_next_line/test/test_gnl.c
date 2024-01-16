@@ -11,34 +11,40 @@ void	check_leak(void);
 int	main(void)
 {
 	test_mandatory();
-	//test_bonus();
+	test_bonus();
 }
 
 void	test_mandatory(void)
 {
-	// atexit(check_leak);
-	//test_read_txt("txt_files/1line.txt", 1);
-	//test_read_txt("txt_files/2lines.txt", 2);
-	//test_read_txt("txt_files/3lines_with_nl.txt", 3);
+	atexit(check_leak);
+	test_read_txt("txt_files/1line.txt", 1);
+	test_read_txt("txt_files/2lines.txt", 2);
+	test_read_txt("txt_files/3lines_with_nl.txt", 3);
 	test_read_txt("txt_files/only_nl.txt", 2);
-	//test_read_error("txt_files/read_error.txt");
+	test_read_error("txt_files/read_error.txt");
 }
 
 void	test_bonus(void)
 {
-	int	fd[3];
+	int		fd[2];
+	char	*s;
 
-	fd[0] = open("txt_files/1line.txt", O_RDONLY);
-	fd[1] = open("txt_files/2lines.txt", O_RDONLY);
-	fd[2] = open("txt_files/3lines_with_nl.txt", O_RDONLY);
+	fd[0] = open("txt_files/2lines.txt", O_RDONLY);
+	fd[1] = open("txt_files/3lines_with_nl.txt", O_RDONLY);
 
 	printf("\n==== multiple files ====\n");
-	printf("%s", get_next_line(fd[0]));
-	printf("%s", get_next_line(fd[1]));
-	printf("%s", get_next_line(fd[2]));
-	printf("%s", get_next_line(fd[0]));
-	printf("%s", get_next_line(fd[1]));
-	printf("%s", get_next_line(fd[2]));
+	s = get_next_line(fd[0]);
+	printf("%s", s);
+	free(s);
+	s = get_next_line(fd[1]);
+	printf("%s", s);
+	free(s);
+	s = get_next_line(fd[0]);
+	printf("%s", s);
+	free(s);
+	s = get_next_line(fd[1]);
+	printf("%s", s);
+	free(s);
 	printf("\n==== end ====\n");
 }
 

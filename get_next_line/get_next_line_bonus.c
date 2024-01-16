@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/16 15:04:57 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/16 15:33:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char	*get_next_line(int fd)
 {
-	static t_files	*files;
-	t_files			*file;
+	static t_file	*file_lst;
+	t_file			*file;
 	ssize_t			nl_index;
 	size_t			repeat_num;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return ((void *)0);
-	file = find_cur_file(&files, fd);
+	file = find_cur_file(&file_lst, fd);
 	if (!file)
 		return ((void *)0);
 	repeat_num = 1;
@@ -31,14 +31,14 @@ char	*get_next_line(int fd)
 		if (nl_index == FILE_ERROR)
 			break ;
 		if (nl_index == FILE_END || nl_index > NO_NL)
-			return (parse_by_nl(&files, file));
+			return (parse_by_nl(&file_lst, file));
 		repeat_num++;
 	}
-	remove_file(&files, fd);
+	remove_file(&file_lst, fd);
 	return ((void *)0);
 }
 
-ssize_t	make_new_str(t_files *file, size_t repeat_num)
+ssize_t	make_new_str(t_file *file, size_t repeat_num)
 {
 	char	*str;
 	char	*new_str;
@@ -90,7 +90,7 @@ ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num)
 	return (r_bytes);
 }
 
-char	*parse_by_nl(t_files **files, t_files *file)
+char	*parse_by_nl(t_file **file_lst, t_file *file)
 {
 	char	*result;
 	char	*backup;
@@ -107,14 +107,14 @@ char	*parse_by_nl(t_files **files, t_files *file)
 		{
 			free(result);
 			free(backup);
-			remove_file(files, file->fd);
+			remove_file(file_lst, file->fd);
 			return ((void *)0);
 		}
 		free(file->str);
 		file->str = backup;
-		file->len = ft_strlen(backup);
+		file->len = file->len - nl_index - 1;
 		return (result);
 	}
-	remove_file(files, file->fd);
+	remove_file(file_lst, file->fd);
 	return (result);
 }

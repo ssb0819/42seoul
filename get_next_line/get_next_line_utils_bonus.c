@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2024/01/16 14:50:15 by subson           ###   ########.fr       */
+/*   Updated: 2024/01/16 15:33:39 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ char	*ft_substr(char const *s, ssize_t start, size_t end)
 	return (res);
 }
 
-t_files	*find_cur_file(t_files **file_p, int fd)
+t_file	*find_cur_file(t_file **file_p, int fd)
 {
-	t_files	*new_file;
+	t_file	*new_file;
 
 	if (*file_p)
 	{
@@ -82,7 +82,7 @@ t_files	*find_cur_file(t_files **file_p, int fd)
 			file_p = &((*file_p)->next);
 		}
 	}
-	new_file = malloc(sizeof(t_files));
+	new_file = malloc(sizeof(t_file));
 	if (!new_file)
 		return ((void *)0);
 	new_file->fd = fd;
@@ -93,9 +93,9 @@ t_files	*find_cur_file(t_files **file_p, int fd)
 	return (new_file);
 }
 
-int	remove_file(t_files **next_p, int fd)
+int	remove_file(t_file **next_p, int fd)
 {
-	t_files	*cur;
+	t_file	*cur;
 
 	if (!next_p)
 		return (0);

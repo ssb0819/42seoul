@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:50:39 by subson            #+#    #+#             */
-/*   Updated: 2024/03/10 20:08:18 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/10 23:06:37 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,38 +24,46 @@ t_list	*lst_init(void)
 	return (list);
 }
 
-int	lst_addfirst(t_list *list, int value)
+t_node	*lst_newnode(int value)
 {
-	t_node	*new_node;
+	t_node	*node;
 
-	new_node = malloc(sizeof(t_node));
-	if (!new_node)
-		return (0);
-	new_node->value = value;
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return ((void *)0);
+	node->value = value;
+	node->prev = (void *)0;
+	node->next = (void *)0;
+	return (node);
+}
+
+void	lst_addfirst(t_list *list, t_node *node)
+{
+	if (!node)
+		return ;
 	if (list->size == 0)
 	{
-		list->head = new_node;
-		new_node->prev = new_node;
-		new_node->next = new_node;
+		list->head = node;
+		node->prev = node;
+		node->next = node;
 	}
 	else
 	{
-		new_node->prev = list->head->prev;
-		new_node->next = list->head;
-		list->head->prev->next = new_node;
-		list->head->prev = new_node;
-		list->head = new_node;
+		node->prev = list->head->prev;
+		node->next = list->head;
+		list->head->prev->next = node;
+		list->head->prev = node;
+		list->head = node;
 	}
 	(list->size)++;
-	return (1);
 }
 
-void	lst_delfirst(t_list *list)
+t_node	*lst_delfirst(t_list *list)
 {
 	t_node	*first_node;
 
 	if (list->size == 0)
-		return ;
+		return ((void *)0);
 	first_node = list->head;
 	if (list->size != 1)
 	{
@@ -65,8 +73,8 @@ void	lst_delfirst(t_list *list)
 	}
 	else
 		list->head = (void *)0;
-	free(first_node);
 	(list->size)--;
+	return (first_node);
 }
 
 void	lst_delall(t_list *list)
@@ -101,4 +109,42 @@ void	printall(t_list *list, char *stack_name)
 		size--;
 	}
 	write(1, "}\n", 2);
+}
+
+void	lst_swap(t_list *list)
+{
+	t_node	*new_second;
+	t_node	*third;
+	t_node	*last;
+
+	if (list->size <= 1)
+		return ;
+	new_second = list->head;
+	if (list->size != 2)
+	{
+		third = list->head->next->next;
+		last = list->head->prev;
+	}
+	else
+	{
+		third = list->head->next;
+		last = new_second;
+	}
+	list->head = list->head->next;
+	last->next = list->head;
+	list->head->next = new_second;
+	new_second->next = third;
+	third->prev = new_second;
+	new_second->prev = list->head;
+	list->head->prev = last;
+}
+
+void	lst_push(t_list *from, t_list *to)
+{
+	lst_addfirst(to, lst_delfirst(from));
+}
+
+void	lst_shift(t_list *list, int direction)
+{
+
 }

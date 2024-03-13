@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/10 21:52:35 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/13 22:55:45 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+# define UP 1
+# define DOWN 0
+# define I_OVERFLOW 2147483648
 
 typedef enum e_operation
 {
@@ -45,11 +49,24 @@ typedef struct s_list
 	t_node	*head;
 }	t_list;
 
-t_list	*lst_init(void);
-int		lst_addfirst(t_list *list, int value);
-void	lst_delfirst(t_list *list);
-void	lst_delall(t_list *list);
-void	printall(t_list *list, char *stack_name); // 디버깅용 - 삭제예정
+int		init_stack(int argc, char **argv, t_list *stack_a);
+void	execute_operation(t_operation cmd, t_list *stack_a, t_list *stack_b);
+void	execute_rotate(t_operation cmd, t_list *stack_a, t_list *stack_b);
 
+t_list	*lst_init(void);
+t_node	*lst_newnode(int value);
+int		lst_addfirst(t_list *list, t_node *node);
+t_node	*lst_delfirst(t_list *list);
+void	lst_del_allnode(t_list *list);
+
+void	lst_swap(t_list *list);
+void	lst_shift(t_list *list, int direction);
+int		lst_check_dupl(t_list *list, int value);
+
+long	ps_strtol(char **str_p);
+
+//디버깅
+void	printall(t_list *list, char *stack_name);
+char		*ft_itoa(int n);
 
 #endif

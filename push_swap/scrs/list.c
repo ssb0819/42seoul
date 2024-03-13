@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:50:39 by subson            #+#    #+#             */
-/*   Updated: 2024/03/10 23:06:37 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/13 22:52:31 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ t_node	*lst_newnode(int value)
 	return (node);
 }
 
-void	lst_addfirst(t_list *list, t_node *node)
+int	lst_addfirst(t_list *list, t_node *node)
 {
-	if (!node)
-		return ;
+	if (!list || !node)
+		return (0);
 	if (list->size == 0)
 	{
 		list->head = node;
@@ -55,14 +55,14 @@ void	lst_addfirst(t_list *list, t_node *node)
 		list->head->prev = node;
 		list->head = node;
 	}
-	(list->size)++;
+	return(++(list->size));
 }
 
 t_node	*lst_delfirst(t_list *list)
 {
 	t_node	*first_node;
 
-	if (list->size == 0)
+	if (!list || list->size == 0)
 		return ((void *)0);
 	first_node = list->head;
 	if (list->size != 1)
@@ -77,38 +77,20 @@ t_node	*lst_delfirst(t_list *list)
 	return (first_node);
 }
 
-void	lst_delall(t_list *list)
+void	lst_del_allnode(t_list *list)
 {
+	t_node	*node;
+
+	if (!list)
+		return ;
 	while (list->size)
 	{
+		node = list->head;
 		list->head = list->head->next;
-		free(list->head->prev);
+		free(node);
 		(list->size)--;
 	}
 	list->head = (void *)0;
-}
-
-// 디버깅용 나중에 삭제할 것
-void	printall(t_list *list, char *stack_name)
-{
-	int		size;
-	t_node	*head;
-	int		value;
-
-	size = list->size;
-	head = list->head;
-	write(1, "debugging stack-", 16);
-	write(1, stack_name, 1);
-	write(1, "\t{ ", 3);
-	while (size)
-	{
-		head = head->next;
-		value = head->prev->value + '0';
-		write(1, &value, 1);
-		write(1, " ", 1);
-		size--;
-	}
-	write(1, "}\n", 2);
 }
 
 void	lst_swap(t_list *list)
@@ -117,7 +99,7 @@ void	lst_swap(t_list *list)
 	t_node	*third;
 	t_node	*last;
 
-	if (list->size <= 1)
+	if (!list || list->size <= 1)
 		return ;
 	new_second = list->head;
 	if (list->size != 2)
@@ -139,12 +121,31 @@ void	lst_swap(t_list *list)
 	list->head->prev = last;
 }
 
-void	lst_push(t_list *from, t_list *to)
-{
-	lst_addfirst(to, lst_delfirst(from));
-}
-
 void	lst_shift(t_list *list, int direction)
 {
+	if (!list || list->size == 0)
+		return ;
+	if (direction == UP)
+		list->head = list->head->next;
+	else if (direction == DOWN)
+		list->head = list->head->prev;
+}
 
+int	lst_check_dupl(t_list *list, int value)
+{
+	t_node	*node;
+	int		size;
+
+	if (!list || list->size == 0)
+		return (0);
+	size = list->size;
+	node = list->head;
+	while (size)
+	{
+		if (node->value == value)
+			return (1);
+		node = node->next;
+		size--;
+	}
+	return (0);
 }

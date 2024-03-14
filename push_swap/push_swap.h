@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/13 22:55:45 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/14 21:35:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,45 @@ typedef struct s_node
 {
 	struct s_node	*prev;
 	struct s_node	*next;
-	int				value;
+	long			value;
 }	t_node;
 
 typedef struct s_list
 {
-	int		size;
+	long	size;
 	t_node	*head;
 }	t_list;
 
+// ps_main.c
 int		init_stack(int argc, char **argv, t_list *stack_a);
 void	execute_operation(t_operation cmd, t_list *stack_a, t_list *stack_b);
 void	execute_rotate(t_operation cmd, t_list *stack_a, t_list *stack_b);
+int		push_swap(t_list *stack_a, t_list *stack_b);
+void	partition_stack(t_list *stack_a, t_list *stack_b);
 
+// ps_list.c
 t_list	*lst_init(void);
-t_node	*lst_newnode(int value);
-int		lst_addfirst(t_list *list, t_node *node);
+t_node	*lst_newnode(long value);
+long	lst_addfirst(t_list *list, t_node *node);
 t_node	*lst_delfirst(t_list *list);
 void	lst_del_allnode(t_list *list);
 
-void	lst_swap(t_list *list);
-void	lst_shift(t_list *list, int direction);
-int		lst_check_dupl(t_list *list, int value);
+int		lst_swap(t_list *list);
+int		lst_shift(t_list *list, int direction);
+int		lst_check_dupl(t_list *list, long value);
 
+// ps_utils.c
 long	ps_strtol(char **str_p);
+
+// ps_sort.c
+int		set_sorted_index(t_list *list);
+void	quick_sort(t_node **arr, long start, long end);
+long	divide_arr(t_node **arr, long start, long end);
+void	swap_arr(t_node **arr, long left, long right);
 
 //디버깅
 void	printall(t_list *list, char *stack_name);
-char		*ft_itoa(int n);
+char	*ft_itoa(int n);
+void	print_cmd(t_operation cmd);
 
 #endif

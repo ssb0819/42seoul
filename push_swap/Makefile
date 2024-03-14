@@ -4,7 +4,7 @@ CC = cc
 AR = ar
 
 CFLAGS = -Wall -Wextra -Werror
-SRCS = scrs/main.c scrs/list.c scrs/utils.c
+SRCS = scrs/ps_main.c scrs/ps_list.c scrs/ps_utils.c scrs/ps_sort.c
 OBJS = ${SRCS:.c=.o}
 
 .PHONY : all clean fclean re
@@ -25,7 +25,7 @@ $(NAME) : $(OBJS)
 	${CC} ${CFLAGS} ${OBJS} -o ${NAME}
 
 
-TESTOBJS = scrs/main.c scrs/list.c scrs/utils.c test/debug.c
+TESTOBJS = scrs/ps_main.c scrs/ps_list.c scrs/ps_utils.c scrs/ps_sort.c test/debug.c
 test_ps : ${TESTOBJS}
 	cc -Wall -Wextra -Werror -g ${TESTOBJS} -o test_ps
 tclean : fclean

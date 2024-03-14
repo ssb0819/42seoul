@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ps_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:26 by subson            #+#    #+#             */
-/*   Updated: 2024/03/13 22:40:43 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/14 21:36:38 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	printall(stack_a, "a");
+	if (set_sorted_index(stack_a))
+		printall(stack_a, "a");
+	push_swap(stack_a, stack_b);
+	printall(stack_b, "b");
+
 }
 
 int	init_stack(int argc, char **argv, t_list *stack_a)
@@ -42,9 +47,9 @@ int	init_stack(int argc, char **argv, t_list *stack_a)
 		while (**str_p)
 		{
 			num = ps_strtol(str_p);
-			if (num != I_OVERFLOW && !lst_check_dupl(stack_a, (int)num))
+			if (num != I_OVERFLOW && !lst_check_dupl(stack_a, num))
 			{
-				lst_addfirst(stack_a, lst_newnode((int)num));
+				lst_addfirst(stack_a, lst_newnode(num));
 				lst_shift(stack_a, UP);
 			}
 			else
@@ -53,6 +58,39 @@ int	init_stack(int argc, char **argv, t_list *stack_a)
 		i++;
 	}
 	return (1);
+}
+
+int	push_swap(t_list *stack_a, t_list *stack_b)
+{
+	partition_stack(stack_a, stack_b);
+	return (1);
+}
+
+void	partition_stack(t_list *stack_a, t_list *stack_b)
+{
+	long	pivot1;
+	long	pivot2;
+	long	size;
+	long	value;
+
+	pivot1 = stack_a->size / 3 + 1;
+	pivot2 = stack_a->size / 3 * 2 + 1;
+	size = stack_a->size;
+	while (size--)
+	{
+		value = stack_a->head->value;
+		if (value <= pivot1)
+		{
+			execute_operation(PB, stack_a, stack_b);
+			execute_operation(RB, stack_a, stack_b);
+		}
+		else if (value > pivot1 && value <= pivot2)
+			execute_operation(PB, stack_a, stack_b);
+		else
+			execute_operation(RA, stack_a, stack_b);
+	}
+	while (stack_a->size)
+		execute_operation(PB, stack_a, stack_b);
 }
 
 void	execute_operation(t_operation cmd, t_list *stack_a, t_list *stack_b)
@@ -72,6 +110,9 @@ void	execute_operation(t_operation cmd, t_list *stack_a, t_list *stack_b)
 		lst_addfirst(stack_b, lst_delfirst(stack_a));
 	else
 		execute_rotate(cmd, stack_a, stack_b);
+	print_cmd(cmd);
+	printall(stack_a, "a");
+	printall(stack_b, "b");
 }
 
 void	execute_rotate(t_operation cmd, t_list *stack_a, t_list *stack_b)

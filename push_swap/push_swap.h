@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/14 21:35:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/16 21:40:45 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 # define UP 1
 # define DOWN 0
-# define I_OVERFLOW 2147483648
+# define I_OVERFLOW 2147483648	// INT_MAX + 1
 
 typedef enum e_operation
 {
-	SA,
+	SA = 1,
 	SB,
 	SS,
 	PA,

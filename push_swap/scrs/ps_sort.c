@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:17:37 by subson            #+#    #+#             */
-/*   Updated: 2024/03/14 20:34:20 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/17 23:29:55 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,19 @@ int	set_sorted_index(t_list *list)
 		node = node->next;
 		i++;
 	}
+	free(node_arr);
 	return (1);
 }
 
 void	quick_sort(t_node **arr, long start, long end)
 {
-	if(start < end){
-    	long pivot_i = divide_arr(arr, start, end);
+	long	pivot_i;
 
-    quick_sort(arr, start, pivot_i - 1);
-    quick_sort(arr, pivot_i + 1, end);
+	if (start < end)
+	{
+		pivot_i = divide_arr(arr, start, end);
+		quick_sort(arr, start, pivot_i - 1);
+		quick_sort(arr, pivot_i + 1, end);
 	}
 }
 

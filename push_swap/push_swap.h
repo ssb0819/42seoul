@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/16 21:40:45 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/17 23:14:56 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ typedef enum e_operation
 	RRB,
 	RRR
 }	t_operation;
+
+typedef enum e_op_comb
+{
+	RR_RA = 0,
+	RR_RB,
+	RRR_RRA,
+	RRR_RRB,
+	RA_RRB,
+	RRA_RB
+}	t_op_comb;
+
+typedef struct s_op_num
+{
+	long		from_index;
+	long		to_index;
+	t_op_comb	op_comb;
+	long		total_num;
+}	t_op_num;
 
 // Circular doubly linked list
 typedef struct s_node

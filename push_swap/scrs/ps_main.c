@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:26 by subson            #+#    #+#             */
-/*   Updated: 2024/03/16 23:33:42 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/17 23:30:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv)
 	partition_stack(stack_a, stack_b);
 	printall(stack_b, "b");
 	sort_stack(stack_a, stack_b);
-
 }
 
 int	init_stack(int argc, char **argv, t_list *stack_a)
@@ -90,44 +89,45 @@ void	partition_stack(t_list *stack_a, t_list *stack_b)
 
 void	sort_stack(t_list *stack_a, t_list *stack_b)
 {
-	int		*cmds;
-	long	min_stack_a;
-
-	min_stack_a = 0;
-	while (stack_b->size)
-	{
-		cmds = get_cmds(stack_a, stack_b, &min_stack_a);
-		execute_cmds(cmds);
-	}
-}
-
-int	*get_cmds(t_list *stack_a, t_list *stack_b, long *min_stack_a)
-{
 	long	*cmds;
-	long	min_num;
-	long	min_index;
+	long	min_stack_a;
 	long	i;
 
-	cmds = malloc(sizeof(int) * 12);
+	min_stack_a = 0;
+	cmds = malloc(sizeof(long) * 12);
 	if (!cmds)
 		return ((void *)0);
 	i = 0;
 	while (i < 12)
 		cmds[i++] = 0;
+	while (stack_b->size)
+	{
+		find_minimal_move(stack_a, stack_b, &min_stack_a, cmds);
+		execute_move(cmds);
+	}
+}
+
+int	*find_minimal_move(t_list *stack_a, t_list *stack_b, long *min_stack_a, long *cmds)
+{
+	long	min_num;
+	long	i;
+	int		direction;
+
 	i = 0;
 	while (i < stack_b->size)
 	{
 		cmds[RB] = i;
 		if (stack_a->size)
 			cmds[RA] = get_index_a(min_stack_a, stack_a, cmds[RB], stack_b);
-		if (cal_cmds_num(cmds, stack_a->size, stack_b->size, min_num) < min_num)
+		direction = calc_cmd_num(cmds, stack_a->size, stack_b->size);
+		if (cmds[0] < min_num)
 		{
 			min_num = cmds[0];
-			min_index = i;
+			set_cmds();
 		}
 		i++;
 	}
-	return (set_cmds(cmds));
+	return (set_cmds(cmds, stack_a->size, stack_b->size));
 }
 
 long	get_index_a(long *min_a, t_list *stack_a, long index_b, t_list *stack_b)
@@ -148,7 +148,12 @@ long	get_index_a(long *min_a, t_list *stack_a, long index_b, t_list *stack_b)
 		node = node->next;
 		i++;
 	}
-	if (value < *min_a || value > node->prev->value)
+	if (value < *min_a)
+	{
+		*min_a = value;
+		return (i);
+	}
+	if (value > node->prev->value)
 		return (i);
 	while (node->value < value)
 	{
@@ -158,35 +163,40 @@ long	get_index_a(long *min_a, t_list *stack_a, long index_b, t_list *stack_b)
 	return (i % stack_a->size);
 }
 
-long	*cal_cmds_num(long *cmds, long asize, long bsize, long *min_num)
+int	calc_cmd_num(long *cmds, long asize, long bsize)
 {
-	long	cmds_num;
+	long	ra_rb;
+	long	rra_rrb;
+	long	ra_rrb;
+	long	rra_rb;
 
-	if (cmds[RA] <= (asize / 2) && cmds[RB] <= (bsize / 2))
-	{
-		if (cmds[RA] < cmds[RB])
-			return (cmds[RB]);
-		else
-			return (cmds[RA]);
-	}
-	else
-	{
-		cmds_num = asize - cmds[RA];
-		if (cmds_num < bsize - cmds[RB])
-			cmds_num = bsize - cmds[RB];
-		if (cmds[RA] > (asize / 2) && cmds[RB] > (bsize / 2))
-			return (cmds_num);
-		if (cmds[RA] + bsize - cmds[RB] < cmds_num)
-			cmds_num = cmds[RA] + bsize - cmds[RB];
-		else if (cmds[RB] + asize - cmds[RA] < cmds_num)
-			cmds_num = cmds[RB] + asize - cmds[RA];
-		return (cmds_num);
-	}
+	ra_rb = cmds[RA];
+	if (ra_rb < cmds[RB])
+		ra_rb = cmds[RB];
+	rra_rrb = asize - cmds[RA];
+	if (rra_rrb < bsize - cmds[RB])
+		rra_rrb = bsize - cmds[RB];
+	ra_rrb = cmds[RA] + bsize - cmds[RB];
+	rra_rb = asize - cmds[RA] + cmds[RB];
+	cmds[0] = ra_rb;
+	if (rra_rrb < cmds[0])
+		cmds[0] = rra_rrb;
+	if (ra_rrb < cmds[0])
+		cmds[0] = ra_rrb;
+	if (rra_rb < cmds[0])
+		cmds[0] = rra_rb;
+	if (cmds[0] == ra_rb)
+		return (UP);
+	if (cmds[0] == rra_rrb)
+		return (DOWN);
+	return (-1);
 }
 
-long	*set_cmds(long *cmds) // 수정
-{
 
+
+long	*set_cmds(long *cmds, long asize, long bsize)
+{
+	
 
 	bigger_i = 0;
 	if (index_ab[0] <= (asize / 2) && index_ab[1] <= (bsize / 2))

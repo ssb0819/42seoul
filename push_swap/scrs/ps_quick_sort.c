@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_sort.c                                          :+:      :+:    :+:   */
+/*   ps_quick_sort.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:17:37 by subson            #+#    #+#             */
-/*   Updated: 2024/03/17 23:29:55 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:20:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	set_sorted_index(t_list *list)
 
 	if (!list || list->size == 0)
 		return (0);
-	node_arr = malloc(sizeof(t_node*) * (list->size));
+	node_arr = malloc(sizeof(t_node *) * (list->size));
 	if (!node_arr)
 		return (0);
 	i = 0;

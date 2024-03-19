@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:50:39 by subson            #+#    #+#             */
-/*   Updated: 2024/03/14 20:43:10 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:31:42 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ long	lst_addfirst(t_list *list, t_node *node)
 	return (++(list->size));
 }
 
+long	lst_add_new_last(t_list *list, long num)
+{
+	t_node	*node;
+	long	size;
+
+	node = lst_newnode(num);
+	if (!node)
+		return (0);
+	size = lst_addfirst(list, node);
+	lst_shift(list, UP);
+	return (size);
+}
+
 t_node	*lst_delfirst(t_list *list)
 {
 	t_node	*first_node;
@@ -75,79 +88,4 @@ t_node	*lst_delfirst(t_list *list)
 		list->head = (void *)0;
 	(list->size)--;
 	return (first_node);
-}
-
-void	lst_del_allnode(t_list *list)
-{
-	t_node	*node;
-
-	if (!list)
-		return ;
-	while (list->size)
-	{
-		node = list->head;
-		list->head = list->head->next;
-		free(node);
-		(list->size)--;
-	}
-	list->head = (void *)0;
-}
-
-int	lst_swap(t_list *list)
-{
-	t_node	*new_second;
-	t_node	*third;
-	t_node	*last;
-
-	if (!list || list->size <= 1)
-		return (0);
-	new_second = list->head;
-	if (list->size != 2)
-	{
-		third = list->head->next->next;
-		last = list->head->prev;
-	}
-	else
-	{
-		third = list->head->next;
-		last = new_second;
-	}
-	list->head = list->head->next;
-	last->next = list->head;
-	list->head->next = new_second;
-	new_second->next = third;
-	third->prev = new_second;
-	new_second->prev = list->head;
-	list->head->prev = last;
-	return (1);
-}
-
-int	lst_shift(t_list *list, int direction)
-{
-	if (!list || list->size == 0)
-		return (0);
-	if (direction == UP)
-		list->head = list->head->next;
-	else if (direction == DOWN)
-		list->head = list->head->prev;
-	return (1);
-}
-
-int	lst_check_dupl(t_list *list, long value)
-{
-	t_node	*node;
-	long	size;
-
-	if (!list || list->size == 0)
-		return (0);
-	size = list->size;
-	node = list->head;
-	while (size)
-	{
-		if (node->value == value)
-			return (1);
-		node = node->next;
-		size--;
-	}
-	return (0);
 }

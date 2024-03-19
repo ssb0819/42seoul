@@ -3,30 +3,32 @@ RM = rm -f
 CC = cc
 AR = ar
 
-CFLAGS = -Wall -Wextra -Werror
-SRCS = scrs/ps_main.c scrs/ps_list.c scrs/ps_utils.c scrs/ps_sort.c
-OBJS = ${SRCS:.c=.o}
+CFLAGS = -Wall -Wextra -Werror -g
+SRCS_DIR = scrs
+SRCS = debug.c ps_list.c ps_list2.c ps_main.c ps_operation.c ps_quick_sort.c ps_sort_stack.c
+OBJ_DIR = objs
+OBJS = ${SRCS_DIR}/${SRCS:.c=.o}
+OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))
 
 .PHONY : all clean fclean re
 
 all : ${NAME}
 
 clean :
-	$(RM) $(OBJS) 
+	$(RM) $(OBJS_FILES) 
 
 fclean : 
-	$(RM) $(OBJS) $(NAME)
+	$(RM) -r ${OBJ_DIR} $(NAME)
 
 re : 
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(NAME) : $(OBJS)
-	${CC} ${CFLAGS} ${OBJS} -o ${NAME}
+$(NAME) : $(OBJ_FILES)
+	${CC} ${CFLAGS} $^ -o $@
 
+$(OBJ_DIR) :
+	mkdir -p $(OBJ_DIR)
 
-TESTOBJS = scrs/ps_main.c scrs/ps_list.c scrs/ps_utils.c scrs/ps_sort.c test/debug.c
-test_ps : ${TESTOBJS}
-	cc -Wall -Wextra -Werror -g ${TESTOBJS} -o test_ps
-tclean : fclean
-	rm -f test_ps test/*.o
+$(OBJ_DIR)/%.o : ${SRCS_DIR}/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAG) -c $< -o $@

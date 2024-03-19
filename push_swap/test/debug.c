@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 22:48:57 by subson            #+#    #+#             */
-/*   Updated: 2024/03/14 21:33:59 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:41:20 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_itoa(int n)
 	return (res);
 }
 
-int static	get_len(long n)
+int	static	get_len(long n)
 {
 	int	len;
 
@@ -93,30 +93,4 @@ void	printall(t_list *list, char *stack_name)
 	write(1, "}\tsize: ", 8);
 	write(1, &size, 1);
 	write(1, "\n", 1);
-}
-
-void	print_cmd(t_operation cmd)
-{
-	if (cmd == SA)
-		write(1, "sa\n", 3);
-	else if (cmd == SB)
-		write(1, "sb\n", 3);
-	else if (cmd == SS)
-		write(1, "ss\n", 3);
-	else if (cmd == PA)
-		write(1, "pa\n", 3);
-	else if (cmd == PB)
-		write(1, "pb\n", 3);
-	else if (cmd == RA)
-		write(1, "ra\n", 3);
-	else if (cmd == RB)
-		write(1, "rb\n", 3);
-	else if (cmd == RR)
-		write(1, "rr\n", 3);
-	else if (cmd == RRA)
-		write(1, "rra\n", 4);
-	else if (cmd == RRB)
-		write(1, "rrb\n", 4);
-	else if (cmd == RRR)
-		write(1, "rrr\n", 4);
 }

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:26 by subson            #+#    #+#             */
-/*   Updated: 2024/03/17 23:30:27 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:31:58 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,300 +14,129 @@
 
 int	main(int argc, char **argv)
 {
-	t_list	*stack_a;
-	t_list	*stack_b;
+	t_list	*stacks[2];	
 
 	if (argc < 2)
 		return (0);
-	stack_a = lst_init();
-	stack_b = lst_init();
-	if (!init_stack(argc, argv, stack_a))
+	if (!init_stack(argc, argv, stacks))
 	{
-		write(1, "Error\n", 6);
+		lst_free_all(stacks, 1);
 		return (0);
 	}
-	printall(stack_a, "a");
-	if (set_sorted_index(stack_a))
-		printall(stack_a, "a");
-	partition_stack(stack_a, stack_b);
-	printall(stack_b, "b");
-	sort_stack(stack_a, stack_b);
+	printall(stacks[A], "a");
+	if (!set_sorted_index(stacks[A]))
+		lst_free_all(stacks, 1);
+	else
+		printall(stacks[A], "a");
+	partition_stack(stacks[A], stacks[B]);
+	if (!sort_stack(stacks[B], stacks[A]))
+		lst_free_all(stacks, 1);
+	lst_free_all(stacks, 0);
 }
 
-int	init_stack(int argc, char **argv, t_list *stack_a)
+int	init_stack(int argc, char **argv, t_list *stacks[])
 {
 	char	**str_p;
 	long	num;
 	int		i;
 
-	i = 1;
-	while (i < argc)
+	stacks[A] = lst_init();
+	stacks[B] = lst_init();
+	if (!stacks[A] || stacks[B])
+		return (0);
+	i = 0;
+	while (++i < argc)
 	{
 		str_p = &(argv[i]);
 		while (**str_p)
 		{
 			num = ps_strtol(str_p);
-			if (num != I_OVERFLOW && !lst_check_dupl(stack_a, num))
+			if (num != I_OVERFLOW && !lst_check_dupl(stacks[A], num))
 			{
-				lst_addfirst(stack_a, lst_newnode(num));
-				lst_shift(stack_a, UP);
+				if (!lst_add_new_last(stacks[A], num))
+				{
+					lst_del_allnode(stacks[A]);
+					return (0);
+				}
 			}
 			else
 				return (0);
 		}
-		i++;
 	}
 	return (1);
 }
 
-void	partition_stack(t_list *stack_a, t_list *stack_b)
+void	partition_stack(t_list *from, t_list *to)
 {
 	long	pivot1;
 	long	pivot2;
 	long	size;
 	long	value;
 
-	pivot1 = stack_a->size / 3 + 1;
-	pivot2 = stack_a->size / 3 * 2 + 1;
-	size = stack_a->size;
+	pivot1 = from->size / 3 + 1;
+	pivot2 = from->size / 3 * 2 + 1;
+	size = from->size;
 	while (size--)
 	{
-		value = stack_a->head->value;
+		value = from->head->value;
 		if (value <= pivot1)
 		{
-			execute_operation(PB, stack_a, stack_b);
-			execute_operation(RB, stack_a, stack_b);
+			exe_op(PB, from, to);
+			exe_op(RB, from, to);
 		}
 		else if (value > pivot1 && value <= pivot2)
-			execute_operation(PB, stack_a, stack_b);
+			exe_op(PB, from, to);
 		else
-			execute_operation(RA, stack_a, stack_b);
+			exe_op(RA, from, to);
 	}
-	while (stack_a->size)
-		execute_operation(PB, stack_a, stack_b);
+	while (from->size)
+		exe_op(PB, from, to);
 }
 
-void	sort_stack(t_list *stack_a, t_list *stack_b)
+long	ps_strtol(char **str)
 {
-	long	*cmds;
-	long	min_stack_a;
-	long	i;
+	long	result;
+	int		minus_sign;
 
-	min_stack_a = 0;
-	cmds = malloc(sizeof(long) * 12);
-	if (!cmds)
-		return ((void *)0);
-	i = 0;
-	while (i < 12)
-		cmds[i++] = 0;
-	while (stack_b->size)
+	if (ps_check_format(&minus_sign, str) == 0)
+		return (I_OVERFLOW);
+	result = 0;
+	while (**str)
 	{
-		find_minimal_move(stack_a, stack_b, &min_stack_a, cmds);
-		execute_move(cmds);
-	}
-}
-
-int	*find_minimal_move(t_list *stack_a, t_list *stack_b, long *min_stack_a, long *cmds)
-{
-	long	min_num;
-	long	i;
-	int		direction;
-
-	i = 0;
-	while (i < stack_b->size)
-	{
-		cmds[RB] = i;
-		if (stack_a->size)
-			cmds[RA] = get_index_a(min_stack_a, stack_a, cmds[RB], stack_b);
-		direction = calc_cmd_num(cmds, stack_a->size, stack_b->size);
-		if (cmds[0] < min_num)
+		if (**str >= '0' && **str <= '9')
 		{
-			min_num = cmds[0];
-			set_cmds();
+			result = result * 10 + (**str - '0');
+			(*str)++;
+			if (result > I_OVERFLOW || (result == I_OVERFLOW && minus_sign > 0))
+				return (I_OVERFLOW);
 		}
-		i++;
-	}
-	return (set_cmds(cmds, stack_a->size, stack_b->size));
-}
-
-long	get_index_a(long *min_a, t_list *stack_a, long index_b, t_list *stack_b)
-{
-	long	i;
-	long	value;
-	t_node	*node;
-
-	i = 0;
-	node = stack_b->head;
-	while (i < index_b)
-		node = node->next;
-	value = node->value;
-	i = 0;
-	node = stack_a->head;
-	while (node->value != *min_a)
-	{
-		node = node->next;
-		i++;
-	}
-	if (value < *min_a)
-	{
-		*min_a = value;
-		return (i);
-	}
-	if (value > node->prev->value)
-		return (i);
-	while (node->value < value)
-	{
-		node = node->next;
-		i++;
-	}
-	return (i % stack_a->size);
-}
-
-int	calc_cmd_num(long *cmds, long asize, long bsize)
-{
-	long	ra_rb;
-	long	rra_rrb;
-	long	ra_rrb;
-	long	rra_rb;
-
-	ra_rb = cmds[RA];
-	if (ra_rb < cmds[RB])
-		ra_rb = cmds[RB];
-	rra_rrb = asize - cmds[RA];
-	if (rra_rrb < bsize - cmds[RB])
-		rra_rrb = bsize - cmds[RB];
-	ra_rrb = cmds[RA] + bsize - cmds[RB];
-	rra_rb = asize - cmds[RA] + cmds[RB];
-	cmds[0] = ra_rb;
-	if (rra_rrb < cmds[0])
-		cmds[0] = rra_rrb;
-	if (ra_rrb < cmds[0])
-		cmds[0] = ra_rrb;
-	if (rra_rb < cmds[0])
-		cmds[0] = rra_rb;
-	if (cmds[0] == ra_rb)
-		return (UP);
-	if (cmds[0] == rra_rrb)
-		return (DOWN);
-	return (-1);
-}
-
-
-
-long	*set_cmds(long *cmds, long asize, long bsize)
-{
-	
-
-	bigger_i = 0;
-	if (index_ab[0] <= (asize / 2) && index_ab[1] <= (bsize / 2))
-	{
-		if (index_ab[0] < index_ab[1])
-		bigger_i = 1;
-		cmds[0] = (int)index_ab[bigger_i];
-		cmds[RR] = (int)index_ab[!bigger_i];
-		cmds[RA + bigger_i] = (int)(index_ab[bigger_i] - index_ab[!bigger_i]);
-	}
-	else if (index_ab[0] > (asize / 2) && index_ab[1] > (bsize / 2))
-	{
-		index_ab[0] = (int)(asize - index_ab[0]);
-		index_ab[1] = (int)(bsize - index_ab[1]);
-		if (index_ab[0] < index_ab[1])
-			bigger_i = 1;
-		cmds[0] = index_ab[bigger_i];
-		cmds[RRR] = index_ab[!bigger_i];
-		cmds[RRA + bigger_i] = index_ab[bigger_i] - index_ab[!bigger_i];
-	}
-	else if (index_ab[0] > (asize / 2))
-	{
-		bigger_rrab = (int)(asize - index_ab[0]);
-		if (bigger_rrab < (int)(bsize - index_ab[1]))
-			bigger_rrab = (int)(bsize - index_ab[1]);
-		if (bigger_rrab <= asize - index_ab[0] + index_ab[1])
+		else if (**str == ' ' || (**str >= 9 && **str <= 13))
 		{
-			// rra rrb -> 두번째 조건이랑 똑같음
-		}
+			while (**str == ' ' || (**str >= 9 && **str <= 13))
+				(*str)++;
+			return (result * minus_sign);
+		}		
 		else
-		{
-			cmds[0] = asize - index_ab[0] + index_ab[1];
-			cmds[RRA] = asize - index_ab[0];
-			cmds[RB] = index_ab[1];
-		}
+			return (I_OVERFLOW);
 	}
-	else // 고치다 말았음
-	{
-		bigger_rrab = (int)(asize - index_ab[0]);
-		if (bigger_rrab < (int)(bsize - index_ab[1]))
-			bigger_rrab = (int)(bsize - index_ab[1]);
-		if (bigger_rrab <= index_ab[0] + bsize - index_ab[1])
-		{
-			// rra rrb -> 두번째 조건이랑 똑같음
-		}
-		else
-		{
-			cmds[0] = asize - index_ab[0] + index_ab[1];
-			cmds[RA] = index_ab[0];
-			cmds[RRB] = bsize - index_ab[1];
-		}
-	}
+	return (result * minus_sign);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void	execute_operation(t_operation cmd, t_list *stack_a, t_list *stack_b)
+int	ps_check_format(int *minus_sign, char **str)
 {
-	if (cmd == SA)
-		lst_swap(stack_a);
-	else if (cmd == SB)
-		lst_swap(stack_b);
-	else if (cmd == SS)
+	if (!str || !(*str) || !(**str))
+		return (0);
+	*minus_sign = 1;
+	while (**str == ' ' || (**str >= 9 && **str <= 13))
+		(*str)++;
+	while (**str == '-' || **str == '+')
 	{
-		lst_swap(stack_a);
-		lst_swap(stack_b);
+		if (**str == '-')
+			*minus_sign *= -1;
+		(*str)++;
 	}
-	else if (cmd == PA)
-		lst_addfirst(stack_a, lst_delfirst(stack_b));
-	else if (cmd == PB)
-		lst_addfirst(stack_b, lst_delfirst(stack_a));
+	if (**str >= '0' && **str <= '9')
+		return (*minus_sign);
 	else
-		execute_rotate(cmd, stack_a, stack_b);
-	print_cmd(cmd);
-	printall(stack_a, "a");
-	printall(stack_b, "b");
-}
-
-void	execute_rotate(t_operation cmd, t_list *stack_a, t_list *stack_b)
-{
-	if (cmd == RA)
-		lst_shift(stack_a, UP);
-	else if (cmd == RB)
-		lst_shift(stack_b, UP);
-	else if (cmd == RR)
-	{
-		lst_shift(stack_a, UP);
-		lst_shift(stack_b, UP);
-	}
-	else if (cmd == RRA)
-		lst_shift(stack_a, DOWN);
-	else if (cmd == RRB)
-		lst_shift(stack_b, DOWN);
-	else if (cmd == RRR)
-	{
-		lst_shift(stack_a, DOWN);
-		lst_shift(stack_b, DOWN);
-	}
+		return (0);
 }

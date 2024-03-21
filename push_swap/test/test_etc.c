@@ -2,7 +2,7 @@
 
 int	main(void)
 {
-	int	 a = 10;
+	int	 a = -3;
 	a = !a;
-	printf("%i", a);
+	printf("%d", a % 5);
 }

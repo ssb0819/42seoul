@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/19 21:31:51 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/21 22:40:19 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef enum e_op_comb
 {
 	RR_RA = 0,
 	RR_RB,
+	RA_RRB,
 	RRR_RRA,
 	RRR_RRB,
-	RA_RRB,
 	RRA_RB
 }	t_op_comb;
 
@@ -87,13 +87,12 @@ void	lst_free_all(t_list *lists[], int is_error);
 
 // ps_main.c
 int		init_stack(int argc, char **argv, t_list *stacks[]);
-int		push_swap(t_list *stack_a, t_list *stack_b);
 void	partition_stack(t_list *from, t_list *to);
 long	ps_strtol(char **str_p);
 int		ps_check_format(int *minus_sign, char **str);
 
 // ps_operation.c
-void	exe_multi_rotate(t_move_op *op, t_list *stacks[]);
+void	exe_move_op(t_move_op *op, t_list *stacks[]);
 void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b);
 void	print_op(t_operation op);
 
@@ -102,13 +101,15 @@ int		set_sorted_index(t_list *list);
 void	quick_sort(t_node **arr, long start, long end);
 long	divide_arr(t_node **arr, long start, long end);
 void	swap_arr(t_node **arr, long left, long right);
+void	copy_move_op(t_move_op *from, t_move_op *to);
 
 // ps_sort_stack.c
 int		sort_stack(t_list *from, t_list *to);
-void	find_min_move(t_list *stacks[], long *min_sorted, t_move_op *min_move);
-long	get_to_index(long *min_sorted, t_list *stack, long target);
+void	find_min_move(t_list *stacks[], t_node **min_p, t_move_op *min_move);
+long	get_to_index(t_node **min_p, t_list *stack, long target);
 void	calc_total_num(t_move_op *move_op);
-void	copy_op(t_move_op *from, t_move_op *to);
+void	rotate_stack_a(t_list *stack[], t_node *min_p);
+
 
 // debugging
 void	printall(t_list *list, char *stack_name);

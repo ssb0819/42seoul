@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 22:48:57 by subson            #+#    #+#             */
-/*   Updated: 2024/03/19 20:41:20 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/21 18:33:34 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "./push_swap.h"
 
 int static	get_len(long n);
 void static	set_num(char *array, int len, long n);
@@ -56,7 +56,7 @@ int	static	get_len(long n)
 
 void static	set_num(char *array, int len, long n)
 {
-	array[len] = 0;
+	array[len] = '\0';
 	if (n == 0)
 		array[0] = '0';
 	else

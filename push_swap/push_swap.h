@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 20:07:45 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:37:54 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	move_all(t_list *from, t_list *to);
 // ps_list.c
 t_list	*lst_init(void);
 t_node	*lst_newnode(long value);
-long	lst_addfirst(t_list *list, t_node *node);
-long	lst_add_new_last(t_list *list, long num);
+int		lst_addfirst(t_list *list, t_node *node);
+int		lst_add_new_last(t_list *list, long num);
 t_node	*lst_delfirst(t_list *list);
 
 // ps_list2.c
@@ -97,6 +97,7 @@ long	ps_strtol(char **str_p);
 int		ps_check_format(int *minus_sign, char **str);
 void	partition_stack(t_list *from, t_list *to);
 void	sort_small_stack(t_list *stack);
+int		check_sorted(t_list *stack, t_node **min_sorted);
 
 // ps_operation.c
 void	exe_move_op(t_move_op *op, t_list *stacks[]);

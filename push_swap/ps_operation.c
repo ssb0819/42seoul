@@ -6,14 +6,14 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:25:31 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 19:46:54 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:39:42 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 void static	exe_move_op2(t_move_op *op, t_list *stacks[]);
-void static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b);
+int static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b);
 
 void	exe_move_op(t_move_op *op, t_list *stacks[])
 {
@@ -70,46 +70,53 @@ void static	exe_move_op2(t_move_op *op, t_list *stacks[])
 
 void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b)
 {
+	int	is_done;
+
 	if (op == SA)
-		lst_swap(stack_a);
+		is_done = lst_swap(stack_a);
 	else if (op == SB)
-		lst_swap(stack_b);
+		is_done = lst_swap(stack_b);
 	else if (op == SS)
 	{
-		lst_swap(stack_a);
-		lst_swap(stack_b);
+		is_done = lst_swap(stack_a);
+		is_done = lst_swap(stack_b);
 	}
 	else if (op == PA)
-		lst_addfirst(stack_a, lst_delfirst(stack_b));
+		is_done = lst_addfirst(stack_a, lst_delfirst(stack_b));
 	else if (op == PB)
-		lst_addfirst(stack_b, lst_delfirst(stack_a));
+		is_done = lst_addfirst(stack_b, lst_delfirst(stack_a));
 	else
-		exe_op2(op, stack_a, stack_b);
-	print_op(op);
+		is_done = exe_op2(op, stack_a, stack_b);
+	if (is_done)
+		print_op(op);
 	// printall(stack_a, "a");
 	// printall(stack_b, "b");
 }
 
-void static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b)
+int static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b)
 {
+	int	is_done;
+
+	is_done = 0;
 	if (op == RA)
-		lst_shift(stack_a, UP);
+		is_done = lst_shift(stack_a, UP);
 	else if (op == RB)
-		lst_shift(stack_b, UP);
+		is_done = lst_shift(stack_b, UP);
 	else if (op == RR)
 	{
-		lst_shift(stack_a, UP);
-		lst_shift(stack_b, UP);
+		is_done = lst_shift(stack_a, UP);
+		is_done = lst_shift(stack_b, UP);
 	}
 	else if (op == RRA)
-		lst_shift(stack_a, DOWN);
+		is_done = lst_shift(stack_a, DOWN);
 	else if (op == RRB)
-		lst_shift(stack_b, DOWN);
+		is_done = lst_shift(stack_b, DOWN);
 	else if (op == RRR)
 	{
-		lst_shift(stack_a, DOWN);
-		lst_shift(stack_b, DOWN);
+		is_done = lst_shift(stack_a, DOWN);
+		is_done = lst_shift(stack_b, DOWN);
 	}
+	return (is_done);
 }
 
 void	print_op(t_operation op)

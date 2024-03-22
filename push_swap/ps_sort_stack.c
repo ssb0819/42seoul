@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:07:49 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 19:47:02 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:47:09 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	sort_and_move(t_list *from, t_list *to)
 	min_move = malloc(sizeof(t_move_op));
 	if (!min_move)
 		return (0);
-	sorted_min = (void *)0;
+	sorted_min = to->head;
 	stacks[B] = from;
 	stacks[A] = to;
 	while (stacks[B]->size)

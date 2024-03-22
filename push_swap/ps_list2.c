@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:38:53 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 19:46:47 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:33:46 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	lst_swap(t_list *list)
 
 int	lst_shift(t_list *list, int direction)
 {
-	if (!list || list->size == 0)
+	if (!list || list->size <= 1)
 		return (0);
 	if (direction == UP)
 		list->head = list->head->next;

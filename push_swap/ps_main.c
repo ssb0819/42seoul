@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:26 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 20:23:13 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:52:41 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void static	set_num(t_list *stack, long *first, long *second, long *third);
 int	main(int argc, char **argv)
 {
 	t_list	*stacks[2];
+	t_node	*min_sorted;
 
 	if (argc < 2)
 		return (0);
@@ -33,12 +34,18 @@ int	main(int argc, char **argv)
 		lst_free_all(stacks, 0);
 		return (0);
 	}
-	// write(1, "set index\n", 10);
+	if (check_sorted(stacks[A], &min_sorted))
+	{
+		rotate_stack_a(stacks, min_sorted);
+		lst_free_all(stacks, 0);
+		return (0);
+	}
 	if (!set_sorted_index(stacks[A]))
 	{
 		lst_free_all(stacks, 1);
 		return (0);
 	}
+	// write(1, "set index\n", 10);
 	// printall(stacks[A], "a");
 	partition_stack(stacks[A], stacks[B]);	
 	// printall(stacks[B], "b");
@@ -90,7 +97,7 @@ void	partition_stack(t_list *from, t_list *to)
 	pivot1 = from->size / 3 + 1;
 	pivot2 = from->size / 3 * 2 + 1;
 	size = from->size;
-	while (size--)
+	while (size-- > 0 && from->size > 3)
 	{
 		value = from->head->value;
 		if (value <= pivot1)
@@ -103,8 +110,9 @@ void	partition_stack(t_list *from, t_list *to)
 		else
 			exe_op(RA, from, to);
 	}
-	while (from->size)
+	while (from->size > 3)
 		exe_op(PB, from, to);
+	sort_small_stack(from);
 }
 
 int	divide_and_move(t_list *from, t_list *to)
@@ -200,4 +208,31 @@ void static	set_num(t_list *stack, long *first, long *second, long *third)
 	*first = stack->head->value;
 	*second = stack->head->next->value;
 	*third = stack->head->prev->value;
+}
+
+int	check_sorted(t_list *stack, t_node **min_sorted)
+{
+	t_node	*cur;
+	long	i;
+
+	i = 0;
+	*min_sorted = stack->head;
+	cur = stack->head->next;
+	while (i < stack->size - 1)
+	{
+		if (cur->value < (*min_sorted)->value)
+			*min_sorted = cur;
+		cur = cur->next;
+		i++;
+	}
+	i = 0;
+	cur = *min_sorted;
+	while (i < stack->size - 1)
+	{
+		if (cur->next->value < cur->value)
+			return (0);
+		cur = cur->next;
+		i++;
+	}
+	return (1);
 }

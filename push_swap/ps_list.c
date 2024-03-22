@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:50:39 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 19:46:43 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 22:37:40 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_node	*lst_newnode(long value)
 	return (node);
 }
 
-long	lst_addfirst(t_list *list, t_node *node)
+int	lst_addfirst(t_list *list, t_node *node)
 {
 	if (!list || !node)
 		return (0);
@@ -56,22 +56,22 @@ long	lst_addfirst(t_list *list, t_node *node)
 		list->head = node;
 	}
 	(list->size)++;
-	return (list->size);
+	return (1);
 }
 
-long	lst_add_new_last(t_list *list, long num)
+int	lst_add_new_last(t_list *list, long num)
 {
 	t_node	*node;
-	long	size;
+	int		result;
 
 	if (!list)
 		return (0);
 	node = lst_newnode(num);
 	if (!node)
 		return (0);
-	size = lst_addfirst(list, node);
+	result = lst_addfirst(list, node);
 	lst_shift(list, UP);
-	return (size);
+	return (result);
 }
 
 t_node	*lst_delfirst(t_list *list)

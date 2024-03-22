@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/21 22:40:19 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 20:07:45 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ typedef struct s_list
 	t_node	*head;
 }	t_list;
 
+// ps_divide.c
+long	count_unsorted(t_list *stack);
+void	move_unsorted(t_list *from, t_list *to);
+void	move_all(t_list *from, t_list *to);
+
 // ps_list.c
 t_list	*lst_init(void);
 t_node	*lst_newnode(long value);
@@ -87,9 +92,11 @@ void	lst_free_all(t_list *lists[], int is_error);
 
 // ps_main.c
 int		init_stack(int argc, char **argv, t_list *stacks[]);
-void	partition_stack(t_list *from, t_list *to);
+int		divide_and_move(t_list *from, t_list *to);
 long	ps_strtol(char **str_p);
 int		ps_check_format(int *minus_sign, char **str);
+void	partition_stack(t_list *from, t_list *to);
+void	sort_small_stack(t_list *stack);
 
 // ps_operation.c
 void	exe_move_op(t_move_op *op, t_list *stacks[]);
@@ -104,12 +111,11 @@ void	swap_arr(t_node **arr, long left, long right);
 void	copy_move_op(t_move_op *from, t_move_op *to);
 
 // ps_sort_stack.c
-int		sort_stack(t_list *from, t_list *to);
+int		sort_and_move(t_list *from, t_list *to);
 void	find_min_move(t_list *stacks[], t_node **min_p, t_move_op *min_move);
 long	get_to_index(t_node **min_p, t_list *stack, long target);
 void	calc_total_num(t_move_op *move_op);
 void	rotate_stack_a(t_list *stack[], t_node *min_p);
-
 
 // debugging
 void	printall(t_list *list, char *stack_name);

@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:38:53 by subson            #+#    #+#             */
-/*   Updated: 2024/03/19 22:42:09 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:46:47 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "push_swap.h"
 
 int	lst_swap(t_list *list)
 {

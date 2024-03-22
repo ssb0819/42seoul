@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:07:49 by subson            #+#    #+#             */
-/*   Updated: 2024/03/21 23:07:14 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:47:02 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "push_swap.h"
 
-int	sort_stack(t_list *from, t_list *to)
+int	sort_and_move(t_list *from, t_list *to)
 {
 	t_move_op	*min_move;
 	t_list		*stacks[2];

@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:25:31 by subson            #+#    #+#             */
-/*   Updated: 2024/03/21 23:06:17 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:46:54 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "push_swap.h"
 
 void static	exe_move_op2(t_move_op *op, t_list *stacks[]);
 void static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b);

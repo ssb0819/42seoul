@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:17:37 by subson            #+#    #+#             */
-/*   Updated: 2024/03/21 23:05:55 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:46:59 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "push_swap.h"
 
 int	set_sorted_index(t_list *list)
 {

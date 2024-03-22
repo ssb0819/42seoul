@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 18:50:39 by subson            #+#    #+#             */
-/*   Updated: 2024/03/19 22:46:49 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 19:46:43 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "push_swap.h"
 
 t_list	*lst_init(void)
 {
@@ -55,7 +55,8 @@ long	lst_addfirst(t_list *list, t_node *node)
 		list->head->prev = node;
 		list->head = node;
 	}
-	return (++(list->size));
+	(list->size)++;
+	return (list->size);
 }
 
 long	lst_add_new_last(t_list *list, long num)
@@ -63,6 +64,8 @@ long	lst_add_new_last(t_list *list, long num)
 	t_node	*node;
 	long	size;
 
+	if (!list)
+		return (0);
 	node = lst_newnode(num);
 	if (!node)
 		return (0);

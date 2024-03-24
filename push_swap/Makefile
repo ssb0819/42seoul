@@ -1,36 +1,55 @@
-NAME = push_swap
-RM = rm -f
+RM = rm -rf
 CC = cc
 AR = ar
-
 CFLAGS = -Wall -Wextra -Werror -g
-SRCS = debug.c ps_divide.c ps_list.c ps_list2.c ps_main.c ps_operation.c ps_quick_sort.c ps_sort_stack.c
+
+NAME = push_swap
+SRCS = debug.c push_swap.c ps_divide.c ps_list.c ps_list2.c ps_operation.c ps_quick_sort.c ps_sort_stack.c
 OBJ_DIR = objs
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))
+MAIN_OBJ = objs/ps_main.o
+MAIN_SRC = ps_main.c
 
-.PHONY : all clean fclean re
+BONUS_NAME = checker
+BONUS_SRCS = ps_bonus.c
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+BONUS_OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(BONUS_OBJS))
+
+GNL_SRCS = gnl/get_next_line.c gnl/get_next_line_utils.c
+GNL_OBJS = $(GNL_SRCS:.c=.o)
+GNL_OBJ_FILES = $(GNL_OBJS)
+
+.PHONY : all clean fclean re bonus
 
 all : $(NAME)
 
 clean :
-	$(RM) $(OBJS_FILES) 
+	$(RM) $(OBJ_DIR) $(GNL_OBJS)
 
 fclean : 
-	$(RM) -r $(OBJ_DIR) $(NAME)
+	$(RM) $(OBJ_DIR) $(GNL_OBJS) $(NAME) $(BONUS_NAME)
 
 re : 
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(NAME) : $(OBJ_FILES)
+bonus : $(BONUS_NAME)
+
+$(NAME) : $(OBJ_FILES) $(MAIN_OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
+
+$(MAIN_OBJ) : $(MAIN_SRC)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR) :
 	mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BONUS_NAME) : $(OBJ_FILES) $(BONUS_OBJ_FILES) $(GNL_OBJ_FILES)
+	$(CC) $(CFLAGS) $^ -o $@
 
 RANDCNT = 100
 
@@ -50,11 +69,11 @@ pstest:
 	@echo "\033[0;32m===== Test completed =====\033[0m"
 	@echo ""
 	@echo "\033[0;33m===== Checking if the output is sorted =====\033[0m"
-	-@cat _OUTPUT | ./checker_Mac `cat _ARG`
+	-@cat _OUTPUT | ./checker `cat _ARG`
 	@echo ""
 	@echo "\033[0;32m===== Number of executed commands =====\033[0m"
 	-@cat _OUTPUT | wc -l | tr -d ' '
 	@echo ""
 	@echo "\033[0;32m===== Cleaning up... =====\033[0m"
-	-@$(MAKE) fclean &>/dev/null
+	-@$(MAKE) clean &>/dev/null
 	@echo "\033[0;32m===== DONE! =====\033[0m"

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 19:45:44 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 20:11:17 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 19:55:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	move_all(t_list *from, t_list *to)
 		value = from->head->value;
 		if (value <= pivot1)
 		{
-			exe_op(PB, from, to);
-			exe_op(RB, from, to);
+			exe_op(PB, from, to, 1);
+			exe_op(RB, from, to, 1);
 		}
 		else if (value > pivot1 && value <= pivot2)
-			exe_op(PB, from, to);
+			exe_op(PB, from, to, 1);
 		else
-			exe_op(RA, from, to);
+			exe_op(RA, from, to, 1);
 	}
 	while (from->size)
-		exe_op(PB, from, to);
+		exe_op(PB, from, to, 1);
 }

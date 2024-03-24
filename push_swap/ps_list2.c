@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:38:53 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 22:33:46 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 16:29:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	lst_free_all(t_list *lists[], int is_error)
 		i++;
 	}
 	if (is_error)
-		write(1, "Error\n", 6);
+		write(2, "Error\n", 6);
 }
 
 void	lst_del_allnode(t_list *list)

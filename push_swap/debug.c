@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 22:48:57 by subson            #+#    #+#             */
-/*   Updated: 2024/03/21 18:33:34 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/22 23:13:03 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	printall(t_list *list, char *stack_name)
 	long	size;
 	t_node	*head;
 	char	*value;
+	int		i;
 
 	size = list->size;
 	head = list->head;
@@ -84,9 +85,11 @@ void	printall(t_list *list, char *stack_name)
 	{
 		head = head->next;
 		value = ft_itoa(head->prev->value);
-		while (*value)
-			write(1, value++, 1);
+		i = 0;
+		while (value[i])
+			write(1, &(value[i++]), 1);
 		write(1, " ", 1);
+		free(value);
 		size--;
 	}
 	size = list->size + '0';

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:07:49 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 22:47:09 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 19:56:11 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	sort_and_move(t_list *from, t_list *to)
 		exe_move_op(min_move, stacks);
 	}
 	rotate_stack_a(stacks, sorted_min);
+	free(min_move);
 	return (1);
 }
 
@@ -150,8 +151,8 @@ void	rotate_stack_a(t_list *stack[], t_node *min_p)
 	}
 	if (i < a_size / 2)
 		while (i-- > 0)
-			exe_op(RA, stack[A], stack[B]);
+			exe_op(RA, stack[A], stack[B], 1);
 	else
 		while ((a_size--) - i > 0)
-			exe_op(RRA, stack[A], stack[B]);
+			exe_op(RRA, stack[A], stack[B], 1);
 }

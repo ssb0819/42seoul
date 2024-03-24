@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:25:31 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 22:39:42 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 18:55:16 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,27 @@ void	exe_move_op(t_move_op *op, t_list *stacks[])
 	if (op->op_comb == RR_RA)
 	{
 		while (op->rb-- > 0 && op->ra-- > 0)
-			exe_op(RR, stacks[A], stacks[B]);
+			exe_op(RR, stacks[A], stacks[B], 1);
 		while (op->ra-- > 0)
-			exe_op(RA, stacks[A], stacks[B]);
+			exe_op(RA, stacks[A], stacks[B], 1);
 	}
 	else if (op->op_comb == RR_RB)
 	{
 		while (op->ra-- > 0 && op->rb-- > 0)
-			exe_op(RR, stacks[A], stacks[B]);
+			exe_op(RR, stacks[A], stacks[B], 1);
 		while (op->rb-- > 0)
-			exe_op(RB, stacks[A], stacks[B]);
+			exe_op(RB, stacks[A], stacks[B], 1);
 	}
 	else if (op->op_comb == RA_RRB)
 	{
 		while (op->ra-- > 0)
-			exe_op(RA, stacks[A], stacks[B]);
+			exe_op(RA, stacks[A], stacks[B], 1);
 		while (op->rrb-- > 0)
-			exe_op(RRB, stacks[A], stacks[B]);
+			exe_op(RRB, stacks[A], stacks[B], 1);
 	}
 	else
 		exe_move_op2(op, stacks);
-	exe_op(PA, stacks[A], stacks[B]);
+	exe_op(PA, stacks[A], stacks[B], 1);
 }
 
 void static	exe_move_op2(t_move_op *op, t_list *stacks[])
@@ -48,27 +48,27 @@ void static	exe_move_op2(t_move_op *op, t_list *stacks[])
 	if (op->op_comb == RRA_RB)
 	{
 		while (op->rra-- > 0)
-			exe_op(RRA, stacks[A], stacks[B]);
+			exe_op(RRA, stacks[A], stacks[B], 1);
 		while (op->rb-- > 0)
-			exe_op(RB, stacks[A], stacks[B]);
+			exe_op(RB, stacks[A], stacks[B], 1);
 	}
 	else if (op->op_comb == RRR_RRA)
 	{
 		while (op->rrb-- > 0 && op->rra-- > 0)
-			exe_op(RRR, stacks[A], stacks[B]);
+			exe_op(RRR, stacks[A], stacks[B], 1);
 		while (op->rra-- > 0)
-			exe_op(RRA, stacks[A], stacks[B]);
+			exe_op(RRA, stacks[A], stacks[B], 1);
 	}
 	else if (op->op_comb == RRR_RRB)
 	{
 		while (op->rra-- > 0 && op->rrb-- > 0)
-			exe_op(RRR, stacks[A], stacks[B]);
+			exe_op(RRR, stacks[A], stacks[B], 1);
 		while (op->rrb-- > 0)
-			exe_op(RRB, stacks[A], stacks[B]);
+			exe_op(RRB, stacks[A], stacks[B], 1);
 	}
 }
 
-void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b)
+void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b, int will_print)
 {
 	int	is_done;
 
@@ -87,7 +87,7 @@ void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b)
 		is_done = lst_addfirst(stack_b, lst_delfirst(stack_a));
 	else
 		is_done = exe_op2(op, stack_a, stack_b);
-	if (is_done)
+	if (is_done && will_print)
 		print_op(op);
 	// printall(stack_a, "a");
 	// printall(stack_b, "b");

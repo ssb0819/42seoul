@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 22:37:54 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 18:54:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		lst_check_dupl(t_list *list, long value);
 void	lst_del_allnode(t_list *list);
 void	lst_free_all(t_list *lists[], int is_error);
 
-// ps_main.c
+// push_swap.c
 int		init_stack(int argc, char **argv, t_list *stacks[]);
 int		divide_and_move(t_list *from, t_list *to);
 long	ps_strtol(char **str_p);
@@ -101,7 +101,7 @@ int		check_sorted(t_list *stack, t_node **min_sorted);
 
 // ps_operation.c
 void	exe_move_op(t_move_op *op, t_list *stacks[]);
-void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b);
+void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b, int will_print);
 void	print_op(t_operation op);
 
 // ps_quick_sort.c

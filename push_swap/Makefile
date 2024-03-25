@@ -4,7 +4,7 @@ AR = ar
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = push_swap
-SRCS = debug.c push_swap.c ps_divide.c ps_list.c ps_list2.c ps_operation.c ps_quick_sort.c ps_sort_stack.c
+SRCS = ps_init.c ps_list.c ps_list2.c ps_operation.c ps_quick_sort.c ps_sort_stack.c ps_utils.c
 OBJ_DIR = objs
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:51:23 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 18:54:06 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/25 20:31:43 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define DOWN 1
 # define A 0
 # define B 1
-# define I_OVERFLOW 2147483648	// INT_MAX + 1
+# define I_OVERFLOW 2147483648	/* INT_MAX + 1 */
 
 typedef enum e_operation
 {
@@ -57,7 +57,7 @@ typedef struct s_move_op
 	long		total;
 }	t_move_op;
 
-// Circular doubly linked list
+/* Circular doubly linked list */
 typedef struct s_node
 {
 	struct s_node	*prev;
@@ -71,55 +71,47 @@ typedef struct s_list
 	t_node	*head;
 }	t_list;
 
-// ps_divide.c
-long	count_unsorted(t_list *stack);
-void	move_unsorted(t_list *from, t_list *to);
-void	move_all(t_list *from, t_list *to);
+/* ps_init.c */
+int		init_stack(int argc, char **argv, t_list *stacks[]);
+int		check_sorted(t_list *stack, t_node **min_sorted);
+void	rotate_stack_a(t_list *stack[], t_node *min_p);
+void	sort_small_stack(t_list *stack);
 
-// ps_list.c
+/* ps_list.c */
 t_list	*lst_init(void);
 t_node	*lst_newnode(long value);
 int		lst_addfirst(t_list *list, t_node *node);
 int		lst_add_new_last(t_list *list, long num);
 t_node	*lst_delfirst(t_list *list);
 
-// ps_list2.c
+/* ps_list2.c */
 int		lst_swap(t_list *list);
 int		lst_shift(t_list *list, int direction);
 int		lst_check_dupl(t_list *list, long value);
 void	lst_del_allnode(t_list *list);
 void	lst_free_all(t_list *lists[], int is_error);
 
-// push_swap.c
-int		init_stack(int argc, char **argv, t_list *stacks[]);
-int		divide_and_move(t_list *from, t_list *to);
-long	ps_strtol(char **str_p);
-int		ps_check_format(int *minus_sign, char **str);
-void	partition_stack(t_list *from, t_list *to);
-void	sort_small_stack(t_list *stack);
-int		check_sorted(t_list *stack, t_node **min_sorted);
-
-// ps_operation.c
+/* ps_operation.c */
 void	exe_move_op(t_move_op *op, t_list *stacks[]);
-void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b, int will_print);
+void	exe_op(t_operation op, t_list *a, t_list *b, int will_print);
 void	print_op(t_operation op);
 
-// ps_quick_sort.c
+/* ps_quick_sort.c */
 int		set_sorted_index(t_list *list);
 void	quick_sort(t_node **arr, long start, long end);
 long	divide_arr(t_node **arr, long start, long end);
 void	swap_arr(t_node **arr, long left, long right);
 void	copy_move_op(t_move_op *from, t_move_op *to);
 
-// ps_sort_stack.c
+/* ps_sort_stack.c */
+void	divide_and_move(t_list *from, t_list *to);
 int		sort_and_move(t_list *from, t_list *to);
 void	find_min_move(t_list *stacks[], t_node **min_p, t_move_op *min_move);
 long	get_to_index(t_node **min_p, t_list *stack, long target);
 void	calc_total_num(t_move_op *move_op);
-void	rotate_stack_a(t_list *stack[], t_node *min_p);
 
-// debugging
-void	printall(t_list *list, char *stack_name);
-char	*ft_itoa(int n);
+/* ps_utils.c */
+long	ps_strtol(char **str_p);
+int		ps_check_format(int *minus_sign, char **str);
 
 #endif

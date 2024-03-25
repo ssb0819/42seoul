@@ -6,11 +6,39 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:07:49 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 19:56:11 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/25 20:21:42 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	divide_and_move(t_list *from, t_list *to)
+{
+	long	pivot1;
+	long	pivot2;
+	long	size;
+	long	value;
+
+	pivot1 = from->size / 3 + 1;
+	pivot2 = from->size / 3 * 2 + 1;
+	size = from->size;
+	while (size-- > 0 && from->size > 3)
+	{
+		value = from->head->value;
+		if (value <= pivot1)
+		{
+			exe_op(PB, from, to, 1);
+			exe_op(RB, from, to, 1);
+		}
+		else if (value > pivot1 && value <= pivot2)
+			exe_op(PB, from, to, 1);
+		else
+			exe_op(RA, from, to, 1);
+	}
+	while (from->size > 3)
+		exe_op(PB, from, to, 1);
+	sort_small_stack(from);
+}
 
 int	sort_and_move(t_list *from, t_list *to)
 {
@@ -34,49 +62,33 @@ int	sort_and_move(t_list *from, t_list *to)
 	return (1);
 }
 
-void	find_min_move(t_list *stacks[], t_node **sorted_min, t_move_op *min_move)
+void	find_min_move(t_list *stacks[], t_node **min_p, t_move_op *min_move)
 {
-	t_move_op	move_op;
-	long		min_num;
-	long		from_index;
+	t_move_op	cur_move;
 	t_node		*cur;
-	t_node		*target;
+	t_node		*new_min_p;
 
-	from_index = 0;
-	min_num = I_OVERFLOW;
 	cur = stacks[B]->head;
-
-	// write(1, "\nfind_minimal_move - min_stack_to :", 35);
-	// if (*sorted_min)
-	// {
-	// 	(*sorted_min)->value += '0';
-	// 	write(1, &((*sorted_min)->value), 1);
-	// 	(*sorted_min)->value -= '0';
-	// 	write(1, "\n", 1);
-	// }
-	// else
-	// 	write(1, "0\n", 2);
-
-	while (from_index < stacks[B]->size)
+	cur_move.rb = 0;
+	min_move->total = I_OVERFLOW;
+	while (cur_move.rb < stacks[B]->size)
 	{
-		move_op.ra = get_to_index(sorted_min, stacks[A], cur->value);
-		move_op.rb = from_index;
-		move_op.rra = stacks[A]->size - move_op.ra;
-		move_op.rrb = stacks[B]->size - move_op.rb;
-		move_op.total = move_op.ra;
-		move_op.op_comb = RR_RA;
-		calc_total_num(&move_op);
-		if (move_op.total < min_num)
+		cur_move.ra = get_to_index(min_p, stacks[A], cur->value);
+		cur_move.rra = stacks[A]->size - cur_move.ra;
+		cur_move.rrb = stacks[B]->size - cur_move.rb;
+		cur_move.total = cur_move.ra;
+		cur_move.op_comb = RR_RA;
+		calc_total_num(&cur_move);
+		if (cur_move.total < min_move->total)
 		{
-			min_num = move_op.total;
-			copy_move_op(&move_op, min_move);
-			target = cur;
+			copy_move_op(&cur_move, min_move);
+			new_min_p = cur;
 		}
 		cur = cur->next;
-		from_index++;
+		cur_move.rb++;
 	}
-	if (!(*sorted_min) || (*sorted_min)->value > target->value)
-		*sorted_min = target;
+	if (!(*min_p) || (*min_p)->value > new_min_p->value)
+		*min_p = new_min_p;
 }
 
 long	get_to_index(t_node **min_p, t_list *stack, long target)
@@ -131,28 +143,4 @@ void	calc_total_num(t_move_op *move_op)
 		move_op->total = move_op->rrb;
 		move_op->op_comb = RRR_RRB;
 	}
-}
-
-void	rotate_stack_a(t_list *stack[], t_node *min_p)
-{
-	long	i;
-	long	a_size;
-	t_node	*cur;
-
-	a_size = stack[A]->size;
-	if (a_size <= 1)
-		return ;
-	i = 0;
-	cur = stack[A]->head;
-	while (cur != min_p)
-	{
-		cur = cur->next;
-		i++;
-	}
-	if (i < a_size / 2)
-		while (i-- > 0)
-			exe_op(RA, stack[A], stack[B], 1);
-	else
-		while ((a_size--) - i > 0)
-			exe_op(RRA, stack[A], stack[B], 1);
 }

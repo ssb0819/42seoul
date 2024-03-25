@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 20:25:31 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 18:55:16 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 23:15:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	exe_op(t_operation op, t_list *stack_a, t_list *stack_b, int will_print)
 		is_done = exe_op2(op, stack_a, stack_b);
 	if (is_done && will_print)
 		print_op(op);
-	// printall(stack_a, "a");
-	// printall(stack_b, "b");
 }
 
 int static	exe_op2(t_operation op, t_list *stack_a, t_list *stack_b)

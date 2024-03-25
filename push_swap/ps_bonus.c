@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:40:44 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 19:47:44 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/25 20:31:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv)
 			return (0);
 		}
 	}
-	printall(stacks[A], "a");
 	write(1, "KO\n", 3);
 	lst_free_all(stacks, 0);
 }

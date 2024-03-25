@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:17:37 by subson            #+#    #+#             */
-/*   Updated: 2024/03/22 19:46:59 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/24 23:58:02 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	set_sorted_index(t_list *list)
 	t_node	*node;
 	long	i;
 
-	if (!list || list->size == 0)
-		return (0);
 	node_arr = malloc(sizeof(t_node *) * (list->size));
-	if (!node_arr)
+	if (!list || list->size == 0 || !node_arr)
 		return (0);
 	i = 0;
 	node = list->head;
@@ -83,18 +81,9 @@ void	swap_arr(t_node **arr, long left, long right)
 {
 	t_node	*temp;
 
-	// if (left == right)
-	//	return ;
 	temp = arr[left];
 	arr[left] = arr[right];
 	arr[right] = temp;
-	// write(1, "swap ", 5);
-	// left += '0';
-	// right += '0';
-	// write(1, &left, 1);
-	// write(1, " ", 1);
-	// write(1, &right, 1);
-	// write(1, "\n", 1);
 }
 
 void	copy_move_op(t_move_op *from, t_move_op *to)
@@ -105,18 +94,4 @@ void	copy_move_op(t_move_op *from, t_move_op *to)
 	to->rrb = from->rrb;
 	to->op_comb = from->op_comb;
 	to->total = from->total;
-
-	// from->ra += '0';
-	// from->rb += '0';
-	// from->op_comb += '0';
-	// from->total += '0';
-	// write(1, "a_index ", 8);
-	// write(1, &(from->ra), 1);
-	// write(1, " b_index ", 9);
-	// write(1, &(from->rb), 1);
-	// write(1, "op_comb ", 8);
-	// write(1, &(from->op_comb), 1);
-	// write(1, "total ", 6);
-	// write(1, &(from->total), 1);
-	// write(1, "\n", 1);
 }

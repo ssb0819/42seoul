@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 23:23:04 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 23:34:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:32:10 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ps_check_format(int *minus_sign, char **str)
 	*minus_sign = 1;
 	while (**str == ' ' || (**str >= 9 && **str <= 13))
 		(*str)++;
-	while (**str == '-' || **str == '+')
+	if (**str == '-' || **str == '+')
 	{
 		if (**str == '-')
 			*minus_sign *= -1;

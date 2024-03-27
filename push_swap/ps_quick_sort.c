@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:17:37 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 23:58:02 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:37:11 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	set_sorted_index(t_list *list)
 	long	i;
 
 	node_arr = malloc(sizeof(t_node *) * (list->size));
-	if (!list || list->size == 0 || !node_arr)
+	if (!node_arr)
 		return (0);
 	i = 0;
 	node = list->head;

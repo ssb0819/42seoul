@@ -6,18 +6,16 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:40:44 by subson            #+#    #+#             */
-/*   Updated: 2024/03/27 13:03:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:25:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ps_bonus.h"
 
-int static	ft_strcmp(const char *s1, const char *s2);
-
 int	main(int argc, char **argv)
 {
 	t_list	*stacks[2];
-	t_node	*min;
+	t_list	*operations;
 
 	if (argc < 2)
 		return (0);
@@ -26,68 +24,96 @@ int	main(int argc, char **argv)
 		lst_free_all(stacks, 1);
 		return (0);
 	}
-	if (read_and_exe(stacks) && stacks[B]->size == 0)
+	operations = read_ops();
+	if (!operations)
 	{
-		if (check_sorted(stacks[A], &min) && min == stacks[A]->head)
-		{
-			write(1, "OK\n", 3);
-			lst_free_all(stacks, 0);
-			return (0);
-		}
+		lst_free_all(stacks, 1);
+		return (0);
 	}
-	write(1, "KO\n", 3);
+	if (exe_and_check(stacks, operations))
+		write(1, "OK\n", 3);
+	else
+		write(1, "KO\n", 3);
 	lst_free_all(stacks, 0);
+	lst_del_allnode(operations);
+	free(operations);
 }
 
-int	read_and_exe(t_list *stacks[])
+t_list	*read_ops(void)
 {
+	t_list		*ops;
 	char		*str;
 	t_operation	op;
 
-	str = get_next_line(0);
-	while (str)
+	ops = lst_init();
+	if (!ops)
+		return ((void *)0);
+	while (1)
 	{
-		op = str_to_op(str);
-		if (!op)
-		{
-			free(str);
-			return (0);
-		}
-		exe_op(op, stacks[A], stacks[B], 0);
-		free(str);
 		str = get_next_line(0);
+		if (!str)
+			break ;
+		op = str_to_op(str);
+		free(str);
+		if (op == 0 || lst_add_new_last(ops, (long)op) == 0)
+		{
+			lst_del_allnode(ops);
+			free(ops);
+			return ((void *)0);
+		}
 	}
-	return (1);
+	return (ops);
+}
+
+int	exe_and_check(t_list *stacks[], t_list *operations)
+{
+	long		i;
+	t_node		*cur;
+	t_node		*min_sorted;
+
+	i = 0;
+	cur = operations->head;
+	while (i < operations->size)
+	{
+		exe_op((t_operation)(cur->value), stacks[A], stacks[B], 0);
+		cur = cur->next;
+		i++;
+	}
+	if (stacks[B]->size != 0)
+		return (0);
+	if (check_sorted(stacks[A], &min_sorted) && min_sorted == stacks[A]->head)
+		return (1);
+	return (0);
 }
 
 t_operation	str_to_op(char *str)
 {
-	if (!ft_strcmp(str, "sa\n"))
+	if (!sl_strcmp(str, "sa\n"))
 		return (SA);
-	if (!ft_strcmp(str, "sb\n"))
+	if (!sl_strcmp(str, "sb\n"))
 		return (SB);
-	if (!ft_strcmp(str, "ss\n"))
+	if (!sl_strcmp(str, "ss\n"))
 		return (SS);
-	if (!ft_strcmp(str, "pa\n"))
+	if (!sl_strcmp(str, "pa\n"))
 		return (PA);
-	if (!ft_strcmp(str, "pb\n"))
+	if (!sl_strcmp(str, "pb\n"))
 		return (PB);
-	if (!ft_strcmp(str, "ra\n"))
+	if (!sl_strcmp(str, "ra\n"))
 		return (RA);
-	if (!ft_strcmp(str, "rb\n"))
+	if (!sl_strcmp(str, "rb\n"))
 		return (RB);
-	if (!ft_strcmp(str, "rr\n"))
+	if (!sl_strcmp(str, "rr\n"))
 		return (RR);
-	if (!ft_strcmp(str, "rra\n"))
+	if (!sl_strcmp(str, "rra\n"))
 		return (RRA);
-	if (!ft_strcmp(str, "rrb\n"))
+	if (!sl_strcmp(str, "rrb\n"))
 		return (RRB);
-	if (!ft_strcmp(str, "rrr\n"))
+	if (!sl_strcmp(str, "rrr\n"))
 		return (RRR);
 	return (0);
 }
 
-int static	ft_strcmp(const char *s1, const char *s2)
+int	sl_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 

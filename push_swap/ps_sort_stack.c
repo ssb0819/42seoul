@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:07:49 by subson            #+#    #+#             */
-/*   Updated: 2024/03/25 20:21:42 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:45:28 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	divide_and_move(t_list *from, t_list *to)
 			exe_op(PB, from, to, 1);
 			exe_op(RB, from, to, 1);
 		}
-		else if (value > pivot1 && value <= pivot2)
+		else if (pivot1 < value && value <= pivot2)
 			exe_op(PB, from, to, 1);
-		else
+		else if (pivot2 < value)
 			exe_op(RA, from, to, 1);
 	}
 	while (from->size > 3)

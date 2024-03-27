@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:36:33 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 23:50:16 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 12:45:43 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_stack(int argc, char **argv, t_list *stacks[])
 {
-	char	**str_p;
+	char	*str_p;
 	long	num;
 	int		i;
 
@@ -25,18 +25,18 @@ int	init_stack(int argc, char **argv, t_list *stacks[])
 	i = 0;
 	while (++i < argc)
 	{
-		str_p = &(argv[i]);
-		while (**str_p)
+		str_p = argv[i];
+		while (*str_p)
 		{
-			num = ps_strtol(str_p);
+			num = ps_strtol(&str_p);
 			if (num != I_OVERFLOW && !lst_check_dupl(stacks[A], num))
-			{
 				if (lst_add_new_last(stacks[A], num))
 					continue ;
-			}
 			return (0);
 		}
 	}
+	if (stacks[A]->size == 0)
+		return (0);
 	return (1);
 }
 

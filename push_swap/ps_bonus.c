@@ -6,11 +6,11 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:40:44 by subson            #+#    #+#             */
-/*   Updated: 2024/03/25 20:31:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 13:03:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ps_checker.h"
+#include "ps_bonus.h"
 
 int static	ft_strcmp(const char *s1, const char *s2);
 

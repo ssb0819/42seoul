@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_checker.h                                       :+:      :+:    :+:   */
+/*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 16:41:01 by subson            #+#    #+#             */
-/*   Updated: 2024/03/24 17:52:50 by subson           ###   ########.fr       */
+/*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
+/*   Updated: 2024/03/26 17:21:51 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PS_CHECKER_H
-# define PS_CHECKER_H
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
-# include "push_swap.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <math.h>
+# include <mlx.h>
 # include "gnl/get_next_line.h"
 
-int			read_and_exe(t_list *stacks[]);
-t_operation	str_to_op(char *str);
+int	sl_strlen(char *str);
 
 #endif

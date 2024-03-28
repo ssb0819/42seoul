@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/01/15 20:31:24 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/28 19:31:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+ssize_t	get_next_line(int fd, char **next_line)
 {
 	static char	*str;
 	size_t		len;
@@ -20,21 +20,25 @@ char	*get_next_line(int fd)
 	size_t		repeat_num;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return ((void *)0);
+		return (-1);
 	len = ft_strlen(str);
 	repeat_num = 1;
 	while (make_new_str(&str, len, repeat_num))
 	{
 		nl_index = read_next(fd, str, &len, repeat_num);
-		if (nl_index == FILE_END || nl_index > NO_NL)
-			return (parse_by_nl(&str, len));
 		if (nl_index == FILE_ERROR)
 			break ;
+		if (nl_index == FILE_END || nl_index > NO_NL)
+		{
+			*next_line = parse_by_nl(&str, len);
+			return (ft_strlen(*next_line));
+		}
 		repeat_num++;
 	}
 	free(str);
 	str = (void *)0;
-	return ((void *)0);
+	*next_line = ((void *)0);
+	return (-1);
 }
 
 ssize_t	make_new_str(char **str, size_t len, size_t repeat_num)
@@ -77,7 +81,7 @@ ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num)
 			while (j < r_bytes)
 				str[(*len)++] = buffer[j++];
 			r_bytes = ft_strchr(str, '\n', *len);
-			if (r_bytes != NO_NL)
+			if (r_bytes != -1)
 				break ;
 			i++;
 		}

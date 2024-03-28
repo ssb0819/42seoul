@@ -1,10 +1,9 @@
 RM = rm -rf
 CC = cc
-AR = ar
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = so_long
-SRCS = sl_main.c
+SRCS = sl_debug.c sl_main.c sl_map.c sl_map_check.c sl_utils.c
 OBJ_DIR = objs
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))
@@ -27,7 +26,7 @@ re :
 	$(MAKE) all
 
 $(NAME) : $(OBJ_FILES) $(GNL_OBJS)
-	$(CC) $(OBJ_FILES) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $^ -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 $(OBJ_DIR) :
 	mkdir $(OBJ_DIR)

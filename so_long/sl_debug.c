@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_bonus.h                                         :+:      :+:    :+:   */
+/*   sl_debug.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 16:41:01 by subson            #+#    #+#             */
-/*   Updated: 2024/03/27 22:03:27 by subson           ###   ########.fr       */
+/*   Created: 2024/03/28 17:34:02 by subson            #+#    #+#             */
+/*   Updated: 2024/03/28 19:19:25 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PS_BONUS_H
-# define PS_BONUS_H
+#include "so_long.h"
 
-# include "push_swap.h"
-# include "gnl/get_next_line.h"
+void	print_map(char **map, int width, int height)
+{
+	int	i;
+	int	j;
 
-t_list		*read_ops(void);
-int			exe_and_check(t_list *stacks[], t_list *operations);
-t_operation	str_to_op(char *str);
-int			ps_strcmp(const char *s1, const char *s2);
-
-#endif
+	printf("printing map.....\n");
+	i = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (j < width)
+		{
+			printf("%c ", map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:40:44 by subson            #+#    #+#             */
-/*   Updated: 2024/03/27 17:25:18 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/27 22:03:58 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,32 +88,32 @@ int	exe_and_check(t_list *stacks[], t_list *operations)
 
 t_operation	str_to_op(char *str)
 {
-	if (!sl_strcmp(str, "sa\n"))
+	if (!ps_strcmp(str, "sa\n"))
 		return (SA);
-	if (!sl_strcmp(str, "sb\n"))
+	if (!ps_strcmp(str, "sb\n"))
 		return (SB);
-	if (!sl_strcmp(str, "ss\n"))
+	if (!ps_strcmp(str, "ss\n"))
 		return (SS);
-	if (!sl_strcmp(str, "pa\n"))
+	if (!ps_strcmp(str, "pa\n"))
 		return (PA);
-	if (!sl_strcmp(str, "pb\n"))
+	if (!ps_strcmp(str, "pb\n"))
 		return (PB);
-	if (!sl_strcmp(str, "ra\n"))
+	if (!ps_strcmp(str, "ra\n"))
 		return (RA);
-	if (!sl_strcmp(str, "rb\n"))
+	if (!ps_strcmp(str, "rb\n"))
 		return (RB);
-	if (!sl_strcmp(str, "rr\n"))
+	if (!ps_strcmp(str, "rr\n"))
 		return (RR);
-	if (!sl_strcmp(str, "rra\n"))
+	if (!ps_strcmp(str, "rra\n"))
 		return (RRA);
-	if (!sl_strcmp(str, "rrb\n"))
+	if (!ps_strcmp(str, "rrb\n"))
 		return (RRB);
-	if (!sl_strcmp(str, "rrr\n"))
+	if (!ps_strcmp(str, "rrr\n"))
 		return (RRR);
 	return (0);
 }
 
-int	sl_strcmp(const char *s1, const char *s2)
+int	ps_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 

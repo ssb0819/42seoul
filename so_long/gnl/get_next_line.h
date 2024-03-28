@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2024/01/15 19:48:41 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:38:55 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define FILE_END -2
 # define NO_NL -1
 
-char	*get_next_line(int fd);
+ssize_t	get_next_line(int fd, char **next_line);
 ssize_t	make_new_str(char **str, size_t len, size_t repeat_num);
 ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num);
 char	*parse_by_nl(char **str, size_t len);

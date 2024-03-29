@@ -6,66 +6,56 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 20:33:19 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 22:10:40 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 21:15:52 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	check_path(char **map, int width, int height)
+void	check_valid_path(t_map_info *map_info)
 {
-	int	start_pos[2];
-	int	**path_history;
-	int	history_size;
+	int	path_len;
+	int	**path;
+	int	*start_position;
 	int	i;
 
-	history_size = get_path_info(map, width, height, start_pos);
-	i = 0;
-	path_history = malloc(sizeof(int *) * history_size);
-	if (!path_history)
+	path_len = map_info->max_path_len;
+	path = malloc(sizeof(int *) * path_len);
+	if (!path)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
-	while (i < history_size)
+	i = 0;
+	while (i < path_len)
 	{
-		path_history[i] = malloc(sizeof(int) * 2);
-		if (!path_history[i++])
+		path[i] = malloc(sizeof(int) * 2);
+		if (!path[i++])
 			exit_on_error(SYSTEM_ERR, ERR_MSG);
 	}
-	if(!check_next_path(map, start_pos, 0, 0))
+	path[0][0] = map_info->start_x;
+	path[0][1] = map_info->start_y;
+	if (!check_next_path(map_info, path, 0, 0))
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }
 
-int	get_path_info(char **map, int width, int height, int start_pos[2])
+
+int	check_next_path(t_map_info *map_info, int **path, int idx, int colltb_num)
 {
-	int	path_max_size;
+	int	cur_x;
+	int	cur_y;
 	int	i;
-	int	j;
 
-	path_max_size = (width - 1) * (height - 1);
-	i = 1;
-	while (i < height - 1)
-	{
-		j = 1;
-		while (j < width - 1)
-		{
-			if (map[i][j] == PLAYER)
-			{
-				start_pos[0] = i;
-				start_pos[1] = j;
-			}
-			else if (map[i][j] == WALL)
-				path_max_size--;
-			else if (map[i][j] == COLLTB)
-				colltb_count++;
-			j++;
-		}
-		i++;
-	}
-	return (path_max_size);
-}
-
-int	check_next_path(char **map, int cur_pos[2], int idx, int path_found)
-{
-	if (path_found == 1)
+	cur_x = path[idx][0];
+	cur_y = path[idx][1];
+	if (map_info->map[cur_x][cur_y] == EXIT && colltb_num == map_info->colltb_count)
 		return (1);
-	if (map[cur_pos[0]][cur_pos[1]])
+	if (map_info->map[cur_x][cur_y] == WALL)
+		return (0);
+	if (map_info->map[cur_x][cur_y] == PLAYER)
+		return (0);
+	i = 0;
+	while (++i < idx)
+	{
+		if (path[i][0] == cur_x && path[i][1] == cur_y)
+			return (0);
+	}
+	
 }

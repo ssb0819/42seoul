@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:24:50 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 23:54:12 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 20:34:35 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,48 +30,104 @@ void	close_map_file(int fd)
 
 void	set_map_info(char *map_file, t_map_info *map_info)
 {
-	int			height;
-
 	check_extension(map_file);
-	height = get_map_height(open_map_file(map_file));
-	map_info->map = make_map(open_map_file(map_file), height);
-	set_map_size(map_info, height);
+	set_map_size(open_map_file(map_file), map_info);
+	check_map_size(map_info);
+	map_info->map = make_map(open_map_file(map_file), map_info);
 	check_wall(map_info);
 	set_other_info(map_info);
 }
 
-int	get_map_height(int fd)
+void	set_map_size(int fd, t_map_info *map_info)
 {
 	char	*line;
 	ssize_t	line_len;
-	int		height;
+	int		read_last;
 
-	height = 0;
-	while (1)
+	read_last = 0;
+	line_len = get_next_line(fd, &line);
+	map_info->width = line_len - 1;
+	while (line_len > 0)
 	{
-		line_len = get_next_line(fd, &line);
-		if (line_len <= 0)
-			break ;
-		height++;
+		if (read_last)
+			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
+		else if (line_len == map_info->width)
+			read_last = 1;
+		else if (line_len - 1 != map_info->width)
+			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
+
 		free(line);
+		line_len = get_next_line(fd, &line);
+		map_info->height++;
 	}
 	close_map_file(fd);
+	if (!read_last)
+		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	if (line_len == -1)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
-	if (height == 0)
-		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-	return (height);
 }
 
-char	**make_map(int fd, int height)
+char	**make_map(int fd, t_map_info *map_info)
 {
 	char	**map;
-	char	*line;
+	char	**lines;
 	int		i;
-	ssize_t	line_len;
+	int		j;
 
-	map = malloc(sizeof(char *) * height);
+	map = alloc_map(fd, map_info);
+	lines = get_read_lines(fd, map_info->height);
+	i = 0;
+	while (i < map_info->width)
+	{
+		j = 0;
+		while (j < map_info->height)
+		{
+			map[i][j] = lines[j][i];
+			j++;
+		}
+		map[i][j] = '\0';
+		i++;
+	}
+	i = 0;
+	while (i < map_info->height)
+		free(lines[i++]);
+	free(lines);
+	return (map);
+}
+
+char	**alloc_map(int fd,t_map_info *map_info)
+{
+	char	**map;
+	int		i;
+
+	map = malloc(sizeof(char *) * map_info->width);
 	if (!map)
+	{
+		close_map_file(fd);
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
+	}
+	i = 0;
+	while (i < map_info->width)
+	{
+		map[i] = malloc(sizeof(char) * (map_info->height + 1));
+		if (!map[i++])
+		{
+			close_map_file(fd);
+			exit_on_error(SYSTEM_ERR, ERR_MSG);
+		}
+	}
+	return (map);
+}
+
+char	**get_read_lines(int fd, int height)
+{
+	int		i;
+	char	*line;
+	ssize_t	line_len;
+	char	**lines;
+
+	lines = malloc(sizeof(char *) * height);
+	if (!lines)
 	{
 		close_map_file(fd);
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
@@ -82,10 +138,10 @@ char	**make_map(int fd, int height)
 		line_len = get_next_line(fd, &line);
 		if (line_len <= 0)
 			break ;
-		map[i++] = line;
+		lines[i++] = line;
 	}
 	close_map_file(fd);
 	if (line_len == -1)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
-	return (map);
+	return (lines);
 }

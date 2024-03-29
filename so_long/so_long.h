@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 23:57:36 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 21:24:09 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,17 @@ t_map_info	*init_map_info(void);
 /* sl_map.c */
 int			open_map_file(char *file_name);
 void		close_map_file(int fd);
+
 void		set_map_info(char *map_file, t_map_info *map_info);
-int			get_map_height(int fd);
-char		**make_map(int fd, int height);
+void		set_map_size(int fd, t_map_info *map_info);
+char		**make_map(int fd, t_map_info *map_info);
+char		**alloc_map(int fd,t_map_info *map_info);
+char		**get_read_lines(int fd, int height);
+
 
 /* sl_map_check.c */
 void		check_extension(char *file_name);
-void		set_map_size(t_map_info *map_info, int height);
+void		check_map_size(t_map_info *map_info);
 void		check_wall(t_map_info *map_info);
 void		set_other_info(t_map_info *map_info);
 void		check_component(t_map_info *map_info, int *counts, int i, int j);
@@ -79,5 +83,6 @@ int			sl_strcmp(const char *s1, const char *s2);
 
 /* sl_debug.c */
 void	print_map(char **map, int width, int height);
+void	print_map_info(t_map_info *map_info);
 
 #endif

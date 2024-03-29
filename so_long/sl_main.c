@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:06:45 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 23:58:37 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 18:57:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	main(int argc, char **argv)
 	}
 	map_info = init_map_info();
 	set_map_info(argv[1], map_info);
-	// check_path(map_info);
+	print_map_info(map_info);
+	// check_valid_path(map_info);
 	// free_map_info(map_info);
 }
 

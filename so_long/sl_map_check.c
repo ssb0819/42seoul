@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 23:58:52 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 20:24:15 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,16 @@ void	check_extension(char *file_name)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }
 
-void	set_map_size(t_map_info *map_info, int height)
+void	check_map_size(t_map_info *map_info)
 {
-	int		i;
-	int		width;
-	char	**map;
+	int	width;
+	int	height;
 
-	map = map_info->map;
-	i = 0;
-	while (i < height)
-	{
-		if (i == 0)
-			width = ft_strlen(map[i]) - 1;
-		else if (i < height - 1 && width + 1 != (int)ft_strlen(map[i]))
-			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-		else if (i == height - 1 && width != (int)ft_strlen(map[i]))
-			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-		i++;
-	}
+	width = map_info->width;
+	height = map_info->height;
 	if (width < 3 || height < 3 || width + height < 8)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-	map_info->width = width;
-	map_info->height = height;
-	// map이 너무 큰 경우 예외처리 추가 예정
+	// 사이즈가 너무 큰 경우 예외처리도 나중에 추가
 }
 
 void	check_wall(t_map_info *map_info)
@@ -58,14 +45,14 @@ void	check_wall(t_map_info *map_info)
 	i = 0;
 	while (i < map_info->width)
 	{
-		if (map[0][i] != WALL || map[map_info->height - 1][i] != WALL)
+		if (map[i][0] != WALL || map[i][map_info->height - 1] != WALL)
 			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 		i++;
 	}
 	i = 0;
 	while (i < map_info->height)
 	{
-		if (map[i][0] != WALL || map[i][map_info->width - 1] != WALL)
+		if (map[0][i] != WALL || map[map_info->width - 1][i] != WALL)
 			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 		i++;
 	}
@@ -80,12 +67,12 @@ void	set_other_info(t_map_info *map_info)
 	counts[C] = 0;
 	counts[E] = 0;
 	counts[P] = 0;
-	map_info->max_path_len = (map_info->width - 1) * (map_info->height - 1);
+	map_info->max_path_len = (map_info->width - 2) * (map_info->height - 2);
 	i = 1;
-	while (i < map_info->height - 1)
+	while (i < map_info->width - 1)
 	{
 		j = 1;
-		while (j < map_info->width - 1)
+		while (j < map_info->height - 1)
 		{
 			check_component(map_info, counts, i, j);
 			j++;

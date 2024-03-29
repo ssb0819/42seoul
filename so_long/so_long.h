@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 21:24:09 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 22:52:14 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <errno.h>
 # include <math.h>
 # include <mlx.h>
-# include "gnl/get_next_line.h"
+# include "gnl/get_next_line2.h"
 
 # define FILE_EXTENSION ".ber"
 
@@ -30,6 +30,7 @@
 # define COLLTB 'C'
 # define EXIT 'E'
 # define PLAYER 'P'
+# define VISITED 'V'
 
 typedef struct s_map_info
 {
@@ -39,7 +40,6 @@ typedef struct s_map_info
 	int		start_x;
 	int		start_y;
 	int		colltb_count;
-	int		max_path_len;
 }	t_map_info;
 
 typedef enum e_components
@@ -65,9 +65,8 @@ void		close_map_file(int fd);
 void		set_map_info(char *map_file, t_map_info *map_info);
 void		set_map_size(int fd, t_map_info *map_info);
 char		**make_map(int fd, t_map_info *map_info);
-char		**alloc_map(int fd,t_map_info *map_info);
+char		**alloc_map(t_map_info *map_info);
 char		**get_read_lines(int fd, int height);
-
 
 /* sl_map_check.c */
 void		check_extension(char *file_name);
@@ -76,10 +75,16 @@ void		check_wall(t_map_info *map_info);
 void		set_other_info(t_map_info *map_info);
 void		check_component(t_map_info *map_info, int *counts, int i, int j);
 
+/* sl_path_check.c */
+void		check_valid_path(t_map_info *map_info);
+char		**duplicate_map(t_map_info *map_info);
+void		check_next_path(char **map, int **counts, int x, int y);
+
 /* sl_utils.c */
 void		exit_on_error(t_err_types e_type, char *err_msg);
-void		sl_putstr_fd(char *s, int fd);
+void		ft_putstr_fd(char *s, int fd);
 int			sl_strcmp(const char *s1, const char *s2);
+void		*ft_memcpy(void *dst, const void *src, size_t n);
 
 /* sl_debug.c */
 void	print_map(char **map, int width, int height);

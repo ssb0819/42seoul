@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 20:24:15 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 22:22:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	set_other_info(t_map_info *map_info)
 	counts[C] = 0;
 	counts[E] = 0;
 	counts[P] = 0;
-	map_info->max_path_len = (map_info->width - 2) * (map_info->height - 2);
 	i = 1;
 	while (i < map_info->width - 1)
 	{
@@ -99,9 +98,7 @@ void	check_component(t_map_info *map_info, int *counts, int i, int j)
 		counts[C]++;
 	else if (component == EXIT)
 		counts[E]++;
-	else if (component == WALL)
-		map_info->max_path_len--;
-	else if (component != BLANK)
+	else if (component != WALL && component != BLANK)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	if (counts[E] > 1 || counts[P] > 1)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);

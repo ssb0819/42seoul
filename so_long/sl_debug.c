@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:34:02 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 20:23:35 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 22:54:35 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_map(char **map, int width, int height)
 void	print_map_info(t_map_info *map_info)
 {
 	printf("printing map info ......\n");
-	printf("width: %d height: %d start position : %d, %d\n", map_info->width, map_info->height, map_info->start_x, map_info->start_y);
-	printf("collectible count : %d max path len : %d\n", map_info->colltb_count, map_info->max_path_len);
+	printf("width: %d height: %d\n", map_info->width, map_info->height);
+	printf("start position : %d, %d collectible count : %d\n", map_info->start_x, map_info->start_y, map_info->colltb_count);
 	print_map(map_info->map, map_info->width, map_info->height);
 }

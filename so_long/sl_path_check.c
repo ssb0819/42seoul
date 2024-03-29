@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 20:33:19 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 21:15:52 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 23:12:03 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,55 @@
 
 void	check_valid_path(t_map_info *map_info)
 {
-	int	path_len;
-	int	**path;
-	int	*start_position;
-	int	i;
+	char	**dup_map;
+	int		*counts;
+	int		i;
 
-	path_len = map_info->max_path_len;
-	path = malloc(sizeof(int *) * path_len);
-	if (!path)
+	dup_map = duplicate_map(map_info);
+	counts = malloc(sizeof(int) * 2);
+	if (!counts)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
+	counts[C] = map_info->colltb_count;
+	counts[E] = 1;
+	check_next_path(dup_map, &counts, map_info->start_x, map_info->start_y);
 	i = 0;
-	while (i < path_len)
-	{
-		path[i] = malloc(sizeof(int) * 2);
-		if (!path[i++])
-			exit_on_error(SYSTEM_ERR, ERR_MSG);
-	}
-	path[0][0] = map_info->start_x;
-	path[0][1] = map_info->start_y;
-	if (!check_next_path(map_info, path, 0, 0))
+	while (i < map_info->width)
+		free(dup_map[i++]);
+	free(counts);
+	if (counts[C] != 0 || counts[E] != 0)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }
 
-
-int	check_next_path(t_map_info *map_info, int **path, int idx, int colltb_num)
+char	**duplicate_map(t_map_info *map_info)
 {
-	int	cur_x;
-	int	cur_y;
-	int	i;
+	char	**map;
+	int		i;
 
-	cur_x = path[idx][0];
-	cur_y = path[idx][1];
-	if (map_info->map[cur_x][cur_y] == EXIT && colltb_num == map_info->colltb_count)
-		return (1);
-	if (map_info->map[cur_x][cur_y] == WALL)
-		return (0);
-	if (map_info->map[cur_x][cur_y] == PLAYER)
-		return (0);
+	map = alloc_map(map_info);
+	if (!map)
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	i = 0;
-	while (++i < idx)
+	while (i < map_info->width)
 	{
-		if (path[i][0] == cur_x && path[i][1] == cur_y)
-			return (0);
+		map[i] = ft_memcpy(map[i], map_info->map[i], map_info->height + 1);
+		i++;
 	}
-	
+	return (map);
+}
+
+void	check_next_path(char **map, int **counts, int x, int y)
+{
+	if ((*counts)[C] == 0 && (*counts)[E] == 0)
+		return ;
+	if (map[x][y] == WALL || map[x][y] == VISITED)
+		return ;
+	if (map[x][y] == COLLTB)
+		(*counts)[C]--;
+	else if (map[x][y] == EXIT)
+		(*counts)[E]--;
+	map[x][y] = VISITED;
+	check_next_path(map, counts, x + 1, y);
+	check_next_path(map, counts, x - 1, y);
+	check_next_path(map, counts, x, y + 1);
+	check_next_path(map, counts, x, y - 1);
 }

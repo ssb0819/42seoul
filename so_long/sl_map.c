@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:24:50 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 20:34:35 by subson           ###   ########.fr       */
+/*   Updated: 2024/03/29 23:05:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,12 @@ char	**make_map(int fd, t_map_info *map_info)
 	int		i;
 	int		j;
 
-	map = alloc_map(fd, map_info);
+	map = alloc_map(map_info);
+	if (!map)
+	{
+		close_map_file(fd);
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
+	}
 	lines = get_read_lines(fd, map_info->height);
 	i = 0;
 	while (i < map_info->width)
@@ -88,6 +93,7 @@ char	**make_map(int fd, t_map_info *map_info)
 		map[i][j] = '\0';
 		i++;
 	}
+	close_map_file(fd);
 	i = 0;
 	while (i < map_info->height)
 		free(lines[i++]);
@@ -95,26 +101,20 @@ char	**make_map(int fd, t_map_info *map_info)
 	return (map);
 }
 
-char	**alloc_map(int fd,t_map_info *map_info)
+char	**alloc_map(t_map_info *map_info)
 {
 	char	**map;
 	int		i;
 
 	map = malloc(sizeof(char *) * map_info->width);
 	if (!map)
-	{
-		close_map_file(fd);
-		exit_on_error(SYSTEM_ERR, ERR_MSG);
-	}
+		return ((void *)0);
 	i = 0;
 	while (i < map_info->width)
 	{
 		map[i] = malloc(sizeof(char) * (map_info->height + 1));
 		if (!map[i++])
-		{
-			close_map_file(fd);
-			exit_on_error(SYSTEM_ERR, ERR_MSG);
-		}
+			return ((void *)0);
 	}
 	return (map);
 }
@@ -140,7 +140,6 @@ char	**get_read_lines(int fd, int height)
 			break ;
 		lines[i++] = line;
 	}
-	close_map_file(fd);
 	if (line_len == -1)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	return (lines);

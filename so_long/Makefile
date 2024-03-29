@@ -3,12 +3,12 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = so_long
-SRCS = sl_debug.c sl_main.c sl_map.c sl_map_check.c sl_utils.c
+SRCS = sl_debug.c sl_main.c sl_map.c sl_map_check.c sl_path_check.c sl_utils.c
 OBJ_DIR = objs
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))
 
-GNL_SRCS = gnl/get_next_line.c gnl/get_next_line_utils.c
+GNL_SRCS = gnl/get_next_line2.c gnl/get_next_line_utils2.c
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 .PHONY : all clean fclean re bonus

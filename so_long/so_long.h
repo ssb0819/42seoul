@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 22:52:14 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/02 23:50:36 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,22 @@
 # include <mlx.h>
 # include "gnl/get_next_line2.h"
 
-# define FILE_EXTENSION ".ber"
-
 # define ERR_MSG "Error\n"
 # define MAP_ERR_MSG "Error\nInvalid map file\n"
 
-# define WALL '1'
-# define BLANK '0'
+# define MAP_EXTENSION ".ber"
+
+# define COLLTB_PATH "./assets/collectible.xpm"
+# define EXIT_PATH "./assets/exit.xpm"
+# define PLAYER_PATH "./assets/player.xpm"
+# define BKGRND_PATH "./assets/background.xpm"
+# define WALL_PATH "./assets/wall.xpm"
+
 # define COLLTB 'C'
 # define EXIT 'E'
 # define PLAYER 'P'
+# define BLANK '0'
+# define WALL '1'
 # define VISITED 'V'
 
 typedef struct s_map_info
@@ -46,7 +52,9 @@ typedef enum e_components
 {
 	C,
 	E,
-	P
+	P,
+	B,
+	W
 }	t_components;
 
 typedef enum e_err_types
@@ -89,5 +97,9 @@ void		*ft_memcpy(void *dst, const void *src, size_t n);
 /* sl_debug.c */
 void	print_map(char **map, int width, int height);
 void	print_map_info(t_map_info *map_info);
+
+void	start_game(t_map_info *map_info);
+void	init_game_win(void *mlx, void *mlx_win, t_map_info *map_info, void **imgs);
+void	**upload_images(void *mlx);
 
 #endif

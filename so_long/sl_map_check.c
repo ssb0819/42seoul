@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 22:22:27 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/02 22:00:29 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	check_extension(char *file_name)
 	int	ext_len;
 
 	len = ft_strlen(file_name);
-	ext_len = ft_strlen(FILE_EXTENSION);
+	ext_len = ft_strlen(MAP_EXTENSION);
 	file_name += (len - ext_len);
-	if (sl_strcmp(file_name, FILE_EXTENSION) != 0)
+	if (sl_strcmp(file_name, MAP_EXTENSION) != 0)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }
 

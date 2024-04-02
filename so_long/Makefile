@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = so_long
-SRCS = sl_debug.c sl_main.c sl_map.c sl_map_check.c sl_path_check.c sl_utils.c
+SRCS = mlx_test.c sl_debug.c sl_main.c sl_map.c sl_map_check.c sl_path_check.c sl_utils.c
 OBJ_DIR = objs
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))

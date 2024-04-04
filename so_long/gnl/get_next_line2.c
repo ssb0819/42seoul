@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:11:36 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 21:54:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:12:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ ssize_t	get_next_line(int fd, char **next_line)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
-	len = ft_strlen(str);
+	len = gnl_strlen(str);
 	repeat_num = 1;
 	while (make_new_str(&str, len, repeat_num))
 	{
@@ -31,7 +31,7 @@ ssize_t	get_next_line(int fd, char **next_line)
 		if (nl_index == FILE_END || nl_index > NO_NL)
 		{
 			*next_line = parse_by_nl(&str, len);
-			return (ft_strlen(*next_line));
+			return (gnl_strlen(*next_line));
 		}
 		repeat_num++;
 	}
@@ -80,7 +80,7 @@ ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num)
 			j = 0;
 			while (j < r_bytes)
 				str[(*len)++] = buffer[j++];
-			r_bytes = ft_strchr(str, '\n', *len);
+			r_bytes = gnl_strchr(str, '\n', *len);
 			if (r_bytes != -1)
 				break ;
 			i++;
@@ -96,13 +96,13 @@ char	*parse_by_nl(char **str, size_t len)
 	ssize_t	nl_index;
 
 	backup = (void *)0;
-	nl_index = ft_strchr(*str, '\n', len);
+	nl_index = gnl_strchr(*str, '\n', len);
 	if (nl_index == NO_NL)
-		result = ft_substr(*str, 0, len);
+		result = gnl_substr(*str, 0, len);
 	else
 	{
-		result = ft_substr(*str, 0, nl_index + 1);
-		backup = ft_substr(*str, nl_index + 1, len);
+		result = gnl_substr(*str, 0, nl_index + 1);
+		backup = gnl_substr(*str, nl_index + 1, len);
 		if (!result || (len - nl_index > 1 && !backup))
 		{
 			free(result);

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/04/02 23:50:36 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 21:48:12 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <mlx.h>
 # include "gnl/get_next_line2.h"
+# include "libft/libft.h"
 
 # define ERR_MSG "Error\n"
 # define MAP_ERR_MSG "Error\nInvalid map file\n"
@@ -43,10 +44,19 @@ typedef struct s_map_info
 	char	**map;
 	int		width;
 	int		height;
-	int		start_x;
-	int		start_y;
+	int		player_x;
+	int		player_y;
 	int		colltb_count;
-}	t_map_info;
+}				t_map_info;
+
+typedef struct s_param
+{
+	void			*mlx;
+	void			*win;
+	t_map_info		*map_info;
+	void			**images;
+	unsigned int	move_count;
+}				t_param;
 
 typedef enum e_components
 {
@@ -55,13 +65,38 @@ typedef enum e_components
 	P,
 	B,
 	W
-}	t_components;
+}			t_components;
 
 typedef enum e_err_types
 {
 	SYSTEM_ERR,
 	RUNTIME_ERR
 }	t_err_types;
+
+typedef enum e_events
+{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+}				t_events;
+
+typedef enum e_keycodes
+{
+	KEY_ESC = 53,
+	KEY_A = 0,
+	KEY_S = 1,
+	KEY_D = 2,
+	KEY_W = 13,
+	ARROW_LEFT = 123,
+	ARROW_RIGHT = 124,
+	ARROW_DOWN = 125,
+	ARROW_UP = 126
+
+}			t_keycodes;
 
 /* sl_main.c */
 t_map_info	*init_map_info(void);
@@ -90,16 +125,23 @@ void		check_next_path(char **map, int **counts, int x, int y);
 
 /* sl_utils.c */
 void		exit_on_error(t_err_types e_type, char *err_msg);
-void		ft_putstr_fd(char *s, int fd);
 int			sl_strcmp(const char *s1, const char *s2);
-void		*ft_memcpy(void *dst, const void *src, size_t n);
+// void		ft_putstr_fd(char *s, int fd);
+// void		*ft_memcpy(void *dst, const void *src, size_t n);
 
 /* sl_debug.c */
 void	print_map(char **map, int width, int height);
 void	print_map_info(t_map_info *map_info);
 
+/* sl_game_exe.c */
 void	start_game(t_map_info *map_info);
-void	init_game_win(void *mlx, void *mlx_win, t_map_info *map_info, void **imgs);
+void	init_window(t_param *param);
 void	**upload_images(void *mlx);
+int		exit_game(t_param *param);
+void	print_image(t_param *param, char component, int x, int y);
+
+/* sl_event_func */
+int		key_execute(int keycode, t_param *param);
+void	move_character(t_param *param, int next_x, int next_y);
 
 #endif

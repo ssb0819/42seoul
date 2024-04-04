@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 15:09:28 by subson            #+#    #+#             */
-/*   Updated: 2024/03/29 21:54:41 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:12:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line2.h"
 
-size_t	ft_strlen(const char *s)
+size_t	gnl_strlen(const char *s)
 {
 	size_t	len;
 
@@ -27,7 +27,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-ssize_t	ft_strchr(char *s, char c, size_t len)
+ssize_t	gnl_strchr(char *s, char c, size_t len)
 {
 	ssize_t	i;
 	ssize_t	size;
@@ -45,7 +45,7 @@ ssize_t	ft_strchr(char *s, char c, size_t len)
 	return (-1);
 }
 
-char	*ft_substr(char const *s, ssize_t start, ssize_t end)
+char	*gnl_substr(char const *s, ssize_t start, ssize_t end)
 {
 	char	*res;
 	ssize_t	len;

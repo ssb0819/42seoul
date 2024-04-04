@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/04/02 22:00:29 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:24:17 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	check_component(t_map_info *map_info, int *counts, int i, int j)
 	if (component == PLAYER)
 	{
 		counts[P]++;
-		map_info->start_x = i;
-		map_info->start_y = j;
+		map_info->player_x = i;
+		map_info->player_y = j;
 	}
 	else if (component == COLLTB)
 		counts[C]++;

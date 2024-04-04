@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line2.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 16:29:54 by subson            #+#    #+#             */
-/*   Updated: 2024/03/28 16:38:55 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:11:57 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ ssize_t	get_next_line(int fd, char **next_line);
 ssize_t	make_new_str(char **str, size_t len, size_t repeat_num);
 ssize_t	read_next(int fd, char *str, size_t *len, size_t repeat_num);
 char	*parse_by_nl(char **str, size_t len);
-size_t	ft_strlen(const char *s);
-ssize_t	ft_strchr(char *s, char c, size_t len);
-char	*ft_substr(char const *s, ssize_t start, ssize_t end);
+size_t	gnl_strlen(const char *s);
+ssize_t	gnl_strchr(char *s, char c, size_t len);
+char	*gnl_substr(char const *s, ssize_t start, ssize_t end);
 
 #endif

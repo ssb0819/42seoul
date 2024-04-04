@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:06:45 by subson            #+#    #+#             */
-/*   Updated: 2024/04/02 22:05:41 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:23:54 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_map_info	*init_map_info(void)
 	map_info->map = (char **)0;
 	map_info->width = 0;
 	map_info->height = 0;
-	map_info->start_x = 0;
-	map_info->start_y = 0;
+	map_info->player_x = 0;
+	map_info->player_y = 0;
 	map_info->colltb_count = 0;
 	return (map_info);
 }

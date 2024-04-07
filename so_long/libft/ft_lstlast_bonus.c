@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:14:22 by subson            #+#    #+#             */
-/*   Updated: 2023/11/09 13:32:38 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/07 18:05:38 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (lst == NULL)
-		return (lst);
-	while (lst->next != NULL)
+	if (!lst)
+		return ((void *)0);
+	while (lst->next)
 		lst = lst->next;
 	return (lst);
 }

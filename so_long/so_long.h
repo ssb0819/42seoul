@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/04/04 21:48:12 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/07 21:37:12 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,20 @@
 # include "gnl/get_next_line2.h"
 # include "libft/libft.h"
 
+# define TILE_SIZE 64
+
+# ifndef SCREEN_WIDTH
+#  define SCREEN_WIDTH 2560
+# endif
+# ifndef SCREEN_HEIGHT
+#  define SCREEN_HEIGHT 1440
+# endif
+
 # define ERR_MSG "Error\n"
 # define MAP_ERR_MSG "Error\nInvalid map file\n"
+# define MV_CNT_MSG "movement count : "
+# define BLACK_TRGB 0x00000000
+# define BLUE_TRGB 0x000000FF
 
 # define MAP_EXTENSION ".ber"
 
@@ -76,11 +88,6 @@ typedef enum e_err_types
 typedef enum e_events
 {
 	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
 	ON_DESTROY = 17
 }				t_events;
 
@@ -95,53 +102,40 @@ typedef enum e_keycodes
 	ARROW_RIGHT = 124,
 	ARROW_DOWN = 125,
 	ARROW_UP = 126
-
 }			t_keycodes;
 
 /* sl_main.c */
 t_map_info	*init_map_info(void);
+void		set_map_info(char *map_file, t_map_info *map_info);
+void		check_valid_path(t_map_info *map_info);
+void		game_exe(t_map_info *map_info);
 
 /* sl_map.c */
-int			open_map_file(char *file_name);
-void		close_map_file(int fd);
-
-void		set_map_info(char *map_file, t_map_info *map_info);
-void		set_map_size(int fd, t_map_info *map_info);
-char		**make_map(int fd, t_map_info *map_info);
-char		**alloc_map(t_map_info *map_info);
-char		**get_read_lines(int fd, int height);
+t_list		*read_map_file(int fd, t_map_info *map_info);
+void		set_map_size(t_list *read_lines, t_map_info *map_info);
+void		set_map(t_list *read_lines, t_map_info *map_info);
+void		set_other_info(t_map_info *map_info);
+char		**duplicate_map(t_map_info *map_info);
 
 /* sl_map_check.c */
 void		check_extension(char *file_name);
-void		check_map_size(t_map_info *map_info);
 void		check_wall(t_map_info *map_info);
-void		set_other_info(t_map_info *map_info);
-void		check_component(t_map_info *map_info, int *counts, int i, int j);
+void		check_next_path(char **map, int *counts, int x, int y);
+void		check_component(t_map_info *map_info, int *counts, int x, int y);
 
-/* sl_path_check.c */
-void		check_valid_path(t_map_info *map_info);
-char		**duplicate_map(t_map_info *map_info);
-void		check_next_path(char **map, int **counts, int x, int y);
+/* sl_game.c */
+void		**upload_tile_imgs(void *mlx);
+void		init_window(t_param *param);
+void		print_tile(t_param *param, char component, int x, int y);
+int			exe_on_key_down(int keycode, t_param *param);
+void		move_character(t_param *param, int next_x, int next_y);
 
 /* sl_utils.c */
+int			exit_game(t_param *param);
 void		exit_on_error(t_err_types e_type, char *err_msg);
 int			sl_strcmp(const char *s1, const char *s2);
-// void		ft_putstr_fd(char *s, int fd);
-// void		*ft_memcpy(void *dst, const void *src, size_t n);
 
-/* sl_debug.c */
-void	print_map(char **map, int width, int height);
-void	print_map_info(t_map_info *map_info);
-
-/* sl_game_exe.c */
-void	start_game(t_map_info *map_info);
-void	init_window(t_param *param);
-void	**upload_images(void *mlx);
-int		exit_game(t_param *param);
-void	print_image(t_param *param, char component, int x, int y);
-
-/* sl_event_func */
-int		key_execute(int keycode, t_param *param);
-void	move_character(t_param *param, int next_x, int next_y);
+/* sl_bonus.c */
+void		print_move_count(t_param *param);
 
 #endif

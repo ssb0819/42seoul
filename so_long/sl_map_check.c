@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/04/04 22:24:17 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/07 20:13:47 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,82 +24,65 @@ void	check_extension(char *file_name)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }
 
-void	check_map_size(t_map_info *map_info)
-{
-	int	width;
-	int	height;
-
-	width = map_info->width;
-	height = map_info->height;
-	if (width < 3 || height < 3 || width + height < 8)
-		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-	// 사이즈가 너무 큰 경우 예외처리도 나중에 추가
-}
-
 void	check_wall(t_map_info *map_info)
 {
 	int		i;
+	int		horizontal_last;
+	int		vertical_last;
 	char	**map;
 
+	i = 0;
+	horizontal_last = map_info->width - 1;
+	vertical_last = map_info->height - 1;
 	map = map_info->map;
-	i = 0;
-	while (i < map_info->width)
+	while (i <= horizontal_last)
 	{
-		if (map[i][0] != WALL || map[i][map_info->height - 1] != WALL)
+		if (map[0][i] != WALL || map[vertical_last][i] != WALL)
 			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 		i++;
 	}
 	i = 0;
-	while (i < map_info->height)
+	while (i <= vertical_last)
 	{
-		if (map[0][i] != WALL || map[map_info->width - 1][i] != WALL)
+		if (map[i][0] != WALL || map[i][horizontal_last] != WALL)
 			exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 		i++;
 	}
 }
 
-void	set_other_info(t_map_info *map_info)
+void	check_next_path(char **map, int *counts, int x, int y)
 {
-	int		counts[4];
-	int		i;
-	int		j;
-
-	counts[C] = 0;
-	counts[E] = 0;
-	counts[P] = 0;
-	i = 1;
-	while (i < map_info->width - 1)
-	{
-		j = 1;
-		while (j < map_info->height - 1)
-		{
-			check_component(map_info, counts, i, j);
-			j++;
-		}
-		i++;
-	}
-	if (counts[C] == 0 || counts[E] == 0 || counts[P] == 0)
-		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-	map_info->colltb_count = counts[C];
+	if (counts[C] == 0 && counts[E] == 0)
+		return ;
+	if (map[y][x] == WALL || map[y][x] == VISITED)
+		return ;
+	if (map[y][x] == COLLTB)
+		counts[C]--;
+	else if (map[y][x] == EXIT)
+		counts[E]--;
+	map[y][x] = VISITED;
+	check_next_path(map, counts, x + 1, y);
+	check_next_path(map, counts, x - 1, y);
+	check_next_path(map, counts, x, y + 1);
+	check_next_path(map, counts, x, y - 1);
 }
 
-void	check_component(t_map_info *map_info, int *counts, int i, int j)
+void	check_component(t_map_info *map_info, int *counts, int x, int y)
 {
 	char	component;
 
-	component = map_info->map[i][j];
+	component = map_info->map[y][x];
 	if (component == PLAYER)
 	{
 		counts[P]++;
-		map_info->player_x = i;
-		map_info->player_y = j;
+		map_info->player_x = x;
+		map_info->player_y = y;
 	}
 	else if (component == COLLTB)
 		counts[C]++;
 	else if (component == EXIT)
 		counts[E]++;
-	else if (component != WALL && component != BLANK)
-		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
-	if (counts[E] > 1 || counts[P] > 1)
+	else if ((component != WALL && component != BLANK) \
+			|| counts[E] > 1 || counts[P] > 1)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }

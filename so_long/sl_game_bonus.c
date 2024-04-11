@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_game.c                                          :+:      :+:    :+:   */
+/*   sl_game_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:17:36 by subson            #+#    #+#             */
-/*   Updated: 2024/04/08 21:36:32 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:07:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	**upload_tile_imgs(void *mlx)
 {
@@ -59,6 +59,7 @@ void	init_window(t_param *param)
 		}
 		x++;
 	}
+	mlx_string_put(param->mlx, param->win, 20, 20, BLACK_TRGB, MV_CNT_MSG);
 }
 
 void	print_tile(t_param *param, char component, int x, int y)

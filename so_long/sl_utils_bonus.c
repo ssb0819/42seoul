@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_utils.c                                         :+:      :+:    :+:   */
+/*   sl_utils_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 17:18:31 by subson            #+#    #+#             */
-/*   Updated: 2024/04/11 19:01:31 by subson           ###   ########.fr       */
+/*   Created: 2024/04/07 21:06:07 by subson            #+#    #+#             */
+/*   Updated: 2024/04/11 19:08:08 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	exit_game(t_param *param)
 {
@@ -43,11 +43,15 @@ int	sl_strcmp(const char *s1, const char *s2)
 
 void	print_move_count(t_param *param)
 {
+	void	*mlx;
+	void	*win;
 	char	*mv_cnt_str;
 
 	param->move_count++;
+	mlx = param->mlx;
+	win = param->win;
 	mv_cnt_str = ft_itoa(param->move_count);
-	ft_putstr_fd(mv_cnt_str, 1);
-	ft_putstr_fd("\n", 1);
+	mlx_put_image_to_window(mlx, win, param->images[W], 3 * TILE_SIZE, 0);
+	mlx_string_put(mlx, win, 205, 20, BLUE_TRGB, mv_cnt_str);
 	free(mv_cnt_str);
 }

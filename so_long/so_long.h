@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:09:55 by subson            #+#    #+#             */
-/*   Updated: 2024/04/07 21:37:12 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:34:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #  define SCREEN_HEIGHT 1440
 # endif
 
-# define ERR_MSG "Error\n"
+# define ERR_MSG "Error\nSystem Error "
 # define MAP_ERR_MSG "Error\nInvalid map file\n"
 # define MV_CNT_MSG "movement count : "
 # define BLACK_TRGB 0x00000000
@@ -104,12 +104,6 @@ typedef enum e_keycodes
 	ARROW_UP = 126
 }			t_keycodes;
 
-/* sl_main.c */
-t_map_info	*init_map_info(void);
-void		set_map_info(char *map_file, t_map_info *map_info);
-void		check_valid_path(t_map_info *map_info);
-void		game_exe(t_map_info *map_info);
-
 /* sl_map.c */
 t_list		*read_map_file(int fd, t_map_info *map_info);
 void		set_map_size(t_list *read_lines, t_map_info *map_info);
@@ -134,8 +128,7 @@ void		move_character(t_param *param, int next_x, int next_y);
 int			exit_game(t_param *param);
 void		exit_on_error(t_err_types e_type, char *err_msg);
 int			sl_strcmp(const char *s1, const char *s2);
-
-/* sl_bonus.c */
 void		print_move_count(t_param *param);
+void		free_2d_array(char **array, int len);
 
 #endif

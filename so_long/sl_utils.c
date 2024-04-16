@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:18:31 by subson            #+#    #+#             */
-/*   Updated: 2024/04/11 19:01:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:33:01 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,25 @@ void	print_move_count(t_param *param)
 
 	param->move_count++;
 	mv_cnt_str = ft_itoa(param->move_count);
+	if (!mv_cnt_str)
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	ft_putstr_fd(mv_cnt_str, 1);
 	ft_putstr_fd("\n", 1);
 	free(mv_cnt_str);
+}
+
+void	free_2d_array(char **array, int len)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (i < len)
+	{
+		if (*array[i])
+			free(array[i]);
+		i++;
+	}
+	free(array);
 }

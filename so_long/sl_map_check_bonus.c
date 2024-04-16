@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:33:28 by subson            #+#    #+#             */
-/*   Updated: 2024/04/11 19:06:04 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:41:52 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	check_extension(char *file_name)
 
 	len = ft_strlen(file_name);
 	ext_len = ft_strlen(MAP_EXTENSION);
+	if (len <= ext_len)
+		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	file_name += (len - ext_len);
 	if (sl_strcmp(file_name, MAP_EXTENSION) != 0)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
@@ -82,7 +84,8 @@ void	check_component(t_map_info *map_info, int *counts, int x, int y)
 		counts[C]++;
 	else if (component == EXIT)
 		counts[E]++;
-	else if ((component != WALL && component != BLANK) \
-			|| counts[E] > 1 || counts[P] > 1)
+	else if (component != WALL && component != BLANK)
+		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
+	if (counts[E] > 1 || counts[P] > 1)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 }

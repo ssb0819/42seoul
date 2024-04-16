@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:06:07 by subson            #+#    #+#             */
-/*   Updated: 2024/04/11 19:08:08 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:33:34 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,25 @@ void	print_move_count(t_param *param)
 	mlx = param->mlx;
 	win = param->win;
 	mv_cnt_str = ft_itoa(param->move_count);
+	if (!mv_cnt_str)
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	mlx_put_image_to_window(mlx, win, param->images[W], 3 * TILE_SIZE, 0);
 	mlx_string_put(mlx, win, 205, 20, BLUE_TRGB, mv_cnt_str);
 	free(mv_cnt_str);
+}
+
+void	free_2d_array(char **array, int len)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (i < len)
+	{
+		if (*array[i])
+			free(array[i]);
+		i++;
+	}
+	free(array);
 }

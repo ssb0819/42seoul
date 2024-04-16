@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:24:50 by subson            #+#    #+#             */
-/*   Updated: 2024/04/07 19:53:29 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:18:16 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,9 @@ t_list	*read_map_file(int fd, t_map_info *map_info)
 		if (line_len <= 0)
 			break ;
 		if (!ft_lstadd_back(&read_lines, ft_lstnew(line)))
-		{
-			close(fd);
 			exit_on_error(SYSTEM_ERR, ERR_MSG);
-		}
 		map_info->height++;
 	}
-	if (close(fd) == -1)
-		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	if (line_len == -1)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	return (read_lines);
@@ -80,7 +75,7 @@ void	set_map(t_list *read_lines, t_map_info *map_info)
 
 void	set_other_info(t_map_info *map_info)
 {
-	int		counts[4];
+	int		counts[3];
 	int		x;
 	int		y;
 
@@ -98,7 +93,7 @@ void	set_other_info(t_map_info *map_info)
 		}
 		x++;
 	}
-	if (counts[C] == 0 || counts[E] == 0 || counts[P] == 0)
+	if (counts[C] < 1 || counts[E] != 1 || counts[P] != 1)
 		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	map_info->colltb_count = counts[C];
 }

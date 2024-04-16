@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:29:16 by subson            #+#    #+#             */
-/*   Updated: 2023/11/08 16:41:51 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:03:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
+	if (!s)
+		return ;
 	while (*s)
-		write(fd, s++, 1);
+		write(fd, s++, fd);
 	write(fd, "\n", 1);
 }

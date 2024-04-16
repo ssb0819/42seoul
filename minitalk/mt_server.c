@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   mt_server.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:26:10 by subson            #+#    #+#             */
-/*   Updated: 2024/04/15 22:23:09 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:12:01 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	mt_translate_signal(int signo, siginfo_t *siginfo, void *context)
 {
 	const char	bit = 1;
 
+	context = (void *)0;
 	if (!g_sig_char.si_pid || g_sig_char.si_pid != siginfo->si_pid)
 	{
 		g_sig_char.si_pid = siginfo->si_pid;
@@ -45,7 +46,6 @@ void	mt_translate_signal(int signo, siginfo_t *siginfo, void *context)
 	if (g_sig_char.idx >= 8)
 	{
 		write(1, &g_sig_char.buf, 1);
-		write(1, "\n", 1);
 		g_sig_char.si_pid = 0;
 		g_sig_char.idx = 0;
 	}

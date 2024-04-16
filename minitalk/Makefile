@@ -2,54 +2,54 @@ RM = rm -rf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-NAME = so_long
-
-SRCS = sl_game.c sl_main.c sl_map.c sl_map_check.c sl_utils.c
-OBJ_DIR = objs
-OBJS = $(SRCS:.c=.o)
-OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(OBJS))
-
-BONUS_SRCS = sl_game_bonus.c sl_main_bonus.c sl_map_bonus.c sl_map_check_bonus.c sl_utils_bonus.c
-BONUS_OBJS = $(BONUS_SRCS:.c=.o)
-BONUS_OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(BONUS_OBJS))
-
-GNL_SRCS = gnl/get_next_line2.c gnl/get_next_line_utils2.c
-GNL_OBJS = $(GNL_SRCS:.c=.o)
-
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-.PHONY : all clean fclean re bonus
+CLIENT_SRC = mt_client.c
+SERVER_SRC = mt_server.c
+CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
+SERVER_OBJ = $(SERVER_SRC:.c=.o)
 
-all : .sl_mandatory
+B_CLIENT_SRC = mt_client_bonus.c
+B_SERVER_SRC = mt_server_bonus.c
+B_CLIENT_OBJ = $(B_CLIENT_SRC:.c=.o)
+B_SERVER_OBJ = $(B_SERVER_SRC:.c=.o)
 
-bonus : .sl_bonus
+OTHER_SRCS = mt_utils_bonus.c
+OTHER_OBJS = $(OTHER_SRCS:.c=.o)
 
-.sl_mandatory : $(OBJ_FILES) $(GNL_OBJS) $(LIBFT)
-	$(CC) $^ -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-	touch $@
+BONUS_HEADER = mt_bonus.h
 
-.sl_bonus : $(BONUS_OBJ_FILES) $(GNL_OBJS) $(LIBFT)
-	$(CC) $^ -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-	touch $@
+all : .mandatory
+
+bonus : .bonus
 
 clean :
-	$(RM) $(OBJ_DIR) $(GNL_OBJS) .sl_mandatory .sl_bonus
+	$(RM) $(CLIENT_OBJ) $(SERVER_OBJ) $(B_CLIENT_OBJ) $(B_SERVER_OBJ) $(OTHER_OBJS) .mandatory .bonus
 	$(MAKE) -C $(LIBFT_DIR)/ clean
 
 fclean : 
 	$(MAKE) clean
-	$(RM) $(NAME) $(LIBFT) .sl_mandatory .sl_bonus
+	$(RM) client server $(LIBFT)
 
 re : 
 	$(MAKE) fclean
 	$(MAKE) all
 
-$(OBJ_DIR) :
-	mkdir $(OBJ_DIR)
+.mandatory : $(CLIENT_OBJ) $(SERVER_OBJ) $(LIBFT)
+	$(CC) $(CLIENT_OBJ) -Llibft -lft -o client
+	$(CC) $(SERVER_OBJ) -Llibft -lft -o server
+	touch $@
 
-$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+.bonus : $(B_CLIENT_OBJ) $(B_SERVER_OBJ) $(OTHER_OBJS) $(LIBFT) $(BONUS_HEADER)
+	$(CC) $(B_CLIENT_OBJ) $(OTHER_OBJS) -Llibft -lft -o client
+	$(CC) $(B_SERVER_OBJ) $(OTHER_OBJS) -Llibft -lft -o server
+	touch $@
+
+.PHONY : all bonus clean fclean re
+
+%.o : %.c
+	$(CC) $(CFLAGS) -Ilibft -c $< -o $@
 
 $(LIBFT) :
 	$(MAKE) -C $(LIBFT_DIR)/ bonus

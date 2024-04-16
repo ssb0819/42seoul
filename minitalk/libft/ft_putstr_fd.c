@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:29:16 by subson            #+#    #+#             */
-/*   Updated: 2024/04/12 14:30:17 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:04:35 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	int	len;
 
+	if (!s)
+		return ;
 	len = (int)ft_strlen(s);
 	write(fd, s, len);
 }

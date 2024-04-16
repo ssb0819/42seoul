@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   mt_utils_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 16:29:16 by subson            #+#    #+#             */
-/*   Updated: 2024/04/16 21:03:13 by subson           ###   ########.fr       */
+/*   Created: 2024/04/15 22:42:03 by subson            #+#    #+#             */
+/*   Updated: 2024/04/16 18:09:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "mt_bonus.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	send_signal(int pid, unsigned char c, int cnt)
 {
-	if (!s)
-		return ;
-	while (*s)
-		write(fd, s++, fd);
-	write(fd, "\n", 1);
+	if (cnt < 7)
+		send_signal(pid, c >> 1, ++cnt);
+	if (c % 2 == 1)
+		kill(pid, SIGUSR1);
+	else
+		kill(pid, SIGUSR2);
+	usleep(50);
 }

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:43:54 by subson            #+#    #+#             */
-/*   Updated: 2023/10/25 19:13:45 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:06:29 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_bzero(void *s, size_t n)
 	unsigned char	*tmp;
 	size_t			i;
 
+	if (!s)
+		return ;
 	tmp = (unsigned char *)s;
 	i = 0;
 	while (i < n)

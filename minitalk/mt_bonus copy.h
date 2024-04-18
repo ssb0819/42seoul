@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 22:39:57 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 20:51:34 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/18 20:28:53 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef struct s_signal_buffer
 {
 	pid_t			si_pid;
-	unsigned char	buf[4];
+	unsigned char	buf[1026];
 	int				idx;
 	int				byte_size;
 }				t_signal_buffer;

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:26:10 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 00:00:32 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/18 20:52:19 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_signal_buffer	g_signal;
 static void	on_signal_from_client(int signo, siginfo_t *siginfo, void *context)
 {
 	const unsigned char	bit = 128;
+	static int			reset_flag;
 	int					char_idx;
 	int					bit_idx;
 
@@ -31,15 +32,28 @@ static void	on_signal_from_client(int signo, siginfo_t *siginfo, void *context)
 	char_idx = g_signal.idx / 8;
 	bit_idx = g_signal.idx % 8;
 	if (signo == SIGUSR1)
-		g_signal.buf[char_idx] = g_signal.buf[char_idx] | bit >> bit_idx;
-	g_signal.idx++;
-	if (g_signal.idx == 4)
-		g_signal.byte_size = get_encoding_bytes(g_signal.buf[0]);
-	if (g_signal.idx == 8 * g_signal.byte_size)
 	{
-		write(1, "\nget char: ", 11);
+		g_signal.buf[char_idx] = g_signal.buf[char_idx] | bit >> bit_idx;
+		reset_flag = 0;
+		g_signal.idx++;
+	}
+	else
+	{
+		reset_flag++;
+		g_signal.idx++;
+	}
+	if (reset_flag == 8)
+	{
+		ft_bzero(&g_signal, sizeof(t_signal_buffer));
+		reset_flag = 0;
+	}
+	else if (g_signal.idx == 4 || g_signal.idx == 32)
+	{
+		g_signal.byte_size = get_encoding_bytes(g_signal.buf[0]);
+	}
+	else if (g_signal.idx == 8 * g_signal.byte_size)
+	{
 		write(1, &g_signal.buf, g_signal.byte_size);
-		write(1, "\n", 1);
 		send_unicode_by_sig(g_signal.si_pid, g_signal.buf, g_signal.byte_size);
 		ft_bzero(&g_signal, sizeof(t_signal_buffer));
 	}

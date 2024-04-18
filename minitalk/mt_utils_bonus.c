@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 22:42:03 by subson            #+#    #+#             */
-/*   Updated: 2024/04/17 23:59:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/18 19:17:49 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	send_char_by_signal(pid_t pid, unsigned char c, int cnt)
 {
 	if (cnt < 7)
 		send_char_by_signal(pid, c >> 1, ++cnt);
+	usleep(100);
 	if (c % 2 == 1)
 		kill(pid, SIGUSR1);
 	else
 		kill(pid, SIGUSR2);
-	usleep(10);
 }
 
 void	send_unicode_by_sig(pid_t pid, unsigned char *buffer, int byte_len)

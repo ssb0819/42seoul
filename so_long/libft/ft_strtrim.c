@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 14:44:03 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 15:52:06 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:24:59 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	start_i;
 	size_t	len;
 
-	if (s1 == NULL || set == NULL)
-		return (NULL);
+	if (!s1 || !set)
+		return ((void *)0);
 	start_i = 0;
 	len = ft_strlen(s1);
 	if (!len)
 	{
 		res = ft_calloc(1, sizeof(char));
-		if (res == NULL)
-			return (NULL);
+		if (!res)
+			return ((void *)0);
 		return (res);
 	}
 	while (ft_strchr(set, s1[start_i]) != 0)

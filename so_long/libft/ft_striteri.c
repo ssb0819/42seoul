@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 15:26:56 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 20:55:05 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:18:29 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	size_t	i;
 
-	if (s == NULL || f == NULL)
+	if (!s || !f)
 		return ;
 	i = 0;
 	while (s[i])

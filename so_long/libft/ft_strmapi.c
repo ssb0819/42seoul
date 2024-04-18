@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:26:56 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 13:15:36 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:21:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	len;
 	char	*res;
 
-	if (s == NULL)
-		return (NULL);
+	if (!s || !f)
+		return ((void *)0);
 	len = ft_strlen(s);
 	res = (char *)ft_calloc(len + 1, sizeof(char));
-	if (res == NULL)
-		return (NULL);
+	if (!res)
+		return ((void *)0);
 	i = 0;
 	while (i < len)
 	{

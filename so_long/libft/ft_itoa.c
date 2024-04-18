@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:38:35 by subson            #+#    #+#             */
-/*   Updated: 2023/11/14 00:42:08 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:54:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*ft_itoa(int n)
 	else
 		len = get_len(num);
 	res = (char *)ft_calloc(len + 1, sizeof(char));
-	if (res == NULL)
-		return (NULL);
+	if (!res)
+		return ((void *)0);
 	if (is_negative)
 		res[0] = '-';
 	set_num(res, len, num);

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:16:21 by subson            #+#    #+#             */
-/*   Updated: 2024/04/06 21:50:41 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:54:50 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_lstadd_back(t_list **lst, t_list *new)
 
 	if (!lst || !new)
 		return (0);
-	if (*lst == NULL)
+	if (!*lst)
 		*lst = new;
 	else
 	{

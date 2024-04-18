@@ -6,19 +6,22 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 13:06:14 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 10:49:58 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:17:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c_int)
 {
+	char	c;
+
+	c = (char)c_int;
 	while (*s)
 	{
-		if (*s == (char)c)
+		if (*s == c)
 			return ((char *)s);
 		s++;
 	}
-	if (*s == (char)c)
+	if (*s == c)
 		return ((char *)s);
 	return (0);
 }

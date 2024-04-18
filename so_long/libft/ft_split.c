@@ -6,17 +6,17 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:38:16 by subson            #+#    #+#             */
-/*   Updated: 2023/11/14 01:01:37 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:15:06 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char		**ft_split(char const *s, char c);
-int	static	get_cnt(char const *s, char c);
-char static	**set_strs(char **strs, char *s, int cnt, char delimeter);
-char static	*my_strchr(const char *s, int c);
-void static	free_all(char **strs, int n);
+static int	get_cnt(char const *s, char c);
+static char	**set_strs(char **strs, char *s, int cnt, char delimeter);
+static char	*my_strchr(const char *s, int c);
+static void	free_all(char **strs, int n);
 
 char	**ft_split(char const *s, char c)
 {
@@ -25,13 +25,13 @@ char	**ft_split(char const *s, char c)
 
 	cnt = get_cnt(s, c);
 	strs = (char **)ft_calloc(cnt + 1, sizeof(char *));
-	if (strs == NULL)
-		return (NULL);
+	if (!strs)
+		return ((void *)0);
 	strs = set_strs(strs, (char *)s, cnt, c);
 	return (strs);
 }
 
-int	static	get_cnt(char const *s, char c)
+static int	get_cnt(char const *s, char c)
 {
 	int	cnt;
 	int	i;
@@ -49,7 +49,7 @@ int	static	get_cnt(char const *s, char c)
 	return (cnt);
 }
 
-char static	**set_strs(char **strs, char *str, int cnt, char delimeter)
+static char	**set_strs(char **strs, char *str, int cnt, char delimeter)
 {
 	int		each_len;
 	int		i;
@@ -76,7 +76,7 @@ char static	**set_strs(char **strs, char *str, int cnt, char delimeter)
 	return (strs);
 }
 
-char static	*my_strchr(const char *s, int c)
+static char	*my_strchr(const char *s, int c)
 {
 	while (*s)
 	{
@@ -89,7 +89,7 @@ char static	*my_strchr(const char *s, int c)
 	return (0);
 }
 
-void static	free_all(char **strs, int n)
+static void	free_all(char **strs, int n)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 19:54:18 by subson            #+#    #+#             */
-/*   Updated: 2023/11/11 21:28:30 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/16 22:23:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	size_t	idx;
 	size_t	result;
 
+	if (!dst || !src)
+		return (0);
 	if (!dstsize)
 		return (ft_strlen(src));
 	dst_len = ft_strlen(dst);

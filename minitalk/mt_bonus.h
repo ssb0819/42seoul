@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 22:39:57 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 20:51:34 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/18 21:16:16 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@
 typedef struct s_signal_buffer
 {
 	pid_t			si_pid;
-	unsigned char	buf[4];
-	int				idx;
+	unsigned char	uni_c[4];
+	int				c_idx;
+	int				bit_idx;
 	int				byte_size;
+	unsigned char	buffer[1020];
+	int				buf_idx;
 }				t_signal_buffer;
 
 /* mt_utils.c */
 void	send_char_by_signal(pid_t pid, unsigned char c, int cnt);
-void	send_unicode_by_sig(pid_t pid, unsigned char *buffer, int byte_size);
+void	send_str_by_sig(pid_t pid, unsigned char *buffer, int byte_size);
 int		get_encoding_bytes(unsigned char first_c);
 void	print_my_pid(void);
 

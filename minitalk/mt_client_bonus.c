@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 22:05:28 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/19 13:58:14 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	send_reset_signal(pid_t pid)
 {
 	const unsigned char	c = 0;
 
-	write(1, "retry sending signal\n", 21); /* 디버깅 */
+	//write(1, "retry sending signal\n", 21); /* 디버깅 */
 	usleep(100);
 	send_char_by_signal(pid, c, 0);
 	usleep(100);

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:26:10 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 21:59:50 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/19 14:30:50 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	on_signal_from_client(int signo, siginfo_t *siginfo, void *context)
 	}
 	if (signo == SIGUSR1)
 	{
-		g_buf.uni_c[g_buf.c_idx] = g_buf.uni_c[g_buf.c_idx] | bit >> g_buf.bit_idx;
+		g_buf.uni_c[g_buf.c_idx] = g_buf.uni_c[g_buf.c_idx] | (bit >> g_buf.bit_idx);
 		reset_flag = 0;
 		//write(1, "1 ", 2);
 	}

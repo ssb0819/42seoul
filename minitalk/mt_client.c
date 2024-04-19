@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/17 22:57:01 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/19 14:32:39 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,21 @@
 #include <unistd.h>
 #include "libft/libft.h"
 
-void	send_char_by_signal(int pid, char c, int cnt)
+static void	send_char_by_signal(pid_t pid, unsigned char c, int cnt)
 {
 	if (cnt < 7)
 		send_char_by_signal(pid, c >> 1, ++cnt);
 	if (c % 2 == 1)
+	{
 		kill(pid, SIGUSR1);
+		//write(1, "1 ", 2);
+	}
 	else
+	{
 		kill(pid, SIGUSR2);
-	usleep(10);
+		//write(1, "0 ", 2);
+	}
+	usleep(50);
 }
 
 int	main(int argc, char **argv)

@@ -19,23 +19,27 @@ GNL_OBJS = $(GNL_SRCS:.c=.o)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+MLX_DIR = mlx
+MLX = $(MLX_DIR)/libmlx.a
+
 .PHONY : all clean fclean re bonus
 
 all : .sl_mandatory
 
 bonus : .sl_bonus
 
-.sl_mandatory : $(OBJ_FILES) $(GNL_OBJS) $(LIBFT)
+.sl_mandatory : $(OBJ_FILES) $(GNL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $^ -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	touch $@
 
-.sl_bonus : $(BONUS_OBJ_FILES) $(GNL_OBJS) $(LIBFT)
+.sl_bonus : $(BONUS_OBJ_FILES) $(GNL_OBJS) $(LIBFT) $(MLX)
 	$(CC) $^ -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	touch $@
 
 clean :
 	$(RM) $(OBJ_DIR) $(GNL_OBJS) .sl_mandatory .sl_bonus
 	$(MAKE) -C $(LIBFT_DIR)/ clean
+	$(MAKE) -C $(MLX_DIR)/ clean
 
 fclean : 
 	$(MAKE) clean
@@ -53,3 +57,6 @@ $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 
 $(LIBFT) :
 	$(MAKE) -C $(LIBFT_DIR)/ bonus
+
+$(MLX) :
+	$(MAKE) -C $(MLX_DIR)/ all

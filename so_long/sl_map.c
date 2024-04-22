@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:24:50 by subson            #+#    #+#             */
-/*   Updated: 2024/04/16 21:18:16 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/22 18:41:35 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	set_map_size(t_list *read_lines, t_map_info *map_info)
 	int		height;
 	size_t	width;
 
+	if (!map_info->height || !read_lines)
+		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	height = map_info->height;
 	width = ft_strlen(read_lines->content) - 1;
 	if (width < 3 || height < 3 || width + (size_t)height < 8 \

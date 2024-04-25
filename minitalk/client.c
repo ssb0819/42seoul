@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/25 17:42:20 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:25:34 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,20 @@ int	main(int argc, char **argv)
 	size_t	i;
 
 	if (argc != 3)
-		ft_putstr_fd("Error\nInsert the server PID and the string to send", 1);
+	{
+		ft_putstr_fd("Error\nInsert the server PID and the string to send\n", 1);
+		exit(1);
+	}
 	pid = ft_atoi(argv[1]);
 	str = argv[2];
 	len = ft_strlen(str);
-	i = 0;
-	while (i < len)
-		send_char(pid, str[i++]);
-	send_char(pid, END_SIGN);
-	return (0);
+	if (pid <= 0)
+		ft_putstr_fd("Error\nInsert valid server PID\n", 1);
+	else if (len > 0)
+	{
+		i = 0;
+		while (i < len)
+			send_char(pid, str[i++]);
+		send_char(pid, END_SIGN);
+	}
 }

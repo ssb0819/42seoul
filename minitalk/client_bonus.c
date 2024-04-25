@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/25 17:35:04 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:26:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ int	main(int argc, char **argv)
 	sigaction(SIGUSR1, &act, (void *)0);
 	sigaction(SIGUSR2, &act, (void *)0);
 	pid = ft_atoi(argv[1]);
-	if (pid == 0 || pid == -1)
+	if (pid <= 0)
 		ft_putstr_fd("Error\nInsert valid server PID\n", 1);
-	else if (!ft_strlen(argv[2]))
-		ft_putstr_fd("Insert string to send\n", 1);
-	else
+	else if (ft_strlen(argv[2]) > 0)
 		send_str_to_server(pid, argv[2]);
 }

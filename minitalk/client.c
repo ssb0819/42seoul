@@ -6,13 +6,14 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/24 22:25:19 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:42:20 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
 #include "libft/libft.h"
+#define END_SIGN 0
 
 static void	send_char(pid_t pid, unsigned char c)
 {
@@ -45,6 +46,6 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < len)
 		send_char(pid, str[i++]);
-	send_char(pid, 0);
+	send_char(pid, END_SIGN);
 	return (0);
 }

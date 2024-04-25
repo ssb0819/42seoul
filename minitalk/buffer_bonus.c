@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:22:02 by subson            #+#    #+#             */
-/*   Updated: 2024/04/25 17:36:02 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:43:13 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mt_bonus.h"
 
-extern t_signal_buffer g_buf;
+extern t_signal_buffer	g_buf;
 
 void	sig_to_unicode(int signo, siginfo_t *siginfo, void *context)
 {

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:26:10 by subson            #+#    #+#             */
-/*   Updated: 2024/04/24 22:44:56 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:41:14 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,39 +26,11 @@ typedef struct s_signal_buffer
 
 t_signal_buffer	g_buf;
 
-
-void	print_bit(unsigned char c)
-{
-	int	i;
-	const unsigned char bit = 1;
-	char	*c_num;
-
-	i = 7;
-	c_num = ft_itoa((int)c);
-	write(1, "c:", 2);
-	write(1, &c, 1);
-	write(1, " character number:", 18);
-	write(1, c_num, ft_strlen(c_num));
-	free(c_num);
-	while (i >= 0)
-	{
-		if ((c >> i & bit) == 1)
-			write(1, " 1", 2);
-		else
-			write(1, " 0", 2);
-		i--;
-	}
-	write(1, "\n", 1);
-}
-
-
-static void	flush_buffer()
+static void	flush_buffer(void)
 {
 	if (!g_buf.buf_idx)
 		return ;
-	//write(1, "\nflush buffer:", 14);
 	write(1, &g_buf.buffer, g_buf.buf_idx);
-	//write(1, "\n", 1);
 	g_buf.buf_idx = 0;
 }
 
@@ -74,15 +46,9 @@ static void	sig_to_char(int signo, siginfo_t *siginfo, void *context)
 	}
 	g_buf.si_pid = siginfo->si_pid;
 	if (signo == SIGUSR1)
-	{
 		g_buf.c = g_buf.c | (one_bit << (7 - g_buf.sig_cnt));
-		//write(1, "1 ", 2);
-	}
 	else
-	{
 		g_buf.c = g_buf.c & (~one_bit << (7 - g_buf.sig_cnt));
-		//write(1, "0 ", 2);
-	}
 	g_buf.sig_cnt++;
 	if (g_buf.sig_cnt == 8)
 	{
@@ -91,9 +57,6 @@ static void	sig_to_char(int signo, siginfo_t *siginfo, void *context)
 		{
 			g_buf.buffer[g_buf.buf_idx] = g_buf.c;
 			g_buf.buf_idx++;
-			// write(1, "\ndebug-char:", 12);
-			// print_bit(g_buf.c);
-			// write(1, "\n", 1);
 		}
 		if (g_buf.c == END_SIGN || g_buf.buf_idx == 1024)
 			flush_buffer();

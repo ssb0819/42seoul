@@ -1,49 +1,57 @@
 RM = rm -rf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-CLIENT_SRC = mt_client.c
-SERVER_SRC = mt_server.c
+CLIENT_SRC = client.c
+SERVER_SRC = server.c
 CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 SERVER_OBJ = $(SERVER_SRC:.c=.o)
 
-B_CLIENT_SRC = mt_client_bonus.c
-B_SERVER_SRC = mt_server_bonus.c
+B_CLIENT_SRC = client_bonus.c
+B_SERVER_SRC = server_bonus.c
 B_CLIENT_OBJ = $(B_CLIENT_SRC:.c=.o)
 B_SERVER_OBJ = $(B_SERVER_SRC:.c=.o)
 
-OTHER_SRCS = mt_utils_bonus.c
-OTHER_OBJS = $(OTHER_SRCS:.c=.o)
+B_OTHER_SRCS = utils_bonus.c buffer_bonus.c
+B_OTHER_OBJS = $(B_OTHER_SRCS:.c=.o)
 
-BONUS_HEADER = mt_bonus.h
+B_HEADER = mt_bonus.h
 
-all : .mandatory
+all : .client .server
 
-bonus : .bonus
+bonus : .client_bonus .server_bonus
 
 clean :
-	$(RM) $(CLIENT_OBJ) $(SERVER_OBJ) $(B_CLIENT_OBJ) $(B_SERVER_OBJ) $(OTHER_OBJS) .mandatory .bonus
-	$(MAKE) -C $(LIBFT_DIR)/ clean
+	$(RM) $(CLIENT_OBJ) $(SERVER_OBJ) $(B_CLIENT_OBJ) $(B_SERVER_OBJ) $(B_OTHER_OBJS)
+	$(RM) .client .server .client_bonus .server_bonus
+	$(MAKE) -C $(LIBFT_DIR)/ fclean
 
 fclean : 
 	$(MAKE) clean
-	$(RM) client server $(LIBFT)
+	$(RM) client server
 
 re : 
 	$(MAKE) fclean
 	$(MAKE) all
 
-.mandatory : $(CLIENT_OBJ) $(SERVER_OBJ) $(LIBFT)
+.client : $(CLIENT_OBJ) $(LIBFT)
 	$(CC) $(CLIENT_OBJ) -Llibft -lft -o client
+	touch $@
+
+.server : $(SERVER_OBJ) $(LIBFT)
 	$(CC) $(SERVER_OBJ) -Llibft -lft -o server
 	touch $@
 
-.bonus : $(B_CLIENT_OBJ) $(B_SERVER_OBJ) $(OTHER_OBJS) $(LIBFT) $(BONUS_HEADER)
-	$(CC) $(B_CLIENT_OBJ) $(OTHER_OBJS) -Llibft -lft -o client
-	$(CC) $(B_SERVER_OBJ) $(OTHER_OBJS) -Llibft -lft -o server
+
+.client_bonus : $(B_CLIENT_OBJ) $(B_OTHER_OBJS) $(LIBFT) $(B_HEADER)
+	$(CC) $(B_CLIENT_OBJ) $(B_OTHER_OBJS) -Llibft -lft -o client
+	touch $@
+
+.server_bonus : $(B_SERVER_OBJ) $(B_OTHER_OBJS) $(LIBFT) $(B_HEADER)
+	$(CC) $(B_SERVER_OBJ) $(B_OTHER_OBJS) -Llibft -lft -o server
 	touch $@
 
 .PHONY : all bonus clean fclean re

@@ -1,46 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_utils_bonus.c                                   :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 22:42:03 by subson            #+#    #+#             */
-/*   Updated: 2024/04/18 22:04:12 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/24 23:52:17 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mt_bonus.h"
 
-void	send_char_by_signal(pid_t pid, unsigned char c, int cnt)
+void	send_char(pid_t pid, unsigned char c)
 {
-	if (cnt < 7)
-		send_char_by_signal(pid, c >> 1, ++cnt);
-	usleep(50);
-	if (c % 2 == 1)
-		kill(pid, SIGUSR1);
-	else
-		kill(pid, SIGUSR2);
+	int	i;
+
+	i = 7;
+	while (i >= 0)
+	{
+		usleep(50);
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		i--;
+	}
 }
 
-void	send_str_by_sig(pid_t pid, unsigned char *buffer, int len)
+void	send_str(pid_t pid, unsigned char *buffer, int len)
 {
 	int	i;
 
 	i = 0;
+	if (!buffer)
+		return ;
 	while (i < len)
-		send_char_by_signal(pid, buffer[i++], 0);
+		send_char(pid, buffer[i++]);
 }
 
-int	get_encoding_bytes(unsigned char first_c)
+int	get_encoding_bytes_len(unsigned char first_c)
 {
-	if (first_c <= ONE_BYTE)
+	if (first_c <= ONE_BYTE_MAX)
 		return (1);
-	else if (TWO_BYTE <= first_c && first_c < THREE_BYTE)
+	else if (TWO_BYTE_MIN <= first_c && first_c < THREE_BYTE_MIN)
 		return (2);
-	else if (THREE_BYTE <= first_c && first_c < FOUR_BYTE)
+	else if (THREE_BYTE_MIN <= first_c && first_c < FOUR_BYTE_MIN)
 		return (3);
-	else if (FOUR_BYTE <= first_c)
+	else if (FOUR_BYTE_MIN <= first_c)
 		return (4);
 	else
 		return (0);

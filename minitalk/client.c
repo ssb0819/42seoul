@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mt_client.c                                        :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:47 by subson            #+#    #+#             */
-/*   Updated: 2024/04/19 14:32:39 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/24 22:25:19 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 #include <unistd.h>
 #include "libft/libft.h"
 
-static void	send_char_by_signal(pid_t pid, unsigned char c, int cnt)
+static void	send_char(pid_t pid, unsigned char c)
 {
-	if (cnt < 7)
-		send_char_by_signal(pid, c >> 1, ++cnt);
-	if (c % 2 == 1)
+	int	i;
+
+	i = 7;
+	while (i >= 0)
 	{
-		kill(pid, SIGUSR1);
-		//write(1, "1 ", 2);
+		usleep(100);
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		i--;
 	}
-	else
-	{
-		kill(pid, SIGUSR2);
-		//write(1, "0 ", 2);
-	}
-	usleep(50);
 }
 
 int	main(int argc, char **argv)
@@ -45,6 +44,7 @@ int	main(int argc, char **argv)
 	len = ft_strlen(str);
 	i = 0;
 	while (i < len)
-		send_char_by_signal(pid, str[i++], 0);
+		send_char(pid, str[i++]);
+	send_char(pid, 0);
 	return (0);
 }

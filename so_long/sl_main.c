@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:06:45 by subson            #+#    #+#             */
-/*   Updated: 2024/04/16 21:39:58 by subson           ###   ########.fr       */
+/*   Updated: 2024/04/26 21:01:15 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static void	set_map_info(char *map_file, t_map_info *map_info)
 	check_extension(map_file);
 	fd = open(map_file, O_RDONLY);
 	if (fd == -1)
-		exit_on_error(SYSTEM_ERR, MAP_ERR_MSG);
+		exit_on_error(SYSTEM_ERR, ERR_MSG);
 	read_lines = read_map_file(fd, map_info);
 	if (close(fd) == -1)
 		exit_on_error(SYSTEM_ERR, ERR_MSG);
+	if (!read_lines)
+		exit_on_error(RUNTIME_ERR, MAP_ERR_MSG);
 	set_map_size(read_lines, map_info);
 	set_map(read_lines, map_info);
 	ft_lstclear(&read_lines, (void *)0);

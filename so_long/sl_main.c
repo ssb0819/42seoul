@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:06:45 by subson            #+#    #+#             */
-/*   Updated: 2024/04/26 21:01:15 by subson           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:43:50 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static void	check_valid_path(t_map_info *map_info)
 {
 	char	**dup_map;
 	int		counts[2];
-	int		*counts_p;
 	int		i;
 
 	dup_map = map_info->map;
 	map_info->map = duplicate_map(map_info);
 	counts[C] = map_info->colltb_count;
 	counts[E] = 1;
-	counts_p = counts;
 	check_next_path(dup_map, counts, map_info->player_x, map_info->player_y);
 	i = 0;
 	while (i < map_info->height)

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 23:26:10 by subson            #+#    #+#             */
-/*   Updated: 2024/04/25 17:41:14 by subson           ###   ########.fr       */
+/*   Updated: 2024/05/22 14:45:57 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,21 @@ static void	sig_to_char(int signo, siginfo_t *siginfo, void *context)
 
 int	main(void)
 {
-	struct sigaction	act;
+	struct sigaction	act; // 시그널 관련 설정 저장할 수 있는 구조체
 	char				*pid_str;
 
-	sigemptyset(&act.sa_mask);
-	sigaddset(&act.sa_mask, SIGUSR1);
-	sigaddset(&act.sa_mask, SIGUSR2);
-	act.sa_flags = SA_SIGINFO;
-	act.sa_sigaction = sig_to_char;
+	sigemptyset(&act.sa_mask); 
+	sigaddset(&act.sa_mask, SIGUSR1); // 블락할 시그널 설정
+	sigaddset(&act.sa_mask, SIGUSR2); // 블락할 시그널 설정
+	act.sa_flags = SA_SIGINFO; // 시그널핸들러 함수 2종류(sa_handler, sa_sigaction) 중 sa_sigaction사용하겠다는 플래그 설정 
+	act.sa_sigaction = sig_to_char; // 시그널 핸들러 함수 설정
 	pid_str = ft_itoa(getpid());
 	ft_putstr_fd(pid_str, 1);
 	ft_putstr_fd("\n", 1);
 	free(pid_str);
-	if (sigaction(SIGUSR1, &act, (void *)0) == -1)
+	if (sigaction(SIGUSR1, &act, (void *)0) == -1) // 설정한 act구조체 등록 (SIGUSR1 시그널 발생 시 act에 설정된 대로 동작)
 		exit(1);
-	if (sigaction(SIGUSR2, &act, (void *)0) == -1)
+	if (sigaction(SIGUSR2, &act, (void *)0) == -1) // 설정한 act구조체 등록 (SIGUSR2 시그널 발생 시 act에 설정된 대로 동작)
 		exit(1);
 	while (1)
 	{

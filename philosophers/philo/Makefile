@@ -1,23 +1,26 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
 RM = rm -rf
 
-NAME = philosopher
+NAME = philosophers
 
-SRC = main.c
-OBJS = $(SRC:%.c=%.o)
-HEADER = philosopher.h
+SRCS = ph_main.c ph_actions.c ph_fork.c ph_init.c ph_init_utils.c ph_print.c \
+		ph_simulation.c ph_state.c ph_monitor.c ph_debug.c
+OBJS = $(SRCS:%.c=%.o)
+UTIL_SRCS = $(addprefix utils/, ph_array.c ph_atoi.c)
+UTIL_OBJS = $(UTIL_SRCS:%.c=%.o)
+INC_DIR = includes
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	@$(CC) $(CFLAGS) $(LDFALGS) -o $(NAME) $(LIBFT) $^
+$(NAME) : $(OBJS) $(UTIL_OBJS)
+	@$(CC) $(CFLAGS) -o $(NAME) $^
 
-%.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER)
+%.o : %.c $(INC_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
 
 clean :
-	@$(RM) $(OBJS)
+	@$(RM) $(OBJS) $(UTIL_OBJS)
 
 fclean : clean
 	@$(RM) $(NAME)

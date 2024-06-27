@@ -6,30 +6,30 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 19:04:46 by subson            #+#    #+#             */
-/*   Updated: 2024/06/24 17:04:45 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/25 18:20:55 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	check_and_print_state(long timestamp, t_philo *philo, char *msg)
+void	print_dead_msg(t_philo *philo)
 {
-	if (check_state(philo) == DEAD)
-		return ;
-	print_state(timestamp, philo->philo_num, philo->std_mutex, msg);
+	pthread_mutex_lock(philo->std_mutex);
+	printf("%ld %d %s\n", get_timestamp(philo->start_time), \
+			philo->philo_num, "died");
+	pthread_mutex_unlock(philo->std_mutex);
 }
 
-void	print_dead_state(t_philo *philo)
+long	print_state(t_philo *philo, char *msg)
 {
-	print_state(get_timestamp(philo->start_time), philo->philo_num, \
-								philo->std_mutex, "died");
-}
+	long	timestamp;
 
-void	print_state(long timestamp, int ph_n, pthread_mutex_t *mutex, char *msg)
-{
-	pthread_mutex_lock(mutex);
-	printf("%ld %d %s\n", timestamp, ph_n, msg);
-	pthread_mutex_unlock(mutex);
+	pthread_mutex_lock(philo->std_mutex);
+	timestamp = get_timestamp(philo->start_time);
+	if (get_dead_flag(philo->dead_flag) != DEAD)
+		printf("%ld %d %s\n", timestamp, philo->philo_num, msg);
+	pthread_mutex_unlock(philo->std_mutex);
+	return (timestamp);
 }
 
 int	print_err(char *err_msg)

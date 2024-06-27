@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:57:59 by subson            #+#    #+#             */
-/*   Updated: 2024/06/24 18:30:46 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:39:24 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	check_init(t_philo **philos, t_state **statees, int ph_cnt)
+void	check_fork_init(t_philo **philos, int ph_cnt)
 {
 	int		i;
 	t_fork	*prev;
@@ -23,8 +23,6 @@ void	check_init(t_philo **philos, t_state **statees, int ph_cnt)
 		printf("philo_num 1 fork init error\n");
 	while (i < ph_cnt)
 	{
-		if (philos[i]->state != statees[i])
-			printf("philo_num %d state init error\n", philos[i]->philo_num);
 		if (i != 0 && philos[i]->right != prev)
 			printf("philo_num %d fork init error\n", philos[i]->philo_num);
 		prev = philos[i]->left;

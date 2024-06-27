@@ -6,13 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:40:01 by subson            #+#    #+#             */
-/*   Updated: 2024/06/24 18:19:04 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:12:23 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	init_start_time(t_philo **philos, int cnt)
+void	init_start_time(t_philo **philos, int cnt) // 삭제예정
 {
 	int		i;
 	long	start_time;
@@ -21,20 +21,6 @@ void	init_start_time(t_philo **philos, int cnt)
 	start_time = get_timestamp(0);
 	while (i < cnt)
 		philos[i++]->start_time = start_time;
-}
-
-int	init_state_mutex(t_state **state, int cnt)
-{
-	int	i;
-
-	i = 0;
-	while (i < cnt)
-	{
-		if (pthread_mutex_init(&(state[i]->mutex), (void *)0) < 0)
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	init_fork_mutex(t_fork **forks, int cnt)
@@ -64,11 +50,11 @@ void	free_all_philos(t_philos_info *ph_info)
 		{
 			pthread_mutex_destroy(ph_info->philos[i]->std_mutex);
 			free(ph_info->philos[i]->std_mutex);
+			pthread_mutex_destroy(&ph_info->philos[i]->dead_flag->mutex);
+			free(ph_info->philos[i]->dead_flag);
 		}
 		pthread_mutex_destroy(&ph_info->philos[i]->left->mutex);
 		free(ph_info->philos[i]->left);
-		pthread_mutex_destroy(&ph_info->philos[i]->state->mutex);
-		free(ph_info->philos[i]->state);
 		i++;
 	}
 	free(ph_info->philos);

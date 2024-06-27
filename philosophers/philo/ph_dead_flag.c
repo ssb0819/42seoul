@@ -12,32 +12,38 @@
 
 #include "philosophers.h"
 
-t_ph_state	check_state(t_philo *philo)
+int	check_dead(t_philo *philo)
 {
-	if (get_philo_state(philo->state) == DEAD)
+	if (get_dead_flag(philo->dead_flag) == DEAD)
 		return (DEAD);
 	if (get_timestamp(philo->start_time) - philo->last_meal_time \
 			>= philo->time_to_die)
 	{
-		set_philo_state(philo->state, DEAD);
+		set_dead_flag(philo, DEAD);
 		return (DEAD);
 	}
 	return (ALIVE);
 }
 
-void	set_philo_state(t_state *state, t_ph_state state_val)
+void	set_dead_flag(t_philo *philo, int flag)
 {
-	pthread_mutex_lock(&state->mutex);
-	state->state_val = state_val;
-	pthread_mutex_unlock(&state->mutex);
+	pthread_mutex_lock(&philo->dead_flag->mutex);
+	if (flag == DEAD && philo->dead_flag->flag != DEAD)
+	{
+		print_dead_msg(philo);
+		philo->dead_flag->flag = DEAD;
+	}
+	else if (flag == ALIVE)
+		philo->dead_flag->flag = ALIVE;
+	pthread_mutex_unlock(&philo->dead_flag->mutex);
 }
 
-t_ph_state	get_philo_state(t_state *state)
+int	get_dead_flag(t_dead_flag *dead_flag)
 {
-	t_ph_state	state_val;
+	int	flag;
 
-	pthread_mutex_lock(&state->mutex);
-	state_val = state->state_val;
-	pthread_mutex_unlock(&state->mutex);
-	return (state_val);
+	pthread_mutex_lock(&dead_flag->mutex);
+	flag = dead_flag->flag;
+	pthread_mutex_unlock(&dead_flag->mutex);
+	return (flag);
 }

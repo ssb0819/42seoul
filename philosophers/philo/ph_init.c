@@ -6,30 +6,28 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:08:24 by subson            #+#    #+#             */
-/*   Updated: 2024/06/24 18:18:06 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/25 19:12:11 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	set_forks_state(t_philo **philos, t_state **states, int ph_cnt);
+static int	set_forks_flag(t_philo **philos, t_dead_flag *d_flag, int ph_cnt);
 static int	set_time_args(t_philo **philos, int ph_cnt, char **argv);
 static int	set_std_mutex(t_philo **philos, int cnt);
 static int	set_etc(t_philo **philos, int cnt, char *eat_limit_str);
 
 int	philo_init(t_philos_info *ph_info, char **argv)
 {
-	t_state	**states;
+	t_dead_flag	*dead_flag;
 
-	states = (t_state **)make_array(sizeof(t_state), ph_info->ph_cnt);
-	if (!*states)
+	dead_flag = malloc(sizeof(t_dead_flag));
+	if (!dead_flag)
 		return (0);
 	ph_info->philos = (t_philo **)make_array(sizeof(t_philo), ph_info->ph_cnt);
 	if (!*ph_info->philos)
 		return (0);
-	if (!init_state_mutex(states, ph_info->ph_cnt))
-		return (0);
-	if (!set_forks_state(ph_info->philos, states, ph_info->ph_cnt))
+	if (!set_forks_flag(ph_info->philos, dead_flag, ph_info->ph_cnt))
 		return (0);
 	if (!set_time_args(ph_info->philos, ph_info->ph_cnt, argv))
 		return (0);
@@ -37,11 +35,10 @@ int	philo_init(t_philos_info *ph_info, char **argv)
 		return (0);
 	if (!set_etc(ph_info->philos, ph_info->ph_cnt, argv[5]))
 		return (0);
-	free(states);
 	return (1);
 }
 
-static int	set_forks_state(t_philo **philos, t_state **state, int ph_cnt)
+static int	set_forks_flag(t_philo **philos, t_dead_flag *d_flag, int ph_cnt)
 {
 	t_fork	**forks;
 	int		i;
@@ -49,15 +46,17 @@ static int	set_forks_state(t_philo **philos, t_state **state, int ph_cnt)
 	forks = (t_fork **)make_array(sizeof(t_fork), ph_cnt);
 	if (!forks)
 		return (0);
-	if (!init_fork_mutex(forks, ph_cnt))
+	if (!init_fork_mutex(forks, ph_cnt) || \
+		pthread_mutex_init(&d_flag->mutex, (void *)0) < 0)
 	{
 		free_array((void **)forks, ph_cnt);
 		return (0);
 	}
+	d_flag->flag = DEAD;
 	i = 0;
 	while (i < ph_cnt)
 	{
-		philos[i]->state = state[i];
+		philos[i]->dead_flag = d_flag;
 		philos[i]->left = forks[i];
 		if (i != 0)
 			philos[i]->right = forks[i - 1];

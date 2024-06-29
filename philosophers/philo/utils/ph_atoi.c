@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ph_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:05:51 by subson            #+#    #+#             */
-/*   Updated: 2024/06/14 19:36:41 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/29 05:21:10 by vscode           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #define INT_MAX 2147483647
 
-void static	get_result(long *result, const char *str, int minus_sign);
-int static	is_in_range(long cur, char next, int len, long minus_sign);
+static void	get_result(long *result, const char *str, int minus_sign);
+static int	is_in_range(long cur, char next, int len, long minus_sign);
 
 int	ph_atoi(const char *str)
 {
@@ -38,7 +38,7 @@ int	ph_atoi(const char *str)
 	return ((int)result);
 }
 
-void static	get_result(long *result, const char *str, int minus_sign)
+static void	get_result(long *result, const char *str, int minus_sign)
 {
 	int	i;
 
@@ -64,7 +64,7 @@ void static	get_result(long *result, const char *str, int minus_sign)
 	*result *= minus_sign;
 }
 
-int static	is_in_range(long cur, char next, int len, long minus_sign)
+static int	is_in_range(long cur, char next, int len, long minus_sign)
 {
 	char	max_last;
 

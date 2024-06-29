@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ph_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 21:21:59 by subson            #+#    #+#             */
-/*   Updated: 2024/06/27 13:04:18 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/29 07:03:35 by vscode           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	take_a_fork(t_fork *fork, t_philo *philo);
-static void	return_a_fork(t_fork *fork);
+static t_ph_state	take_a_fork(t_fork *fork, t_philo *philo);
+static void			return_a_fork(t_fork *fork);
 
-int	take_forks(t_philo *philo)
+t_ph_state	take_forks(t_philo *philo)
 {
 	if (philo->philo_num % 2 == 1)
 	{
@@ -31,10 +31,10 @@ int	take_forks(t_philo *philo)
 		if (take_a_fork(philo->left, philo) == DEAD)
 			return (DEAD);
 	}
-	return (1);
+	return (ALIVE);
 }
 
-static int	take_a_fork(t_fork *fork, t_philo *philo)
+static t_ph_state	take_a_fork(t_fork *fork, t_philo *philo)
 {
 	while (1)
 	{
@@ -44,10 +44,10 @@ static int	take_a_fork(t_fork *fork, t_philo *philo)
 		if (fork->state == AVAILABLE && \
 			(fork->waiting_ph == 0 || fork->waiting_ph == philo->philo_num))
 		{
-			print_state(philo, "has taken a fork");
 			fork->state = IN_USE;
 			fork->waiting_ph = 0;
 			pthread_mutex_unlock(&fork->mutex);
+			print_state(philo, "has taken a fork");
 			return (ALIVE);
 		}
 		else if (fork->state == IN_USE && fork->waiting_ph == 0)

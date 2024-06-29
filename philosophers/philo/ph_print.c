@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_print.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 19:04:46 by subson            #+#    #+#             */
-/*   Updated: 2024/06/25 18:20:55 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/29 06:23:15 by vscode           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long	print_state(t_philo *philo, char *msg)
 
 	pthread_mutex_lock(philo->std_mutex);
 	timestamp = get_timestamp(philo->start_time);
-	if (get_dead_flag(philo->dead_flag) != DEAD)
+	if (get_ph_state(philo->ph_state) != DEAD)
 		printf("%ld %d %s\n", timestamp, philo->philo_num, msg);
 	pthread_mutex_unlock(philo->std_mutex);
 	return (timestamp);

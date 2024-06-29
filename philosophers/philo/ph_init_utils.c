@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ph_init_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:40:01 by subson            #+#    #+#             */
-/*   Updated: 2024/06/25 17:12:23 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/29 07:27:48 by vscode           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	set_etc(t_philo **philos, int cnt, char *eat_limit_str)
+{
+	int		i;
+	int		eat_limit;
+
+	i = 0;
+	eat_limit = 0;
+	if (eat_limit_str)
+		eat_limit = ph_atoi(eat_limit_str);
+	while (i < cnt)
+	{
+		philos[i]->philo_num = i + 1;
+		if (eat_limit > 0)
+			philos[i]->eat_limit = eat_limit;
+		else
+			philos[i]->eat_limit = 0;
+		i++;
+	}
+	return (1);
+}
 
 void	init_start_time(t_philo **philos, int cnt) // 삭제예정
 {
@@ -20,7 +41,11 @@ void	init_start_time(t_philo **philos, int cnt) // 삭제예정
 	i = 0;
 	start_time = get_timestamp(0);
 	while (i < cnt)
-		philos[i++]->start_time = start_time;
+	{
+		philos[i]->start_time = start_time;
+		set_ph_state(philos[i]->ph_state, ALIVE);
+		i++;
+	}
 }
 
 int	init_fork_mutex(t_fork **forks, int cnt)
@@ -37,7 +62,21 @@ int	init_fork_mutex(t_fork **forks, int cnt)
 	return (1);
 }
 
-void	free_all_philos(t_philos_info *ph_info)
+int	init_state_mutex(t_state **states, int cnt)
+{
+	int	i;
+
+	i = 0;
+	while (i < cnt)
+	{
+		if (pthread_mutex_init(&(states[i]->mutex), (void *)0) < 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	clean_all_philos(t_philos_info *ph_info)
 {
 	int	i;
 
@@ -50,11 +89,11 @@ void	free_all_philos(t_philos_info *ph_info)
 		{
 			pthread_mutex_destroy(ph_info->philos[i]->std_mutex);
 			free(ph_info->philos[i]->std_mutex);
-			pthread_mutex_destroy(&ph_info->philos[i]->dead_flag->mutex);
-			free(ph_info->philos[i]->dead_flag);
 		}
 		pthread_mutex_destroy(&ph_info->philos[i]->left->mutex);
 		free(ph_info->philos[i]->left);
+		pthread_mutex_destroy(&ph_info->philos[i]->ph_state->mutex);
+		free(ph_info->philos[i]->ph_state);
 		i++;
 	}
 	free(ph_info->philos);

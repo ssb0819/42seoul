@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/06/25 19:11:05 by subson           ###   ########.fr       */
+/*   Updated: 2024/06/29 07:30:06 by vscode           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,29 @@
 # include <string.h>
 # include <stdio.h>
 
-# define DEAD 0
-# define ALIVE 1
-
-typedef enum e_resource_state
+typedef enum e_fork_state
 {
 	AVAILABLE,
 	IN_USE
-}			t_r_state;
+}			t_f_state;
 
-typedef struct s_dead_flag
+typedef enum e_philo_state
 {
-	int				flag;
+	NONE,
+	ALIVE,
+	DEAD,
+	END
+}			t_ph_state;
+
+typedef struct s_state
+{
+	int				state;
 	pthread_mutex_t	mutex;
-}				t_dead_flag;
+}				t_state;
 
 typedef struct s_fork
 {
-	t_r_state		state;
+	t_f_state		state;
 	int				waiting_ph;
 	pthread_mutex_t	mutex;
 }				t_fork;
@@ -45,7 +50,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				philo_num;
-	t_dead_flag		*dead_flag;
+	t_state			*ph_state;
 	t_fork			*left;
 	t_fork			*right;
 	int				time_to_eat;
@@ -65,22 +70,25 @@ typedef struct s_philos_info
 
 
 /* main function */
-int		philo_init(t_philos_info *ph_info, char **argv);
-void	simulate(t_philos_info *ph_info);
+int			philo_init(t_philos_info *ph_info, char **argv);
+pthread_t	*start_monitoring(t_philos_info *philos_info);
+void		simulate(t_philos_info *ph_info);
 
 /* fork */
-int		take_forks(t_philo *philo);
-void	return_forks(t_philo *philo);
+t_ph_state	take_forks(t_philo *philo);
+void		return_forks(t_philo *philo);
 
 /* dead_flag */
-int		check_dead(t_philo *philo);
-void	set_dead_flag(t_philo *philo, int flag);
-int		get_dead_flag(t_dead_flag *dead_flag);
+t_ph_state	check_dead(t_philo *philo);
+void		set_ph_state(t_state *ph_state, t_ph_state flag);
+t_ph_state	get_ph_state(t_state *ph_state);
 
 /* init utils */
+int		set_etc(t_philo **philos, int cnt, char *eat_limit_str);
 void	init_start_time(t_philo **philos, int cnt);
 int		init_fork_mutex(t_fork **forks, int cnt);
-void	free_all_philos(t_philos_info *ph_info);
+int		init_state_mutex(t_state **states, int cnt);
+void	clean_all_philos(t_philos_info *ph_info);
 
 /* print */
 void	print_dead_msg(t_philo *philo);

@@ -5,7 +5,7 @@ RM = rm -rf
 NAME = philosophers
 
 SRCS = ph_main.c ph_fork.c ph_init.c ph_init_utils.c ph_print.c \
-		ph_simulation.c ph_dead_flag.c ph_debug.c
+		ph_simulation.c ph_state.c ph_debug.c ph_monitor.c
 OBJS = $(SRCS:%.c=%.o)
 UTIL_SRCS = $(addprefix utils/, ph_array.c ph_atoi.c)
 UTIL_OBJS = $(UTIL_SRCS:%.c=%.o)

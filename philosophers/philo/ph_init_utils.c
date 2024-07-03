@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:40:01 by subson            #+#    #+#             */
-/*   Updated: 2024/07/03 09:47:07 by root             ###   ########.fr       */
+/*   Updated: 2024/07/03 10:52:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	clean_all_philos(t_philos_info *ph_info)
 		free(ph_info->philos[i]->left);
 		pthread_mutex_destroy(&ph_info->philos[i]->ph_state->mutex);
 		free(ph_info->philos[i]->ph_state);
+		free(ph_info->philos[i]);
 		i++;
 	}
 	free(ph_info->philos);

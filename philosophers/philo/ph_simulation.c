@@ -3,132 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   ph_simulation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/06/29 07:37:57 by vscode           ###   ########.fr       */
+/*   Created: 2024/06/29 06:10:16 by vscode            #+#    #+#             */
+/*   Updated: 2024/07/03 09:55:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void			*ph_action(void *arg);
-static t_ph_state	ph_eat(t_philo *philo);
-static t_ph_state	ph_sleep(t_philo *philo);
-static void			ph_think(t_philo *philo, int eat_cnt);
+static void			create_threads(pthread_t *threads, t_philos_info *ph_info, \
+									int odd_even);
+static pthread_t	*start_monitoring(t_philos_info *philos_info);
+static void			*monitor(void *arg);
+static t_ph_state	check_state(t_philos_info *ph_info, \
+								int ph_idx, int *end_cnt);
 
 void	simulate(t_philos_info *ph_info)
 {
-	pthread_t	*threads;
+	pthread_t	*monitor;
+	pthread_t	*philos;
 	int			i;
 
-	threads = malloc(sizeof(pthread_t) * ph_info->ph_cnt);
-	if (!threads)
+	monitor = start_monitoring(ph_info);
+	philos = malloc(sizeof(pthread_t) * ph_info->ph_cnt);
+	if (!philos)
 		return ;
-	i = 0;
-	while (i < ph_info->ph_cnt)
-	{
-		// ph_info->philos[i]->start_time = get_timestamp(0);
-		if (i % 2 == 0)
-			pthread_create(&threads[i], (void *)0, ph_action, \
-							(void *)(ph_info->philos[i]));
-		i++;
-	}
-	i = 0;
-	while (i < ph_info->ph_cnt)
-	{
-		// ph_info->philos[i]->start_time = get_timestamp(0);
-		if (i % 2 == 1)
-			pthread_create(&threads[i], (void *)0, ph_action, \
-							(void *)(ph_info->philos[i]));
-		i++;
-	}
 	init_start_time(ph_info->philos, ph_info->ph_cnt);
+	create_threads(philos, ph_info, ODD);
+	usleep(ph_info->philos[0]->time_to_eat / 2 * 1000);
+	create_threads(philos, ph_info, EVEN);
 	i = 0;
 	while (i < ph_info->ph_cnt)
-		pthread_join(threads[i++], (void *)0);
-	free(threads);
+		pthread_join(philos[i++], (void *)0);
+	pthread_join(*monitor, (void *)0);
+	free(philos);
+	free(monitor);
 }
 
-static void	*ph_action(void *arg)
+static void	create_threads(pthread_t *threads, t_philos_info *ph_info, \
+							int odd_even)
 {
-	t_philo		*philo;
-	int			eat_cnt;
+	int	i;
 
-	philo = (t_philo *)arg;
-	eat_cnt = 0;
-	while (1) // 삭제?
+	i = 0;
+	while (i < ph_info->ph_cnt)
 	{
-		if (get_ph_state(philo->ph_state) == ALIVE)
-			break ;
-		usleep(500);
+		if (i % 2 == odd_even)
+			pthread_create(&threads[i], (void *)0, ph_action, \
+							(void *)(ph_info->philos[i]));
+		i++;
 	}
-	philo->last_meal_time = philo->start_time;
+}
+
+static pthread_t	*start_monitoring(t_philos_info *philos_info)
+{
+	pthread_t		*thread;
+
+	thread = malloc(sizeof(pthread_t));
+	if (!thread)
+		return (0);
+	pthread_create(thread, (void *)0, monitor, (void *)philos_info);
+	return (thread);
+}
+
+static void	*monitor(void *arg)
+{
+	t_philos_info	*ph_info;
+	int				i;
+	int				end_cnt;
+
+	ph_info = (t_philos_info *)arg;
 	while (1)
 	{
-		ph_think(philo, eat_cnt);
-		// print_debug(philo, "start eat function");
-		if (ph_eat(philo) == DEAD)
-			return ((void *)0);
-		if (++eat_cnt == philo->eat_limit)
+		i = 0;
+		end_cnt = 0;
+		while (i < ph_info->ph_cnt)
 		{
-			set_ph_state(philo->ph_state, END);
-			return ((void *)0);
+			if (check_state(ph_info, i, &end_cnt) == DEAD)
+				return ((void *)0);
+			i++;
 		}
-		// print_debug(philo, "end eat function");
-		if (ph_sleep(philo) == DEAD)
+		if (end_cnt == ph_info->ph_cnt)
 			return ((void *)0);
+		usleep(1000);
 	}
 }
 
-static void	ph_think(t_philo *philo, int eat_cnt)
+static t_ph_state	check_state(t_philos_info *ph_info, \
+								int ph_idx, int *end_cnt)
 {
-	print_state(philo, "is thinking");
-	if (eat_cnt == 0 && philo->philo_num % 2 == 0)
-		usleep(philo->time_to_eat * 1000 / 2);
-}
+	t_ph_state	ph_state;
+	int			i;
 
-static t_ph_state	ph_eat(t_philo *philo)
-{
-	long		start;
-	t_ph_state	flag;
-
-	if (take_forks(philo) == DEAD)
-		return (DEAD);
-	start = print_state(philo, "is eating");
-	philo->last_meal_time = start;
-	while (1)
+	ph_state = get_ph_state(ph_info->philos[ph_idx]->ph_state);
+	i = 0;
+	if (ph_state == DEAD)
 	{
-		if (check_dead(philo) == DEAD)
-		{
-			flag = DEAD;
-			break ;
-		}
-		if (get_timestamp(philo->start_time) - start \
-				>= (long)philo->time_to_eat)
-		{
-			flag = ALIVE;
-			break ;
-		}
-		usleep(50);
+		while (i < ph_info->ph_cnt)
+			set_ph_state(ph_info->philos[i++]->ph_state, DEAD);
+		print_dead_msg(ph_info->philos[ph_idx]);
 	}
-	return_forks(philo);
-	return (flag);
-}
-
-static t_ph_state	ph_sleep(t_philo *philo)
-{
-	long	start;
-	long	time_passed;
-
-	start = print_state(philo, "is sleeping");
-	while (1)
-	{
-		if (check_dead(philo) == DEAD)
-			return (DEAD);
-		time_passed = get_timestamp(philo->start_time) - start;
-		if (time_passed >= philo->time_to_sleep)
-			return (ALIVE);
-		usleep(500);
-	}
+	else if (ph_state == END)
+		(*end_cnt)++;
+	return (ph_state);
 }

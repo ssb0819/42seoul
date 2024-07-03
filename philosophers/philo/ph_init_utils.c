@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_init_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:40:01 by subson            #+#    #+#             */
-/*   Updated: 2024/06/29 07:27:48 by vscode           ###   ########.fr       */
+/*   Updated: 2024/07/03 09:47:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	set_etc(t_philo **philos, int cnt, char *eat_limit_str)
 	eat_limit = 0;
 	if (eat_limit_str)
 		eat_limit = ph_atoi(eat_limit_str);
+	if (eat_limit < 0)
+		return (0);
 	while (i < cnt)
 	{
 		philos[i]->philo_num = i + 1;
@@ -33,7 +35,7 @@ int	set_etc(t_philo **philos, int cnt, char *eat_limit_str)
 	return (1);
 }
 
-void	init_start_time(t_philo **philos, int cnt) // 삭제예정
+void	init_start_time(t_philo **philos, int cnt)
 {
 	int		i;
 	long	start_time;
@@ -43,7 +45,6 @@ void	init_start_time(t_philo **philos, int cnt) // 삭제예정
 	while (i < cnt)
 	{
 		philos[i]->start_time = start_time;
-		set_ph_state(philos[i]->ph_state, ALIVE);
 		i++;
 	}
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ph_debug.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:57:59 by subson            #+#    #+#             */
-/*   Updated: 2024/06/25 17:39:24 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/03 08:49:37 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_debug.h"
 
 void	check_fork_init(t_philo **philos, int ph_cnt)
 {

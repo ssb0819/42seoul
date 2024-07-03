@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:05:51 by subson            #+#    #+#             */
-/*   Updated: 2024/06/29 05:21:10 by vscode           ###   ########.fr       */
+/*   Updated: 2024/07/03 09:46:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,11 @@ static void	get_result(long *result, const char *str, int minus_sign)
 			{
 				*result = *result * 10 + (str[i] - '0');
 				i++;
-			}
-			else
-			{
-				*result = -1;
-				return ;
+				continue ;
 			}
 		}
-		else
-			break ;
+		*result = -1;
+		return ;
 	}
 	*result *= minus_sign;
 }

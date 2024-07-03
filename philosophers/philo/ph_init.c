@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vscode <vscode@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:08:24 by subson            #+#    #+#             */
-/*   Updated: 2024/06/29 07:30:18 by vscode           ###   ########.fr       */
+/*   Updated: 2024/07/03 09:03:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	set_forks(t_philo **philos, int ph_cnt)
 	i = 0;
 	while (i < ph_cnt)
 	{
+		forks[i]->fork_num = i + 1;
 		philos[i]->left = forks[i];
 		if (i != 0)
 			philos[i]->right = forks[i - 1];
@@ -64,7 +65,7 @@ static int	set_forks(t_philo **philos, int ph_cnt)
 static int	set_states(t_philo **philos, int ph_cnt)
 {
 	t_state	**states;
-	int			i;
+	int		i;
 
 	states = (t_state **)make_array(sizeof(t_state), ph_cnt);
 	if (!states)
@@ -77,14 +78,13 @@ static int	set_states(t_philo **philos, int ph_cnt)
 	i = 0;
 	while (i < ph_cnt)
 	{
-		states[i]->state = NONE;
+		states[i]->state = ALIVE;
 		philos[i]->ph_state = states[i];
 		i++;
 	}
 	free(states);
 	return (1);
 }
-
 
 static int	set_time_args(t_philo **philos, int ph_cnt, char **argv)
 {

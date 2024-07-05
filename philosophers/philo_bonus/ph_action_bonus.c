@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_action.c                                        :+:      :+:    :+:   */
+/*   ph_action_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/05 20:22:06 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/05 22:35:12 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo_bonus.h"
 
-static t_ph_state	ph_eat(t_philo *philo);
-static t_ph_state	ph_sleep(t_philo *philo);
-static void			ph_think(t_philo *philo);
+static void	ph_eat(t_philo *philo);
+static void	ph_sleep(t_philo *philo);
+static void	ph_think(t_philo *philo);
 
 void	*ph_action(t_philo *philo)
 {
 	int			eat_cnt;
 
+	start_monitoring(philo);
 	eat_cnt = 0;
 	while (1)
 	{
 		if (eat_cnt == philo->eat_limit)
-			exit(EXIT_SUCCESS);
+			close_sems_amd_exit(philo);
 		ph_think(philo);
-		if (ph_eat(philo) == DEAD)
-			return ((void *)0);
-		if (ph_sleep(philo) == DEAD)
-			return ((void *)0);
+		ph_eat(philo);
+		ph_sleep(philo);
 		eat_cnt++;
 	}
 }
@@ -40,35 +39,26 @@ static void	ph_think(t_philo *philo)
 	usleep(900);
 }
 
-static t_ph_state	ph_eat(t_philo *philo)
+static void	ph_eat(t_philo *philo)
 {
-	long		start;
-	t_ph_state	flag;
+	long	start;
 
-	if (take_forks(philo) == DEAD)
-		return (DEAD);
+	sem_wait(philo->forks);
+	sem_wait(philo->forks);
 	start = print_state(philo, "is eating");
 	philo->last_meal_time = start;
 	while (1)
 	{
-		if (check_dead(philo) == DEAD)
-		{
-			flag = DEAD;
-			break ;
-		}
 		if (get_timestamp(philo->start_time) - start \
 				>= (long)philo->time_to_eat)
-		{
-			flag = ALIVE;
 			break ;
-		}
 		usleep(500);
 	}
-	return_forks(philo);
-	return (flag);
+	sem_post(philo->forks);
+	sem_post(philo->forks);
 }
 
-static t_ph_state	ph_sleep(t_philo *philo)
+static void	ph_sleep(t_philo *philo)
 {
 	long	start;
 	long	time_passed;
@@ -76,11 +66,9 @@ static t_ph_state	ph_sleep(t_philo *philo)
 	start = print_state(philo, "is sleeping");
 	while (1)
 	{
-		if (check_dead(philo) == DEAD)
-			return (DEAD);
 		time_passed = get_timestamp(philo->start_time) - start;
 		if (time_passed >= philo->time_to_sleep)
-			return (ALIVE);
+			return ;
 		usleep(500);
 	}
 }

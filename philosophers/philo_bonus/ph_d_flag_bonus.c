@@ -12,32 +12,32 @@
 
 #include "philo_bonus.h"
 
-t_ph_state	check_dead(t_philo *philo)
+int	check_dead(t_philo *philo)
 {
-	if (get_ph_state(philo->ph_state) == DEAD)
+	if (get_d_flag(&philo->death_flag) == DEAD)
 		return (DEAD);
 	if (get_timestamp(philo->start_time) - philo->last_meal_time \
 			>= philo->time_to_die)
 	{
-		set_ph_state(philo->ph_state, DEAD);
+		set_d_flag(&philo->death_flag, DEAD);
 		return (DEAD);
 	}
 	return (ALIVE);
 }
 
-void	set_ph_state(t_state *ph_state, t_ph_state state)
+void	set_d_flag(t_death_flag *d_flag, int flag)
 {
-	pthread_mutex_lock(&ph_state->mutex);
-		ph_state->state = state;
-	pthread_mutex_unlock(&ph_state->mutex);
+	sem_wait(d_flag->sem);
+	d_flag->flag = flag;
+	sem_post(d_flag->sem);
 }
 
-t_ph_state	get_ph_state(t_state *ph_state)
+int	get_d_flag(t_death_flag *d_flag)
 {
-	t_ph_state	state;
+	int	flag;
 
-	pthread_mutex_lock(&ph_state->mutex);
-	state = ph_state->state;
-	pthread_mutex_unlock(&ph_state->mutex);
-	return (state);
+	sem_wait(d_flag->sem);
+	flag = d_flag->flag;
+	sem_post(d_flag->sem);
+	return (flag);
 }

@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:09:47 by root              #+#    #+#             */
-/*   Updated: 2024/07/05 22:35:36 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/08 22:12:34 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	main(int argc, char **argv)
 							greater than 0\n");
 	philo_init(&philo, argv);
 	open_sems(&philo, ph_cnt);
-	simulate(ph_cnt, &philo);
 	unlink_all_sems();
-	return (0);
+	simulate(ph_cnt, &philo);
+	close_sems_and_exit(&philo, EXIT_SUCCESS);
 }
 
 static void	philo_init(t_philo *philo, char **argv)
@@ -62,19 +62,28 @@ static void	philo_init(t_philo *philo, char **argv)
 	philo->last_meal_time = 0;
 }
 
-static void	simulate(int ph_cnt, t_philo *philo_info)
+static void	simulate(int ph_cnt, t_philo *philo)
 {
 	int	i;
+	int	status;
 
-	create_philo(ODD, philo_info, ph_cnt);
+	create_philo(ODD, philo, ph_cnt);
 	if (ph_cnt > 1)
 	{
-		usleep(philo_info->time_to_eat / 2 * 1000);
-		create_philo(EVEN, philo_info, ph_cnt);
+		usleep(philo->time_to_eat / 2 * 1000);
+		create_philo(EVEN, philo, ph_cnt);
 	}
 	i = 0;
 	while (i++ < ph_cnt)
-		waitpid(0, (void *)0, WNOHANG | WUNTRACED);
+	{
+		waitpid(-1, &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		{
+			philo->philo_num = WEXITSTATUS(status);
+			print_state(philo, "died");
+			kill(0, SIGINT);
+		}
+	}
 }
 
 static void	create_philo(int odd_even, t_philo *philo, int ph_cnt)

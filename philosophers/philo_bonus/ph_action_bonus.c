@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/05 22:35:12 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/08 22:02:50 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@ static void	ph_eat(t_philo *philo);
 static void	ph_sleep(t_philo *philo);
 static void	ph_think(t_philo *philo);
 
-void	*ph_action(t_philo *philo)
+void	ph_action(t_philo *philo)
 {
 	int			eat_cnt;
 
 	start_monitoring(philo);
 	eat_cnt = 0;
-	while (1)
+	while (philo->eat_limit != 0)
 	{
-		if (eat_cnt == philo->eat_limit)
-			close_sems_amd_exit(philo);
 		ph_think(philo);
 		ph_eat(philo);
+		if (++eat_cnt == philo->eat_limit)
+			close_sems_and_exit(philo, EXIT_SUCCESS);
 		ph_sleep(philo);
-		eat_cnt++;
 	}
 }
 

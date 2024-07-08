@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:10:09 by subson            #+#    #+#             */
-/*   Updated: 2024/07/05 22:16:14 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/08 22:11:01 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,9 @@ static void	*monitor(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		if (get_d_flag(&philo->death_flag) == DEAD)
-			close_sems_amd_exit(philo);
 		if (get_timestamp(philo->start_time) - philo->last_meal_time \
 				>= philo->time_to_die)
-		{
-			set_d_flag(&philo->death_flag, DEAD);
-			print_dead_msg(philo);
-			close_sems_amd_exit(philo);
-		}
+			close_sems_and_exit(philo, philo->philo_num);
 		usleep(500);
 	}
 }

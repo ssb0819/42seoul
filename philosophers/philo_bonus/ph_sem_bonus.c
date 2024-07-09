@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_sem_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:08:24 by subson            #+#    #+#             */
-/*   Updated: 2024/07/09 16:12:37 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 07:52:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	close_sems(t_philo *philo)
 {
 	sem_close(philo->forks);
 	sem_close(philo->print_sem);
-	sem_close(philo->last_meal.sem);
 }
 
 void	unlink_all_sems(void)

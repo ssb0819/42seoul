@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ph_last_meal_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:52:24 by subson            #+#    #+#             */
-/*   Updated: 2024/07/09 15:07:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 07:48:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int static	get_len(long n);
+static int	get_len(long n);
 
 long	get_last_meal_time(t_last_meal *last_meal)
 {
@@ -52,7 +52,7 @@ char	*make_lm_sem_name(int n)
 	return (res);
 }
 
-int static	get_len(long n)
+static int	get_len(long n)
 {
 	int	len;
 

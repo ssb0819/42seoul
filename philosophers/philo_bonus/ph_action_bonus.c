@@ -6,15 +6,16 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/08 22:02:50 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:11:33 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+static void	ph_think(t_philo *philo);
+static void	take_forks(t_philo *philo);
 static void	ph_eat(t_philo *philo);
 static void	ph_sleep(t_philo *philo);
-static void	ph_think(t_philo *philo);
 
 void	ph_action(t_philo *philo)
 {
@@ -27,7 +28,7 @@ void	ph_action(t_philo *philo)
 		ph_think(philo);
 		ph_eat(philo);
 		if (++eat_cnt == philo->eat_limit)
-			close_sems_and_exit(philo, EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		ph_sleep(philo);
 	}
 }
@@ -38,14 +39,21 @@ static void	ph_think(t_philo *philo)
 	usleep(900);
 }
 
+static void	take_forks(t_philo *philo)
+{
+	sem_wait(philo->forks);
+	print_state(philo, "has taken a fork");
+	sem_wait(philo->forks);
+	print_state(philo, "has taken a fork");
+}
+
 static void	ph_eat(t_philo *philo)
 {
 	long	start;
 
-	sem_wait(philo->forks);
-	sem_wait(philo->forks);
+	take_forks(philo);
 	start = print_state(philo, "is eating");
-	philo->last_meal_time = start;
+	set_last_meal_time(&philo->last_meal, start);
 	while (1)
 	{
 		if (get_timestamp(philo->start_time) - start \

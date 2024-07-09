@@ -6,11 +6,10 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:05:51 by subson            #+#    #+#             */
-/*   Updated: 2024/07/05 22:17:51 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:34:52 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
 #define INT_MAX 2147483647
 
 static void	get_result(long *result, const char *str, int minus_sign);

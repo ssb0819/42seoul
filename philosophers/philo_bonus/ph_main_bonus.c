@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:09:47 by root              #+#    #+#             */
-/*   Updated: 2024/07/08 22:12:34 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:26:38 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ int	main(int argc, char **argv)
 		print_err_and_exit("Error: Too few args\n");
 	ph_cnt = ph_atoi(argv[1]);
 	if (ph_cnt <= 0)
-		print_err_and_exit("Error: The first arg must be a number \
-							greater than 0\n");
+		print_err_and_exit("Error: The first arg error\n");
 	philo_init(&philo, argv);
 	open_sems(&philo, ph_cnt);
 	unlink_all_sems();
 	simulate(ph_cnt, &philo);
-	close_sems_and_exit(&philo, EXIT_SUCCESS);
+	close_sems(&philo);
 }
 
 static void	philo_init(t_philo *philo, char **argv)
@@ -59,7 +58,7 @@ static void	philo_init(t_philo *philo, char **argv)
 	else
 		philo->eat_limit = 0;
 	philo->start_time = get_timestamp(0);
-	philo->last_meal_time = 0;
+	philo->last_meal.time = 0;
 }
 
 static void	simulate(int ph_cnt, t_philo *philo)
@@ -74,7 +73,8 @@ static void	simulate(int ph_cnt, t_philo *philo)
 		create_philo(EVEN, philo, ph_cnt);
 	}
 	i = 0;
-	while (i++ < ph_cnt)
+	status = 0;
+	while (i < ph_cnt)
 	{
 		waitpid(-1, &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
@@ -83,6 +83,7 @@ static void	simulate(int ph_cnt, t_philo *philo)
 			print_state(philo, "died");
 			kill(0, SIGINT);
 		}
+		i++;
 	}
 }
 

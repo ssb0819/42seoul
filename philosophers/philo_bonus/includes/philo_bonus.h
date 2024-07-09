@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/08 22:07:34 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:12:26 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@
 # define FORKS_SEM "forks"
 # define PRINT_SEM "print"
 
+typedef struct s_last_meal
+{
+	long	time;
+	char	*sem_name;
+	sem_t	*sem;
+}				t_last_meal;
+
+
 typedef struct s_philo
 {
 	int				philo_num;
@@ -39,7 +47,7 @@ typedef struct s_philo
 	int				time_to_die;
 	int				eat_limit;
 	long			start_time;
-	long			last_meal_time;
+	t_last_meal		last_meal;
 	sem_t			*print_sem;
 }				t_philo;
 
@@ -49,8 +57,13 @@ void	start_monitoring(t_philo *philo);
 
 /* semaphore */
 void	open_sems(t_philo *philo, int ph_cnt);
-void	close_sems_and_exit(t_philo *philo, int exit_code);
+void	close_sems(t_philo *philo);
 void	unlink_all_sems(void);
+
+/* last_meal */
+long	get_last_meal_time(t_last_meal *last_meal);
+void	set_last_meal_time(t_last_meal *last_meal, long last_meal_time);
+char	*make_lm_sem_name(int n);
 
 /* print */
 int		print_err_and_exit(char *err_msg);

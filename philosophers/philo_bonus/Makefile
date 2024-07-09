@@ -1,10 +1,10 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread
 RM = rm -rf
 
 NAME = philo_bonus
 
-SRCS = ph_main_bonus.c ph_action_bonus.c ph_monitor_bonus.c ph_sem_bonus.c ph_print_bonus.c
+SRCS = ph_main_bonus.c ph_action_bonus.c ph_monitor_bonus.c ph_sem_bonus.c ph_print_bonus.c ph_last_meal_bonus.c
 OBJS = $(SRCS:%.c=%.o)
 UTIL_SRCS = $(addprefix utils/, ph_atoi_bonus.c)
 UTIL_OBJS = $(UTIL_SRCS:%.c=%.o)

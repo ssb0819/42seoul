@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philosophers.h"
 
 t_ph_state	check_dead(t_philo *philo)
 {

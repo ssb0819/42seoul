@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/03 09:20:46 by root             ###   ########.fr       */
+/*   Updated: 2024/07/10 09:14:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define ODD 0
 # define EVEN 1
+# define NO_LIMIT -1
 
 typedef enum e_fork_state
 {
@@ -38,7 +39,7 @@ typedef enum e_philo_state
 
 typedef struct s_state
 {
-	int				state;
+	t_ph_state		state;
 	pthread_mutex_t	mutex;
 }				t_state;
 
@@ -76,8 +77,8 @@ void		simulate(t_philos_info *ph_info);
 void		*ph_action(void *arg);
 
 /* fork */
-t_ph_state	take_forks(t_philo *philo);
-void		return_forks(t_philo *philo);
+t_ph_state	get_forks(t_philo *philo);
+void		put_forks(t_philo *philo);
 
 /* state */
 t_ph_state	check_dead(t_philo *philo);

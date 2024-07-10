@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/09 08:18:38 by root             ###   ########.fr       */
+/*   Updated: 2024/07/10 13:08:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@
 # define ODD 0
 # define EVEN 1
 
+# define NO_LIMIT -1
+
 # define FORKS_SEM "forks"
 # define PRINT_SEM "print"
 
 typedef struct s_last_meal
 {
 	long	time;
-	char	*sem_name;
 	sem_t	*sem;
 }				t_last_meal;
 

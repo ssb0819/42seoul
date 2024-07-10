@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_action.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/08 22:03:08 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/10 08:45:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,38 @@ static t_ph_state	ph_eat(t_philo *philo);
 static t_ph_state	ph_sleep(t_philo *philo);
 static void			ph_think(t_philo *philo);
 
-void	*ph_action(t_philo *philo)
+void	*ph_action(void *arg)
 {
-	int			eat_cnt;
+	int		eat_cnt;
+	t_philo	*philo;
 
+	philo = (t_philo *)arg;
+	if (philo->eat_limit == 0)
+	{
+		set_ph_state(philo->ph_state, END);
+		return ((void *)0);
+	}
 	eat_cnt = 0;
-	while (philo->eat_limit != 0)
+	while (1)
 	{
 		ph_think(philo);
 		if (ph_eat(philo) == DEAD)
 			return ((void *)0);
 		if (++eat_cnt == philo->eat_limit)
-			exit(EXIT_SUCCESS);
+		{
+			set_ph_state(philo->ph_state, END);
+			return ((void *)0);
+		}
 		if (ph_sleep(philo) == DEAD)
 			return ((void *)0);
 	}
+	return ((void *)0);
 }
 
 static void	ph_think(t_philo *philo)
 {
 	print_state(philo, "is thinking");
-	usleep(900);
+	usleep(1000);
 }
 
 static t_ph_state	ph_eat(t_philo *philo)
@@ -44,7 +55,7 @@ static t_ph_state	ph_eat(t_philo *philo)
 	long		start;
 	t_ph_state	flag;
 
-	if (take_forks(philo) == DEAD)
+	if (get_forks(philo) == DEAD)
 		return (DEAD);
 	start = print_state(philo, "is eating");
 	philo->last_meal_time = start;
@@ -63,7 +74,7 @@ static t_ph_state	ph_eat(t_philo *philo)
 		}
 		usleep(500);
 	}
-	return_forks(philo);
+	put_forks(philo);
 	return (flag);
 }
 

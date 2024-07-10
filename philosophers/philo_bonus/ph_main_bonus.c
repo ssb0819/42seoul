@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_main_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:09:47 by root              #+#    #+#             */
-/*   Updated: 2024/07/09 16:26:38 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/10 13:06:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	philo_init(t_philo *philo, char **argv)
 		philo->eat_limit = eat_limit;
 	}
 	else
-		philo->eat_limit = 0;
+		philo->eat_limit = NO_LIMIT;
 	philo->start_time = get_timestamp(0);
 	philo->last_meal.time = 0;
 }

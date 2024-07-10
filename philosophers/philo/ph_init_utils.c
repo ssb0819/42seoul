@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:40:01 by subson            #+#    #+#             */
-/*   Updated: 2024/07/03 10:52:46 by root             ###   ########.fr       */
+/*   Updated: 2024/07/10 06:11:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ int	set_etc(t_philo **philos, int cnt, char *eat_limit_str)
 	i = 0;
 	eat_limit = 0;
 	if (eat_limit_str)
+	{
 		eat_limit = ph_atoi(eat_limit_str);
-	if (eat_limit < 0)
-		return (0);
+		if (eat_limit < 0)
+			return (0);
+	}
+	else
+		eat_limit = NO_LIMIT;
 	while (i < cnt)
 	{
 		philos[i]->philo_num = i + 1;
-		if (eat_limit > 0)
-			philos[i]->eat_limit = eat_limit;
-		else
-			philos[i]->eat_limit = 0;
+		philos[i]->eat_limit = eat_limit;
 		i++;
 	}
 	return (1);

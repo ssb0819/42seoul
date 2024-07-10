@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_action_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/09 16:11:33 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/10 13:06:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ph_action(t_philo *philo)
 {
 	int			eat_cnt;
 
+	if (philo->eat_limit == 0)
+		exit(EXIT_SUCCESS);
 	start_monitoring(philo);
 	eat_cnt = 0;
 	while (philo->eat_limit != 0)
@@ -36,7 +38,7 @@ void	ph_action(t_philo *philo)
 static void	ph_think(t_philo *philo)
 {
 	print_state(philo, "is thinking");
-	usleep(900);
+	usleep(1000);
 }
 
 static void	take_forks(t_philo *philo)

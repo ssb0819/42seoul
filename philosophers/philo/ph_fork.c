@@ -6,35 +6,35 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 21:21:59 by subson            #+#    #+#             */
-/*   Updated: 2024/07/03 08:07:42 by root             ###   ########.fr       */
+/*   Updated: 2024/07/10 08:45:49 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static t_ph_state	take_a_fork(t_fork *fork, t_philo *philo);
+static t_ph_state	get_a_fork(t_fork *fork, t_philo *philo);
 static void			return_a_fork(t_fork *fork);
 
-t_ph_state	take_forks(t_philo *philo)
+t_ph_state	get_forks(t_philo *philo)
 {
 	if (philo->philo_num % 2 == 1)
 	{
-		if (take_a_fork(philo->left, philo) == DEAD)
+		if (get_a_fork(philo->left, philo) == DEAD)
 			return (DEAD);
-		if (take_a_fork(philo->right, philo) == DEAD)
+		if (get_a_fork(philo->right, philo) == DEAD)
 			return (DEAD);
 	}
 	else
 	{
-		if (take_a_fork(philo->right, philo) == DEAD)
+		if (get_a_fork(philo->right, philo) == DEAD)
 			return (DEAD);
-		if (take_a_fork(philo->left, philo) == DEAD)
+		if (get_a_fork(philo->left, philo) == DEAD)
 			return (DEAD);
 	}
 	return (ALIVE);
 }
 
-static t_ph_state	take_a_fork(t_fork *fork, t_philo *philo)
+static t_ph_state	get_a_fork(t_fork *fork, t_philo *philo)
 {
 	while (1)
 	{
@@ -49,11 +49,11 @@ static t_ph_state	take_a_fork(t_fork *fork, t_philo *philo)
 			return (ALIVE);
 		}
 		pthread_mutex_unlock(&fork->mutex);
-		usleep(500);
+		usleep(400);
 	}
 }
 
-void	return_forks(t_philo *philo)
+void	put_forks(t_philo *philo)
 
 {
 	if (philo->philo_num % 2 == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:08:24 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 06:05:47 by root             ###   ########.fr       */
+/*   Updated: 2024/07/11 11:57:27 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 static int	set_forks(t_philo **philos, int ph_cnt);
 static int	set_states(t_philo **philos, int ph_cnt);
-static int	set_time_args(t_philo **philos, int ph_cnt, char **argv);
 static int	set_std_mutex(t_philo **philos, int cnt);
+static int	set_time_args(t_philo **philos, int ph_cnt, char **argv);
 
 int	philo_init(t_philos_info *ph_info, char **argv)
 {
 	ph_info->philos = (t_philo **)make_array(sizeof(t_philo), ph_info->ph_cnt);
-	if (!*ph_info->philos)
+	if (!ph_info->philos)
 		return (0);
 	if (!set_forks(ph_info->philos, ph_info->ph_cnt))
 		return (0);
 	if (!set_states(ph_info->philos, ph_info->ph_cnt))
 		return (0);
-	if (!set_time_args(ph_info->philos, ph_info->ph_cnt, argv))
-		return (0);
 	if (!set_std_mutex(ph_info->philos, ph_info->ph_cnt))
 		return (0);
 	if (!set_etc(ph_info->philos, ph_info->ph_cnt, argv[5]))
+		return (0);
+	if (!set_time_args(ph_info->philos, ph_info->ph_cnt, argv))
 		return (0);
 	return (1);
 }

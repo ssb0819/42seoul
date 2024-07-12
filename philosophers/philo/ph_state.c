@@ -28,7 +28,7 @@ t_ph_state	check_dead(t_philo *philo)
 void	set_ph_state(t_state *ph_state, t_ph_state state)
 {
 	pthread_mutex_lock(&ph_state->mutex);
-		ph_state->state = state;
+	ph_state->state = state;
 	pthread_mutex_unlock(&ph_state->mutex);
 }
 

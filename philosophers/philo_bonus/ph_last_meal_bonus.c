@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_last_meal_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:52:24 by subson            #+#    #+#             */
-/*   Updated: 2024/07/09 07:48:29 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 17:27:18 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ char	*make_lm_sem_name(int n)
 
 	num = n;
 	len = get_len(num) + 1;
-	res = (char *)malloc(sizeof(char) * (len + 1));
-	if (!res)
-		return ((void *)0);
+	res = malloc_wrapper(sizeof(char) * (len + 1));
 	res[0] = 's';
 	res[len] = '\0';
 	while (num > 0)

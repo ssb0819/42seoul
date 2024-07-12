@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:09:47 by root              #+#    #+#             */
-/*   Updated: 2024/07/11 11:22:27 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/12 17:37:31 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	philo_init(t_philo *philo, char **argv);
 static void	simulate(int ph_cnt, t_philo *philo_info);
-static void	create_philo(int odd_even, t_philo *philo, int ph_cnt);
+static void	create_philo(int odd_even, t_philo *philo, int ph_cnt, pid_t *phs);
+static void	kill_all_philos(pid_t *ph_pids, int ph_cnt);
 
 int	main(int argc, char **argv)
 {
@@ -63,14 +64,16 @@ static void	philo_init(t_philo *philo, char **argv)
 
 static void	simulate(int ph_cnt, t_philo *philo)
 {
-	int	i;
-	int	status;
+	int		i;
+	int		status;
+	pid_t	*ph_pids;
 
-	create_philo(ODD, philo, ph_cnt);
+	ph_pids = malloc_wrapper(sizeof(pid_t) * ph_cnt);
+	create_philo(ODD, philo, ph_cnt, ph_pids);
 	if (ph_cnt > 1)
 	{
 		usleep(philo->time_to_eat / 2 * 1000);
-		create_philo(EVEN, philo, ph_cnt);
+		create_philo(EVEN, philo, ph_cnt, ph_pids);
 	}
 	i = 0;
 	status = 0;
@@ -79,15 +82,17 @@ static void	simulate(int ph_cnt, t_philo *philo)
 		waitpid(-1, &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 		{
-			philo->philo_num = WEXITSTATUS(status);
-			print_state(philo, "died");
-			kill(0, SIGINT);
+			kill_all_philos(ph_pids, ph_cnt);
+			printf("%ld %d %s\n", get_timestamp(philo->start_time), \
+					WEXITSTATUS(status), "died");
+			exit(EXIT_SUCCESS);
 		}
 		i++;
 	}
 }
 
-static void	create_philo(int odd_even, t_philo *philo, int ph_cnt)
+static void	create_philo(int odd_even, t_philo *philo, int ph_cnt, \
+							pid_t *ph_pids)
 {
 	int		i;
 	pid_t	pid;
@@ -99,6 +104,7 @@ static void	create_philo(int odd_even, t_philo *philo, int ph_cnt)
 		pid = fork();
 		if (pid > 0)
 		{
+			ph_pids[i] = pid;
 			i += 2;
 			continue ;
 		}
@@ -110,4 +116,13 @@ static void	create_philo(int odd_even, t_philo *philo, int ph_cnt)
 			print_err_and_exit("Error: Fork Error\n");
 		}
 	}
+}
+
+static void	kill_all_philos(pid_t *ph_pids, int ph_cnt)
+{
+	int	i;
+
+	i = 0;
+	while (i < ph_cnt)
+		kill(ph_pids[i++], SIGINT);
 }

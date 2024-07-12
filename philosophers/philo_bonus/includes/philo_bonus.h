@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 13:08:18 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 17:25:15 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ long	print_state(t_philo *philo, char *msg);
 
 /* utils */
 int		ph_atoi(const char *str);
+void	*malloc_wrapper(size_t size);
 
 #endif

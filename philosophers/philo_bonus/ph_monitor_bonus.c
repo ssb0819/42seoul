@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_monitor_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:10:09 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 13:08:54 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 17:26:46 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	start_monitoring(t_philo *philo)
 	pthread_t	*thread;
 
 	last_meal_sem_init(philo);
-	thread = malloc(sizeof(pthread_t));
-	if (!thread)
-		print_err_and_exit("Error: Malloc Error\n");
+	thread = malloc_wrapper(sizeof(pthread_t));
 	pthread_create(thread, (void *)0, monitor, (void *)philo);
 	pthread_detach(*thread);
 	free(thread);

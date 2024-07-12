@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_action.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 08:45:33 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 18:00:29 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,18 @@ void	*ph_action(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->eat_limit == 0)
-	{
-		set_ph_state(philo->ph_state, END);
-		return ((void *)0);
-	}
 	eat_cnt = 0;
-	while (1)
+	while (philo->eat_limit != 0)
 	{
 		ph_think(philo);
 		if (ph_eat(philo) == DEAD)
 			return ((void *)0);
 		if (++eat_cnt == philo->eat_limit)
-		{
-			set_ph_state(philo->ph_state, END);
-			return ((void *)0);
-		}
+			break ;
 		if (ph_sleep(philo) == DEAD)
 			return ((void *)0);
 	}
+	set_ph_state(philo->ph_state, END);
 	return ((void *)0);
 }
 

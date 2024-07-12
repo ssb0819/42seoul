@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_action_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 22:10:53 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 13:06:36 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 18:12:48 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ static void	ph_sleep(t_philo *philo);
 
 void	ph_action(t_philo *philo)
 {
-	int			eat_cnt;
+	int	eat_cnt;
 
-	if (philo->eat_limit == 0)
-		exit(EXIT_SUCCESS);
 	start_monitoring(philo);
 	eat_cnt = 0;
 	while (philo->eat_limit != 0)
@@ -30,9 +28,11 @@ void	ph_action(t_philo *philo)
 		ph_think(philo);
 		ph_eat(philo);
 		if (++eat_cnt == philo->eat_limit)
-			exit(EXIT_SUCCESS);
+			break ;
 		ph_sleep(philo);
 	}
+	close_sems(philo);
+	exit(EXIT_SUCCESS);
 }
 
 static void	ph_think(t_philo *philo)

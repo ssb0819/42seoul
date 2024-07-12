@@ -6,16 +6,13 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:09:47 by root              #+#    #+#             */
-/*   Updated: 2024/07/12 17:37:31 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/12 18:15:02 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
 static void	philo_init(t_philo *philo, char **argv);
-static void	simulate(int ph_cnt, t_philo *philo_info);
-static void	create_philo(int odd_even, t_philo *philo, int ph_cnt, pid_t *phs);
-static void	kill_all_philos(pid_t *ph_pids, int ph_cnt);
 
 int	main(int argc, char **argv)
 {
@@ -60,69 +57,4 @@ static void	philo_init(t_philo *philo, char **argv)
 		philo->eat_limit = NO_LIMIT;
 	philo->start_time = get_timestamp(0);
 	philo->last_meal.time = 0;
-}
-
-static void	simulate(int ph_cnt, t_philo *philo)
-{
-	int		i;
-	int		status;
-	pid_t	*ph_pids;
-
-	ph_pids = malloc_wrapper(sizeof(pid_t) * ph_cnt);
-	create_philo(ODD, philo, ph_cnt, ph_pids);
-	if (ph_cnt > 1)
-	{
-		usleep(philo->time_to_eat / 2 * 1000);
-		create_philo(EVEN, philo, ph_cnt, ph_pids);
-	}
-	i = 0;
-	status = 0;
-	while (i < ph_cnt)
-	{
-		waitpid(-1, &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		{
-			kill_all_philos(ph_pids, ph_cnt);
-			printf("%ld %d %s\n", get_timestamp(philo->start_time), \
-					WEXITSTATUS(status), "died");
-			exit(EXIT_SUCCESS);
-		}
-		i++;
-	}
-}
-
-static void	create_philo(int odd_even, t_philo *philo, int ph_cnt, \
-							pid_t *ph_pids)
-{
-	int		i;
-	pid_t	pid;
-
-	i = odd_even;
-	while (i < ph_cnt)
-	{
-		philo->philo_num = i + 1;
-		pid = fork();
-		if (pid > 0)
-		{
-			ph_pids[i] = pid;
-			i += 2;
-			continue ;
-		}
-		else if (pid == 0)
-			ph_action(philo);
-		else
-		{
-			unlink_all_sems();
-			print_err_and_exit("Error: Fork Error\n");
-		}
-	}
-}
-
-static void	kill_all_philos(pid_t *ph_pids, int ph_cnt)
-{
-	int	i;
-
-	i = 0;
-	while (i < ph_cnt)
-		kill(ph_pids[i++], SIGINT);
 }

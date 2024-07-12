@@ -6,7 +6,7 @@
 /*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/12 17:25:15 by subson           ###   ########.fr       */
+/*   Updated: 2024/07/12 18:15:49 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct s_philo
 	sem_t			*print_sem;
 }				t_philo;
 
-/* action & monitor */
+/* main functions */
+void	simulate(int ph_cnt, t_philo *philo);
 void	ph_action(t_philo *philo);
 void	start_monitoring(t_philo *philo);
 

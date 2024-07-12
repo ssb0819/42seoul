@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: subson <subson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:42:00 by subson            #+#    #+#             */
-/*   Updated: 2024/07/10 09:14:11 by root             ###   ########.fr       */
+/*   Updated: 2024/07/12 18:15:54 by subson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_philos_info
 	int		ph_cnt;
 }				t_philos_info;
 
-/* main function */
+/* main functions */
 int			philo_init(t_philos_info *ph_info, char **argv);
 void		simulate(t_philos_info *ph_info);
 void		*ph_action(void *arg);

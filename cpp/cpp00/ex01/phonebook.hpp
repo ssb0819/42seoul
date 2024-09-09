@@ -6,15 +6,14 @@
 #include <string>
 #include <iomanip>
 #include <limits>
+#include <cctype>
 
 class Phonebook
 {
 private:
+	Contact	contacts[8];
 	int		size;
 	int		start_idx;
-	Contact	contacts[8];
-	void	get_field(std::string prompt, std::string &field);
-	void	print_column(std::string str);
 public:
 	Phonebook();
 	void	start_phonebook();

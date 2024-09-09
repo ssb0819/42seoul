@@ -1,5 +1,5 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic-errors
+CFLAGS = -Wall -Wextra -Werror -std=c++11 -pedantic-errors
 NAME = phonebook
 
 HEADERS = contact.hpp phonebook.hpp

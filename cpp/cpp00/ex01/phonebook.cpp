@@ -26,6 +26,41 @@ void Phonebook::start_phonebook() {
 	}
 }
 
+static bool is_blank(const std::string &str) {
+	const size_t len = str.length();
+
+	for (size_t i = 0; i < len; i++)
+	{
+		if (str[i] != L' ')
+			return (false);
+	}
+	return (true);
+}
+
+static bool is_printable(const std::string &str) {
+	const size_t len = str.length();
+
+	for (size_t i = 0; i < len; i++)
+	{
+		if (isprint(str[i]) == 0)
+			return (false);
+	}
+	return (true);
+}
+
+static void get_field(std::string field_name, std::string &field) {
+	while (1)
+	{
+		std::cout << "> " << field_name << ": ";
+		getline(std::cin, field);
+		if (field.empty())
+			continue;
+		else if (!is_blank(field) && is_printable(field))
+			return ;
+		std::cout << "Enter contact information in printable ASCII code character." << std::endl;
+	}
+}
+
 void Phonebook::add_new_contact() {
 	Contact &cur = contacts[(start_idx + size) % 8];
 	std::string first_name;
@@ -34,11 +69,11 @@ void Phonebook::add_new_contact() {
 	std::string phone_num;
 	std::string darkest_secret;
 
-	get_field("First name: ", first_name);
-	get_field("Last name: ", last_name);
-	get_field("Nickname: ", nickname);
-	get_field("Phone number: ", phone_num);
-	get_field("Darkest secret: ", darkest_secret);
+	get_field("First name", first_name);
+	get_field("Last name", last_name);
+	get_field("Nickname", nickname);
+	get_field("Phone number", phone_num);
+	get_field("Darkest secret", darkest_secret);
 	
 	cur.set_first_name(first_name);
 	cur.set_last_name(last_name);
@@ -53,12 +88,11 @@ void Phonebook::add_new_contact() {
 	std::cout << "Saved a new contact." << std::endl;
 }
 
-void Phonebook::get_field(std::string prompt, std::string &field) {
-	while (field.size() == 0)
-	{
-		std::cout << prompt;
-		getline(std::cin, field);
-	}
+static void print_column(std::string str) {
+	if (str.size() <= 10)
+		std::cout << std::setw(10) << str;
+	else
+		std::cout << str.substr(0, 9) << ".";
 }
 
 void Phonebook::search_contacts() {
@@ -84,7 +118,7 @@ void Phonebook::search_contacts() {
 	}
 	while (1)
 	{
-		std::cout << "Enter index of the entry to display." << std::endl;
+		std::cout << "Enter index of the entry to display." << std::endl << "> ";
 		std::cin >> idx;
 		if (std::cin.fail())
         	std::cin.clear();
@@ -98,11 +132,4 @@ void Phonebook::search_contacts() {
 	std::cout << "Nickname:\t" << contact->get_nickname() << std::endl;
 	std::cout << "Phone number:\t" << contact->get_phone_num() << std::endl;
 	std::cout << "Darkest secret:\t" << contact->get_darkest_secret() << std::endl;
-}
-
-void Phonebook::print_column(std::string str) {
-	if (str.size() <= 10)
-		std::cout << std::setw(10) << str;
-	else
-		std::cout << str.substr(0, 9) << '.';
 }

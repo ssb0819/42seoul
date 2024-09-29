@@ -1,24 +1,27 @@
 #ifndef PHONEBOOK_HPP
 #define PHONEBOOK_HPP
 
-#include "contact.hpp"
-#include <iostream>
-#include <string>
-#include <iomanip>
-#include <limits>
+#include "Contact.hpp"
+#include <cstring>
 #include <cctype>
 
-class Phonebook
+class PhoneBook
 {
 private:
 	Contact	contacts[8];
 	int		size;
-	int		start_idx;
+	int		oldest_idx;
 public:
-	Phonebook();
-	void	start_phonebook();
-	void	add_new_contact();
-	void	search_contacts();
+	PhoneBook();
+	void	add();
+	void	search();
+private:
+	Contact		get_contact_info();
+	std::string	get_user_input(const char *prompt);
+	int			get_add_idx();
+	bool		is_valid_info(const char *str) const;
+	bool		is_blank(const char *str) const;
+	bool		is_printable(const char *str) const;
 };
 
 #endif

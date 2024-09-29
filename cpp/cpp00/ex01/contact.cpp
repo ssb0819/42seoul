@@ -1,41 +1,16 @@
-#include "contact.hpp"
+#include "Contact.hpp"
 
-void Contact::set_first_name(std::string &str) {
-    first_name = str;
+Contact::Contact() {}
+
+Contact::Contact(std::string &f_name, std::string &l_name, std::string &n_name, std::string &ph_num, std::string &d_secret)
+	: first_name(f_name), last_name(l_name), nickname(n_name), phone_num(ph_num), darkest_secret(d_secret) {}
+
+void Contact::print_all_col() const
+{
+	std::cout << "print_all" << std::endl;
 }
 
-void Contact::set_last_name(std::string &str) {
-    last_name = str;
-}
-
-void Contact::set_nickname(std::string &str) {
-    nickname = str;
-}
-
-void Contact::set_phone_num(std::string &str) {
-    phone_num = str;
-}
-
-void Contact::set_darkest_secret(std::string &str) {
-    darkest_secret = str;
-}
-
-std::string Contact::get_first_name() {
-    return(first_name);
-}
-
-std::string Contact::get_last_name() {
-    return(last_name);
-}
-
-std::string Contact::get_nickname() {
-	return(nickname);
-}
-
-std::string Contact::get_phone_num() {
-    return(phone_num);
-}
-
-std::string Contact::get_darkest_secret() {
-    return(darkest_secret);
+void Contact::print_4_col() const
+{
+	std::cout << "print_4" << std::endl;
 }

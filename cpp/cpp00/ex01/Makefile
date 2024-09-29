@@ -1,9 +1,9 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++11 -pedantic-errors
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 NAME = phonebook
 
-HEADERS = contact.hpp phonebook.hpp
-SRCS = contact.cpp phonebook.cpp
+HEADERS = Contact.hpp PhoneBook.hpp
+SRCS = Contact.cpp PhoneBook.cpp main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

@@ -1,135 +1,120 @@
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
-int	main() {
-	Phonebook phonebook;
-	phonebook.start_phonebook();
+PhoneBook::PhoneBook()
+{
+	size = 0;
+	oldest_idx = 0;
 }
 
-Phonebook::Phonebook() {
-    size = 0;
-	start_idx = 0;
-}
-
-void Phonebook::start_phonebook() {
-	std::string input;
-
-	while (1)
-	{
-		std::cout << "Enter command. [ADD, SEARCH, EXIT]" << std::endl << "> ";
-		getline(std::cin, input);
-		if (input.compare("ADD") == 0)
-			add_new_contact();
-		else if (input.compare("SEARCH") == 0)
-			search_contacts();
-		else if (input.compare("EXIT") == 0)
-			break;
-	}
-}
-
-static bool is_blank(const std::string &str) {
-	const size_t len = str.length();
-
-	for (size_t i = 0; i < len; i++)
-	{
-		if (str[i] != L' ')
-			return (false);
-	}
-	return (true);
-}
-
-static bool is_printable(const std::string &str) {
-	const size_t len = str.length();
-
-	for (size_t i = 0; i < len; i++)
-	{
-		if (isprint(str[i]) == 0)
-			return (false);
-	}
-	return (true);
-}
-
-static void get_field(std::string field_name, std::string &field) {
-	while (1)
-	{
-		std::cout << "> " << field_name << ": ";
-		getline(std::cin, field);
-		if (field.empty())
-			continue;
-		else if (!is_blank(field) && is_printable(field))
-			return ;
-		std::cout << "Enter contact information in printable ASCII code character." << std::endl;
-	}
-}
-
-void Phonebook::add_new_contact() {
-	Contact &cur = contacts[(start_idx + size) % 8];
-	std::string first_name;
-	std::string last_name;
-	std::string nickname;
-	std::string phone_num;
-	std::string darkest_secret;
-
-	get_field("First name", first_name);
-	get_field("Last name", last_name);
-	get_field("Nickname", nickname);
-	get_field("Phone number", phone_num);
-	get_field("Darkest secret", darkest_secret);
+void	PhoneBook::add()
+{
+	Contact	new_contact;
+	int		idx;
 	
-	cur.set_first_name(first_name);
-	cur.set_last_name(last_name);
-	cur.set_nickname(nickname);
-	cur.set_phone_num(phone_num);
-	cur.set_darkest_secret(darkest_secret);
+	new_contact = get_contact_info();
+	idx = get_add_idx();
+	contacts[idx] = new_contact;
 
 	if (size < 8)
 		size++;
 	else
-		start_idx = (start_idx + 1) % 8;
-	std::cout << "Saved a new contact." << std::endl;
+		oldest_idx = ++oldest_idx % 8;
 }
 
-static void print_column(std::string str) {
-	if (str.size() <= 10)
-		std::cout << std::setw(10) << str;
-	else
-		std::cout << str.substr(0, 9) << ".";
+void	PhoneBook::search()
+{
+	std::cout << "search" << std::endl;
 }
 
-void Phonebook::search_contacts() {
-	Contact	*contact;
-	int idx;
+Contact	PhoneBook::get_contact_info()
+{
+	std::string	first_name;
+	std::string	last_name;
+	std::string	nickname;
+	std::string	phone_num;
+	std::string	darkest_secret;
+	
+	first_name = get_user_input("firstname");
+	last_name = get_user_input("last name");
+	nickname = get_user_input("nickname");
+	phone_num = get_user_input("phone number");
+	darkest_secret = get_user_input("darkest secret");
 
-	idx = 0;
-	if (size == 0)
+	Contact	contact(first_name, last_name, nickname, phone_num, darkest_secret);
+	return (contact);
+}
+
+std::string	PhoneBook::get_user_input(const char *prompt)
+{
+	char		input[51];
+
+	while (true)
 	{
-		std::cout << "Phonebook is empty." << std::endl;
-		return;
-	}
-    for (int i = 0; i < size; i++)
-	{
-		contact = &contacts[(start_idx + i) % 8];
-		std::cout << "         " << i + 1 << '|';
-		print_column(contact->get_first_name());
-		std::cout << '|';
-		print_column(contact->get_last_name());
-		std::cout << '|';
-		print_column(contact->get_nickname());
-		std::cout << std::endl;
-	}
-	while (1)
-	{
-		std::cout << "Enter index of the entry to display." << std::endl << "> ";
-		std::cin >> idx;
-		if (std::cin.fail())
-        	std::cin.clear();
-    	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		if (idx > 0 && idx <= size)
+		std::cout << "Enter " << prompt << " within 50 characters." << std::endl;
+
+		if (!std::cin.getline(input, 51))
+		{
+			if (std::cin.eof()) 
+			{
+				std::cout << "EOF reached. Exiting the program." << std::endl;
+				break;
+			}
+			else
+			{
+				std::cin.clear();
+				std::cin.ignore(100, '\n');
+				std::cout << "Input error." << std::endl;
+				continue;
+			}
+		}
+
+		if (is_valid_info(input))
 			break;
 	}
-	contact = &contacts[(start_idx + idx - 1) % 8];
-	std::cout << "First name:\t" << contact->get_first_name() << std::endl; 
-	std::cout << "Last name:\t" << contact->get_last_name() << std::endl; 
-	std::cout << "Nickname:\t" << contact->get_nickname() << std::endl;
-	std::cout << "Phone number:\t" << contact->get_phone_num() << std::endl;
-	std::cout << "Darkest secret:\t" << contact->get_darkest_secret() << std::endl;
+	std::string	input_str = input;
+	return (input_str);
+}
+
+int	PhoneBook::get_add_idx()
+{
+	if (size == 0)
+		return (0);
+	else if (size < 8)
+		return (size);
+	else
+		return (oldest_idx);
+}
+
+bool	PhoneBook::is_valid_info(const char *str) const
+{
+	if (!is_blank(str) && is_printable(str))
+		return (true);
+	else
+		return (false);
+}
+
+bool PhoneBook::is_blank(const char *str) const
+{
+	int	i = 0;
+
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool PhoneBook::is_printable(const char *str) const
+{
+	int	i = 0;
+	
+	while (str[i])
+	{
+		if (!isprint(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }

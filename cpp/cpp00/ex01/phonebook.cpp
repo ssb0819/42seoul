@@ -57,7 +57,7 @@ int	PhoneBook::get_search_idx() const
 	{
 		if (std::cin >> idx && idx > 0 && idx <= size)
 		{
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cin.ignore(INT_MAX, '\n');
 			return ((oldest_idx + idx - 1) % 8);
 		}
 		else
@@ -69,7 +69,7 @@ int	PhoneBook::get_search_idx() const
 			}
 			std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n> ";
         	std::cin.clear();
-        	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        	std::cin.ignore(INT_MAX, '\n');
 		}
     }
 }
@@ -110,7 +110,7 @@ std::string	PhoneBook::get_user_input(const char *prompt) const
 			else
 			{
 				std::cin.clear();
-				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cin.ignore(INT_MAX, '\n');
 				std::cout << "Input error." << std::endl;
 				continue;
 			}

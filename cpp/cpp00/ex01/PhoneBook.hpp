@@ -4,6 +4,7 @@
 #include "Contact.hpp"
 #include <cstring>
 #include <cctype>
+#include <climits>
 
 class PhoneBook
 {

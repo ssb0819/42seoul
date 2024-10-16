@@ -20,7 +20,7 @@ int main()
 			else 
 			{
                 std::cin.clear();
-				std::cin.ignore(100, '\n');
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 continue;
             }
 		}

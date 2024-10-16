@@ -16,12 +16,12 @@ public:
 	void	add();
 	void	search();
 private:
-	Contact		get_contact_info();
-	std::string	get_user_input(const char *prompt);
-	int			get_add_idx();
+	Contact		get_contact_info() const;
+	std::string	get_user_input(const char *prompt) const;
 	bool		is_valid_info(const char *str) const;
 	bool		is_blank(const char *str) const;
 	bool		is_printable(const char *str) const;
+	int			get_search_idx() const;
 };
 
 #endif

@@ -11,22 +11,70 @@ void	PhoneBook::add()
 	Contact	new_contact;
 	int		idx;
 	
+	if (size < 8)
+		idx = size;
+	else
+		idx = oldest_idx;
+
 	new_contact = get_contact_info();
-	idx = get_add_idx();
 	contacts[idx] = new_contact;
 
 	if (size < 8)
 		size++;
 	else
-		oldest_idx = ++oldest_idx % 8;
+		oldest_idx = (oldest_idx + 1) % 8;
+
+	std::cout << "A new contact has been added." << std::endl;
 }
 
 void	PhoneBook::search()
 {
-	std::cout << "search" << std::endl;
+	int	idx;
+
+	if (size == 0)
+	{
+		std::cout << "Phonebook is empty." << std::endl;
+		return ;
+	}
+	for (int i = 0; i < size; i++)
+	{
+		std::cout.width(10);
+		std::cout << i + 1 << '|';
+		idx = (oldest_idx + i) % 8;
+		contacts[idx].print_4_col();
+	}
+	idx = get_search_idx();
+	contacts[idx].print_all_col();
 }
 
-Contact	PhoneBook::get_contact_info()
+int	PhoneBook::get_search_idx() const
+{
+	int	idx;
+
+	idx = 0;
+	std::cout << "Please enter a number between 1 and " << size << " to display.\n> ";
+	while (true)
+	{
+		if (std::cin >> idx && idx > 0 && idx <= size)
+		{
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			return ((oldest_idx + idx - 1) % 8);
+		}
+		else
+		{
+			if (std::cin.eof()) 
+			{
+				std::cout << "EOF reached. Exiting the program." << std::endl;
+				exit(EXIT_SUCCESS);
+			}
+			std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n> ";
+        	std::cin.clear();
+        	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+    }
+}
+
+Contact	PhoneBook::get_contact_info() const
 {
 	std::string	first_name;
 	std::string	last_name;
@@ -44,25 +92,25 @@ Contact	PhoneBook::get_contact_info()
 	return (contact);
 }
 
-std::string	PhoneBook::get_user_input(const char *prompt)
+std::string	PhoneBook::get_user_input(const char *prompt) const
 {
 	char		input[51];
 
 	while (true)
 	{
-		std::cout << "Enter " << prompt << " within 50 characters." << std::endl;
+		std::cout << "Enter " << prompt << " within 50 characters.\n> ";
 
 		if (!std::cin.getline(input, 51))
 		{
 			if (std::cin.eof()) 
 			{
 				std::cout << "EOF reached. Exiting the program." << std::endl;
-				break;
+				exit(EXIT_SUCCESS);
 			}
 			else
 			{
 				std::cin.clear();
-				std::cin.ignore(100, '\n');
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				std::cout << "Input error." << std::endl;
 				continue;
 			}
@@ -73,16 +121,6 @@ std::string	PhoneBook::get_user_input(const char *prompt)
 	}
 	std::string	input_str = input;
 	return (input_str);
-}
-
-int	PhoneBook::get_add_idx()
-{
-	if (size == 0)
-		return (0);
-	else if (size < 8)
-		return (size);
-	else
-		return (oldest_idx);
 }
 
 bool	PhoneBook::is_valid_info(const char *str) const

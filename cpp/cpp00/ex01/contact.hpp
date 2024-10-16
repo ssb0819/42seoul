@@ -23,6 +23,8 @@ public:
 	);
 	void	print_all_col() const;
 	void	print_4_col() const;
+private:
+	void	print_truncated(std::string str, int length) const;
 };
 
 #endif

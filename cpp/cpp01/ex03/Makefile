@@ -2,7 +2,8 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 NAME = test
 
-SRCS = main.cpp
+HEADERS = Weapon.hpp HumanA.hpp HumanB.hpp
+SRCS = Weapon.cpp HumanA.cpp HumanB.cpp main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

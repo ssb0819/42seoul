@@ -2,7 +2,7 @@
 
 Zombie::Zombie()
 {
-	std::cout << "[ Anonymous zombie is created. ]" << std::endl;
+	std::cout << "[ a zombie is created. ]" << std::endl;
 }
 
 Zombie::Zombie(std::string name) : name(name)

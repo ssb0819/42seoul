@@ -1,13 +1,7 @@
 #include "Zombie.hpp"
 
-void	check_leaks()
-{
-	system("leaks -q test_00");
-}
-
 int	main()
 {
-	atexit(check_leaks);
 	Zombie	first_zombie("zombie1");
 	first_zombie.announce();
 

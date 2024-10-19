@@ -1,6 +1,6 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-NAME = test_01
+NAME = test
 
 HEADERS = Zombie.hpp
 SRCS = Zombie.cpp zombieHorde.cpp main.cpp

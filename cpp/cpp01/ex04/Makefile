@@ -1,8 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-NAME = test
+NAME = sed
 
-SRCS = main.cpp
+HEADERS = Sed.hpp
+SRCS = Sed.cpp main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

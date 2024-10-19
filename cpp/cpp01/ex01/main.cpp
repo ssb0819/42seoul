@@ -2,7 +2,7 @@
 
 void	check_leaks()
 {
-	system("leaks -q test_01");
+	system("leaks -q test");
 }
 
 int	main(int argc, char **argv)
@@ -14,6 +14,11 @@ int	main(int argc, char **argv)
 		exit(EXIT_SUCCESS);
 	}
 	const int	zombie_cnt = atoi(argv[1]);
+	if (zombie_cnt < 1)
+	{
+		std::cout << "Please enter the number and names of the zombies." << std::endl;
+		exit(EXIT_SUCCESS);
+	}
 	std::string	zombie_name = argv[2];
 
 	Zombie	*zombies = zombieHorde(zombie_cnt, zombie_name);

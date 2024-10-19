@@ -1,8 +1,9 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-NAME = test
+NAME = harlFilter
 
-SRCS = main.cpp
+HEADERS = Harl.hpp
+SRCS = Harl.cpp main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)

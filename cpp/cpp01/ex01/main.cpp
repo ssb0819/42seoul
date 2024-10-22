@@ -2,22 +2,22 @@
 
 void	check_leaks()
 {
-	std::system("leaks -q test");
+	system("leaks -q test");
 }
 
 int	main(int argc, char **argv)
 {
-	std::atexit(check_leaks);
+	atexit(check_leaks);
 	if (argc < 3)
 	{
 		std::cerr << "Please enter the number and names of the zombies." << std::endl;
-		exit(EXIT_SUCCESS);
+		return (1);
 	}
 	const int	zombie_cnt = atoi(argv[1]);
 	if (zombie_cnt < 1)
 	{
 		std::cerr << "Please enter the number and names of the zombies." << std::endl;
-		exit(EXIT_SUCCESS);
+		return (1);
 	}
 	std::string	zombie_name = argv[2];
 

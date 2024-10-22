@@ -16,12 +16,12 @@ void	Sed::replace() const
 	std::ofstream	outfile;
 	const size_t	oldstr_len = oldstr.length();
 
-	infile.open(filename);
+	infile.open(filename.c_str());
 	if (infile.fail())
 		throw std::runtime_error("Error: file open error: " + filename);
 
 	const std::string	outfilename = filename + ".replace";
-	outfile.open(outfilename);
+	outfile.open(outfilename.c_str());
 	if (outfile.fail())
 		throw std::runtime_error("Error: file open error: " + outfilename);
 

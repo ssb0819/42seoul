@@ -1,35 +1,14 @@
 #include "Sed.hpp"
 
-Sed::Sed()
-{}
+Sed::Sed(const char* oldstr, const char* newstr, const char* filename) \
+	: oldstr(oldstr), newstr(newstr), filename(filename)
+{
+	if (this->oldstr.length() == 0)
+		throw std::invalid_argument("Error: old string must not be empty");	
+}
 
 Sed::~Sed()
 {}
-
-void	Sed::set_oldstr(const std::string str)
-{
-	if (str.length() == 0)
-	{
-		std::cout << "sed: search string must not be empty" << std::endl;
-		return ;
-	}
-	oldstr = str;
-}
-
-void	Sed::set_newstr(const std::string str)
-{
-	newstr = str;
-}
-
-void	Sed::set_filename(const std::string filename)
-{
-	if (filename.length() == 0)
-	{
-		std::cout << "sed: file name must not be empty" << std::endl;
-		return ;
-	}
-	this->filename = filename;
-}
 
 void	Sed::replace() const
 {
@@ -37,24 +16,14 @@ void	Sed::replace() const
 	std::ofstream	outfile;
 	const size_t	oldstr_len = oldstr.length();
 
-	if (oldstr_len == 0)
-	{
-		std::cout << "sed: search string must not be empty" << std::endl;
-		return ;
-	}
 	infile.open(filename);
 	if (infile.fail())
-	{
-		std::cout << "sed: input file open error" << std::endl;
-		return ;
-	}
-	std::string		outfilename = filename;
-	outfile.open(outfilename.append(".replace"));
+		throw std::runtime_error("Error: file open error: " + filename);
+
+	const std::string	outfilename = filename + ".replace";
+	outfile.open(outfilename);
 	if (outfile.fail())
-	{
-		std::cout << "sed: output file open error" << std::endl;
-		return ;
-	}
+		throw std::runtime_error("Error: file open error: " + outfilename);
 
 	std::string	read_line;
 	while (true)

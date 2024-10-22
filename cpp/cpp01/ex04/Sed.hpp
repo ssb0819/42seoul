@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 class Sed
 {
@@ -12,11 +13,8 @@ private:
 	std::string	newstr;
 	std::string	filename;
 public:
-	Sed();
+	Sed(const char* oldstr, const char* newstr, const char* filename);
 	~Sed();
-	void	set_oldstr(const std::string str);
-	void	set_newstr(const std::string str);
-	void	set_filename(const std::string filename);
 	void	replace() const;
 };
 

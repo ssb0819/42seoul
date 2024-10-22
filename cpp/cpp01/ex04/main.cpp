@@ -2,14 +2,22 @@
 
 int main(int argc, char** argv)
 {
-	if (argc < 4)
-	{
-		std::cout << "sed: please enter old string, new string, file name" << std::endl;
-		exit(EXIT_SUCCESS);
+	if (argc < 4){
+		std::cerr << "Error: please enter old string, new string, file name" << std::endl;
+		return (1);
 	}
-	Sed	sed;
-	sed.set_oldstr(argv[1]);
-	sed.set_newstr(argv[2]);
-	sed.set_filename(argv[3]);
-	sed.replace();
+
+	try{
+		Sed	sed(argv[1], argv[2], argv[3]);
+		sed.replace();
+	}
+	catch(const std::invalid_argument& e){
+		std::cerr << e.what() << std::endl;
+		return (1);
+	}
+	catch(const std::runtime_error& e){
+		std::cerr << e.what() << std::endl;
+		return (1);
+	}
+	
 }

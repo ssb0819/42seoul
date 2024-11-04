@@ -35,7 +35,7 @@ ClapTrap::~ClapTrap() {
 	std::cout << name << ": ClapTrap: Destructor called" << std::endl;
 }
 
-bool	ClapTrap::check_points() {
+bool	ClapTrap::check_points() const {
 	if (energy_points > 0 && hit_points > 0) {
 		return true;
 	} else {

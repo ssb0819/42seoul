@@ -1,7 +1,10 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap() {
-	std::cout << name << ": Default constructor called" << std::endl;
+ClapTrap::ClapTrap() : name(""), 
+						hit_points(10), 
+						energy_points(10), 
+						attack_damage(0) {
+	std::cout << ": Default constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& clapTrap) : name(clapTrap.name), 
@@ -9,15 +12,15 @@ ClapTrap::ClapTrap(const ClapTrap& clapTrap) : name(clapTrap.name),
 												energy_points(clapTrap.energy_points), 
 												attack_damage(clapTrap.attack_damage) {
 	std::cout << name << ": Copy constructor called" << std::endl;
-	this->name = clapTrap.name;
+	name = clapTrap.name;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& clapTrap) {
 	std::cout << "Copy assignment operator called" << std::endl;
-	this->name = clapTrap.name;
-	this->hit_points = clapTrap.hit_points;
-	this->energy_points = clapTrap.energy_points;
-	this->attack_damage = clapTrap.attack_damage;
+	name = clapTrap.name;
+	hit_points = clapTrap.hit_points;
+	energy_points = clapTrap.energy_points;
+	attack_damage = clapTrap.attack_damage;
 	return *this;
 }
 

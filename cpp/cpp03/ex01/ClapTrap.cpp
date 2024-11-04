@@ -1,35 +1,38 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap() {
-	std::cout << name << ": Default constructor called" << std::endl;
-}
-
-ClapTrap::ClapTrap(const ClapTrap& clapTrap) : name(clapTrap.name), 
-												hit_points(clapTrap.hit_points), 
-												energy_points(clapTrap.energy_points), 
-												attack_damage(clapTrap.attack_damage) {
-	std::cout << name << ": Copy constructor called" << std::endl;
-	this->name = clapTrap.name;
-}
-
-ClapTrap& ClapTrap::operator=(const ClapTrap& clapTrap) {
-	std::cout << "Copy assignment operator called" << std::endl;
-	this->name = clapTrap.name;
-	this->hit_points = clapTrap.hit_points;
-	this->energy_points = clapTrap.energy_points;
-	this->attack_damage = clapTrap.attack_damage;
-	return *this;
+ClapTrap::ClapTrap() : name(""), 
+						hit_points(10), 
+						energy_points(10), 
+						attack_damage(0) {
+	std::cout << "ClapTrap: Default constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string name) : name(name), 
 											hit_points(10), 
 											energy_points(10), 
 											attack_damage(0) {
-	std::cout << name << ": Constructor called" << std::endl;
+	std::cout << name << ": ClapTrap: Constructor with name called" << std::endl;
+}
+
+ClapTrap::ClapTrap(const ClapTrap& clapTrap) : name(clapTrap.name), 
+												hit_points(clapTrap.hit_points), 
+												energy_points(clapTrap.energy_points), 
+												attack_damage(clapTrap.attack_damage) {
+	std::cout << name << ": ClapTrap: Copy constructor called" << std::endl;
+	name = clapTrap.name;
+}
+
+ClapTrap& ClapTrap::operator=(const ClapTrap& clapTrap) {
+	name = clapTrap.name;
+	hit_points = clapTrap.hit_points;
+	energy_points = clapTrap.energy_points;
+	attack_damage = clapTrap.attack_damage;
+	std::cout << name << ": ClapTrap: Copy assignment operator called" << std::endl;
+	return *this;
 }
 
 ClapTrap::~ClapTrap() {
-	std::cout << name << ": Destructor called" << std::endl;
+	std::cout << name << ": ClapTrap: Destructor called" << std::endl;
 }
 
 bool	ClapTrap::check_points() {

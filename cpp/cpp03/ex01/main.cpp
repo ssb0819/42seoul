@@ -1,18 +1,33 @@
-#include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 
 int	main() {
-	ClapTrap clapTrap1("ct1");
-	ClapTrap clapTrap2("ct2");
 
-	std::cout << "==== attack & takeDamage test ====" << std::endl;
-	clapTrap1.attack("ct2");
-	clapTrap2.takeDamage(0);
-	
-	std::cout << "==== when energy point is 0 ====" << std::endl;
-	for (size_t i = 0; i < 10; i++)
-		clapTrap1.attack("ct2");
-	
-	std::cout << "==== when hit point is 0 ====" << std::endl;
-	clapTrap2.takeDamage(20);
-	clapTrap2.beRepaired(3);
+	std::cout << "======== test start ========" << std::endl;
+	ScavTrap	scav1("1111");
+
+	scav1.attack("11");
+	scav1.guardGate();
+
+	std::cout << "===========================" << std::endl;
+
+	ScavTrap	scav2;
+
+	scav2 = scav1;
+	scav2.attack("33");
+
+	std::cout << "===========================" << std::endl;
+
+	ClapTrap	*clap;
+
+	clap = (ClapTrap *)&scav1;
+	clap->attack("44");
+	// clap->guarGate();
+
+	std::cout << "===========================" << std::endl;
+
+	ClapTrap	clap2;
+	clap2 = scav1;
+	clap2.attack("55");
+
+	std::cout << "===========================" << std::endl;
 }

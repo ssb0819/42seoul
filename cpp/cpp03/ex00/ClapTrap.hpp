@@ -11,7 +11,7 @@ private:
 	unsigned int	hit_points;
 	unsigned int	energy_points;
 	unsigned int	attack_damage;
-	bool	check_points();
+	bool			check_points() const;
 public:
 	ClapTrap(const std::string name);
 	ClapTrap();

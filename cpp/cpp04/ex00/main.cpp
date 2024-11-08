@@ -26,5 +26,11 @@ int main() {
 
 	std::cout << "===== test end =====" << std::endl;
 
+	delete meta;
+	delete i;
+	delete j;
+	delete meta2;
+	delete i2;
+
 	return 0;
 }

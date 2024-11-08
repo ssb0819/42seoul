@@ -24,3 +24,5 @@ void	Animal::setType(const std::string type) {
 const std::string& Animal::getType() const {
 	return type;
 }
+
+void	Animal::makeSound() const {}

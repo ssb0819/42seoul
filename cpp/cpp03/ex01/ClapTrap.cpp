@@ -11,7 +11,7 @@ ClapTrap::ClapTrap(const std::string name) : name(name),
 											hit_points(10), 
 											energy_points(10), 
 											attack_damage(0) {
-	std::cout << name << ": ClapTrap: Constructor with name called" << std::endl;
+	std::cout << name << ": ClapTrap: Constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& clapTrap) : name(clapTrap.name), 
@@ -44,7 +44,7 @@ bool	ClapTrap::check_points() const {
 	}
 }
 
-void	ClapTrap::attack(const std::string& target) {
+void	ClapTrap::attack(const std::string target) {
 	if (check_points()) {
 		std::cout << "ClapTrap " << name << " attacks " << target
 			<< ", causing " << attack_damage << " points of damage!" << std::endl;

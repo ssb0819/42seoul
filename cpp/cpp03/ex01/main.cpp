@@ -2,32 +2,27 @@
 
 int	main() {
 
-	std::cout << "======== test start ========" << std::endl;
+	std::cout << "======== test start ========\n" << std::endl;
 	ScavTrap	scav1("1111");
 
 	scav1.attack("11");
 	scav1.guardGate();
 
-	std::cout << "===========================" << std::endl;
-
-	ScavTrap	scav2;
-
-	scav2 = scav1;
-	scav2.attack("33");
-
-	std::cout << "===========================" << std::endl;
+	std::cout << "\n======= explicit conversion test ==========\n" << std::endl;
 
 	ClapTrap	*clap;
 
-	clap = (ClapTrap *)&scav1;
+	clap = (ClapTrap *)(new ScavTrap("222"));
 	clap->attack("44");
 	// clap->guarGate();
+	delete clap;
 
-	std::cout << "===========================" << std::endl;
+	std::cout << "\n======== implicit conversion test =========\n" << std::endl;
 
 	ClapTrap	clap2;
 	clap2 = scav1;
 	clap2.attack("55");
+	// clap2.guardGate();
 
-	std::cout << "===========================" << std::endl;
+	std::cout << "\n======== test end ============\n" << std::endl;
 }

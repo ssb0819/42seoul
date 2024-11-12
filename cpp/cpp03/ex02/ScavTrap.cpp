@@ -4,11 +4,11 @@ ScavTrap::ScavTrap() {
 	std::cout << "ScavTrap: default constructor called" << std::endl;
 }
 
-ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name) {
+ScavTrap::ScavTrap(const std::string name) : ClapTrap(name) {
 	hit_points = 100;
 	energy_points = 50;
 	attack_damage = 20;
-	std::cout << name << ": ScavTrap: Constructor with name called" << std::endl;
+	std::cout << name << ": ScavTrap: Constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap& scavTrap) : ClapTrap(scavTrap) {
@@ -28,7 +28,7 @@ ScavTrap::~ScavTrap() {
 	std::cout << name << ": ScavTrap: Destructor called" << std::endl;
 }
 
-void	ScavTrap::attack(const std::string& target) {
+void	ScavTrap::attack(const std::string target) {
 	if (check_points()) {
 		std::cout << "ScavTrap " << name << " attacks " << target
 				<< ", causing " << attack_damage << " points of damage!" << std::endl;

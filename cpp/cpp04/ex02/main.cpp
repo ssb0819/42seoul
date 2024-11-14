@@ -12,15 +12,8 @@ int main() {
 
 	Cat* cat1 = new Cat();
 	Cat* cat2 = new Cat();
-
-	std::cout << "Address of cat1's idea: " << &(cat1->getBrain()->ideas[0]) << std::endl;
-	std::cout << "Address of cat2's idea: " << &(cat2->getBrain()->ideas[0]) << std::endl;
 	
 	*cat1 = *cat2;
-	std::cout << "After deep copy" << std::endl;
-
-	std::cout << "Address of cat1's idea: " << &(cat1->getBrain()->ideas[0]) << std::endl;
-	std::cout << "Address of cat2's idea: " << &(cat2->getBrain()->ideas[0]) << std::endl;
 
 	delete cat1;
 	delete cat2;
@@ -30,7 +23,7 @@ int main() {
 
 	std::cout << "==== memory leak test start ====" << std::endl;
 
-	Animal	*meta[10];
+	AAnimal	*meta[10];
 
 	for (size_t i = 0; i < 5; i++)
 		meta[i] = new Dog();
@@ -44,7 +37,7 @@ int main() {
 	
 	std::cout << "==== memory leak test end ====\n" << std::endl;
 
-	// Animal	animal(); // compile error - pure virtual method
+	// AAnimal	animal(); // compile error - pure virtual method
 
 	return 0;
 }

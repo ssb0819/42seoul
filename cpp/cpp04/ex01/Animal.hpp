@@ -6,9 +6,6 @@
 
 class Animal
 {
-protected:
-	std::string	type;
-	void	setType(const std::string type);
 public:
 	Animal();
 	virtual ~Animal();
@@ -17,6 +14,10 @@ public:
 
 	const std::string&	getType() const;
 	virtual void	makeSound() const;
+protected:
+	std::string	type;
+	
+	void	setType(const std::string type);
 };
 
 #endif

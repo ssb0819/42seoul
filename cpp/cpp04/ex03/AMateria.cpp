@@ -1,18 +1,15 @@
 #include "AMateria.hpp"
 
-AMateria::AMateria() : type("") {};
+AMateria::AMateria(const std::string& type) : type(type) {};
+
+AMateria::AMateria(const AMateria& materia) : type(materia.type) {};
 
 AMateria::~AMateria() {};
 
-AMateria::AMateria(std::string const& type) : type(type) {};
-
-AMateria::AMateria(AMateria const& materia) {
-	*this = materia;
-};
-
-AMateria&	AMateria::operator=(AMateria const& materia) {
-	this->type = materia.type;
-	return (*this);
+AMateria&	AMateria::operator=(const AMateria& materia) {
+	if (this != &materia)
+		this->type = materia.type;
+	return *this;
 };
 
 const std::string&	AMateria::getType() const {

@@ -11,7 +11,7 @@ Dog::~Dog() {
 	std::cout << "Dog: deleted" << std::endl;
 }
 
-Dog::Dog(const Dog& dog) {
+Dog::Dog(const Dog& dog) : AAnimal() {
 	this->type = dog.type;
 	brain = new Brain(*(dog.brain));
 	std::cout << "Dog: created - copy constructor" << std::endl;

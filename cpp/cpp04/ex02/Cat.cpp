@@ -11,7 +11,7 @@ Cat::~Cat() {
 	std::cout << "Cat: deleted" << std::endl;
 }
 
-Cat::Cat(const Cat& cat) {
+Cat::Cat(const Cat& cat) : AAnimal() {
 	this->type = cat.type;
 	brain = new Brain(*(cat.brain));
 	std::cout << "Cat: created - copy constructor" << std::endl;

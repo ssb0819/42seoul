@@ -1,5 +1,6 @@
 #include "Cat.hpp"
 #include "Dog.hpp"
+#include <cstdlib>
 
 void	check_leaks() {
 	system("leaks -q a.out");

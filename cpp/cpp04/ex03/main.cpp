@@ -2,6 +2,7 @@
 #include "Cure.hpp"
 #include "Character.hpp"
 #include "MateriaSource.hpp"
+#include <cstdlib>
 
 void	check_leaks() {
 	system("leaks -q a.out");

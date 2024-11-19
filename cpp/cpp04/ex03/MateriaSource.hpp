@@ -15,7 +15,7 @@ public:
 	virtual	AMateria*	createMateria(std::string const & type);
 private:
 	AMateria*	materias[4];
-	static const int	max_size;
+	static const size_t	max_size;
 };
 
 #endif

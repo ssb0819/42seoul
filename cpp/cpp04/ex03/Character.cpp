@@ -1,7 +1,6 @@
 #include "Character.hpp"
-#include "AMateria.hpp"
 
-const int	Character::slot_size = 4;
+const size_t	Character::slot_size = 4;
 
 Character::Character(const std::string name) : name(name) {
 	for (size_t i = 0; i < slot_size; i++)
@@ -10,27 +9,30 @@ Character::Character(const std::string name) : name(name) {
 
 Character::Character(const Character& other) : name(other.getName()) {
 	for (size_t i = 0; i < slot_size; i++)
-		inventory[i] = other.inventory[i];
+	{
+		if (other.inventory[i])
+			inventory[i] = other.inventory[i]->clone();
+		else
+			inventory[i] = NULL;
+	}
 }
 
 Character::~Character() {
 	for (size_t i = 0; i < slot_size; i++)
-	{
-		if (inventory[i])
-			delete inventory[i];
-		else
-			return;
-	}
+		delete inventory[i];
 }
 
 Character& Character::operator=(const Character& other) {
+	if (this == &other)
+		return *this;
+	this->name = other.getName();
 	for (size_t i = 0; i < slot_size; i++)
 	{
 		if (inventory[i])
 			delete inventory[i];
 			
 		if (other.inventory[i])
-			inventory[i] = other.inventory[i];
+			inventory[i] = other.inventory[i]->clone();
 		else
 			inventory[i] = NULL;
 	}
@@ -45,28 +47,27 @@ void	Character::equip(AMateria* m) {
 	if (!m)
 		return;
 
-	size_t	idx = 0;
-
-	while (idx < slot_size && inventory[idx])
-		idx++;
-	if (idx < slot_size)
-		inventory[idx] = m;
+	for (size_t i = 0; i < slot_size; i++) {
+		if (!inventory[i])
+			inventory[i] = m;
+	}
 }
 
 void	Character::unequip(int idx) {
-	if (idx < 0 || idx > slot_size)
+	if (idx < 0 || (const size_t)idx >= slot_size)
 		return;
 	inventory[idx] = NULL;
 }
 
 void	Character::use(int idx, ICharacter& target) {
-	if (idx < 0 || idx > slot_size)
+	if (idx < 0 || (const size_t)idx >= slot_size)
 		return;
-	inventory[idx]->use(target);
+	if (inventory[idx])
+		inventory[idx]->use(target);
 }
 
 AMateria*	Character::getMateria(int idx) {
-	if (idx < 0 || idx > slot_size)
+	if (idx < 0 || (const size_t)idx >= slot_size)
 		return NULL;
 	return inventory[idx];
 }

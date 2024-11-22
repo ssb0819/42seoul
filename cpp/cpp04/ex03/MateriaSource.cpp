@@ -42,12 +42,13 @@ void	MateriaSource::learnMateria(AMateria* materia) {
 	if (!materia)
 		return;
 
-	size_t	idx = 0;
-
-	while (idx < max_size && materias[idx])
-		idx++;
-	if (idx < max_size)
-		materias[idx] = materia->clone();
+	for (size_t i = 0; i < max_size; i++) {
+		if (!materias[i]) {
+			materias[i] = materia->clone();
+			return;
+		}
+	}
+	std::cout << "MateriaSource: the slots are full" << std::endl;
 }
 
 AMateria*	MateriaSource::createMateria(const std::string& type) {
@@ -57,5 +58,6 @@ AMateria*	MateriaSource::createMateria(const std::string& type) {
 				return (materias[i]->clone());
 		}
 	}
+	std::cout << "MateriaSource: materia not found" << std::endl;
 	return (NULL);		
 }

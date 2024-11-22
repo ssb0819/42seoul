@@ -31,8 +31,10 @@ Character& Character::operator=(const Character& other) {
 		if (inventory[i])
 			delete inventory[i];
 			
-		if (other.inventory[i])
+		if (other.inventory[i]) {
 			inventory[i] = other.inventory[i]->clone();
+			std::cout << other.inventory[i]->getType() << " is cloned by =operator" << std::endl;
+		}
 		else
 			inventory[i] = NULL;
 	}
@@ -48,9 +50,12 @@ void	Character::equip(AMateria* m) {
 		return;
 
 	for (size_t i = 0; i < slot_size; i++) {
-		if (!inventory[i])
+		if (!inventory[i]) {
 			inventory[i] = m;
+			return;
+		}
 	}
+	std::cout << "Character: the inventory is full" << std::endl;
 }
 
 void	Character::unequip(int idx) {
@@ -64,6 +69,8 @@ void	Character::use(int idx, ICharacter& target) {
 		return;
 	if (inventory[idx])
 		inventory[idx]->use(target);
+	else
+		std::cout << "Character: the inventory is empty" << std::endl;
 }
 
 AMateria*	Character::getMateria(int idx) {

@@ -3,6 +3,7 @@
 
 #include "ICharacter.hpp"
 #include "AMateria.hpp"
+#include <iostream>
 
 class Character : public ICharacter
 {
@@ -17,8 +18,8 @@ public:
 	virtual	void	unequip(int idx);
 	virtual	void	use(int idx, ICharacter& target);
 	AMateria*		getMateria(int idx);
-	AMateria*	inventory[4];
 private:
+	AMateria*	inventory[4];
 	std::string	name;
 	static const size_t	slot_size;
 	

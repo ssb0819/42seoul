@@ -43,13 +43,16 @@ void	my_test() {
 	me->use(0, *bob); // not printed
 	me->use(1, *bob);
 
-	bob = me;
+	*bob = *me;
 	std::cout << "name : " << bob->getName() << std::endl;
 
 	delete cure;
 	delete ice;
 
 	delete tmp0;
+	delete tmp1;
+	delete tmp2;
+	delete tmp3;
 	delete tmp4;
 	delete tmp5;
 
@@ -73,14 +76,13 @@ int	main() {
 	AMateria* tmp;
 	tmp = src->createMateria("ice");
 	me->equip(tmp);
-	std::cout << tmp->getType() << std::endl;
+	delete tmp;
+
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
-	std::cout << tmp->getType() << std::endl;
 
 	ICharacter* bob = new Character("bob");
 
-	std::cout << "??: " << ((Character*)me)->inventory[1]->getType() << std::endl;
 	me->use(0, *bob);
 	me->use(1, *bob);
 
@@ -91,7 +93,7 @@ int	main() {
 	delete ice;
 	delete cure;
 
-	//my_test();
+	my_test();
 
 	return 0;
 }
